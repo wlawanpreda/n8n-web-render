@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer STAR Pricing Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #B71C1C;
+            --primary-color-dark: #8E1616;
+            --background-color: #121212;
+            --surface-color: rgba(30, 30, 30, 0.75);
+            --border-color: rgba(255, 255, 255, 0.18);
+            --text-color: #E0E0E0;
+            --text-secondary-color: #A0A0A0;
+            --error-color: #EF5350;
+            --success-color: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-color);
+            background-image:
+                radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 52% 99%, hsla(355, 98%, 76%, 0.15) 0px, transparent 50%),
+                radial-gradient(at 10% 29%, hsla(256, 96%, 68%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 48% 70%, hsla(340, 98%, 61%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 10% 70%, hsla(212, 98%, 61%, 0.1) 0px, transparent 50%);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* --- Glassmorphism Effect --- */
+        .glass-card {
+            background: var(--surface-color);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* --- Header --- */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            position: sticky;
+            top: 1rem;
+            z-index: 10;
+            margin: -1rem 0 1rem 0;
+        }
+
+        .main-header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .global-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--primary-color-dark);
+            box-shadow: 0 0 15px rgba(183, 28, 28, 0.5);
+        }
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-icon {
+            background: transparent;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            color: var(--text-secondary-color);
+        }
+        .btn-icon:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Section Titles --- */
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--text-secondary-color);
+        }
+
+        /* --- Platform Management --- */
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .platform-card {
+            text-align: center;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .platform-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        .platform-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+        .platform-card p {
+            font-weight: 500;
+        }
+        #add-platform-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border-color);
+            background: transparent;
+            color: var(--text-secondary-color);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        #add-platform-btn .plus-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Pricing Configuration --- */
+        .config-selectors {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+        }
+        label {
+            font-weight: 500;
+            color: var(--text-secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        select, input[type="text"], input[type="number"] {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(183, 28, 28, 0.5);
+        }
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button { 
+          -webkit-appearance: none; 
+          margin: 0; 
+        }
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+        .config-sections {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* --- Base Pricing Table --- */
+        .pricing-table { display: flex; flex-direction: column; gap: 1rem; }
+        .pricing-row { display: grid; grid-template-columns: 1fr 1fr 1fr 40px; gap: 1rem; align-items: center; }
+        .pricing-row-header { font-weight: 500; color: var(--text-secondary-color;); }
+        .pricing-row-header div { margin-bottom: 0.5rem; }
+
+        /* --- Factor Weights --- */
+        .weights-form { display: flex; flex-direction: column; gap: 1rem; }
+
+        /* --- Tooltip --- */
+        .tooltip { position: relative; display: inline-block; cursor: pointer; }
+        .tooltip .tooltip-icon {
+            width: 16px; height: 16px; border-radius: 50%; background-color: var(--text-secondary-color); color: var(--background-color);
+            display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; font-style: normal;
+        }
+        .tooltip .tooltip-text {
+            visibility: hidden; width: 220px; background-color: #333; color: #fff; text-align: center;
+            border-radius: 6px; padding: 5px 10px; position: absolute; z-index: 1; bottom: 125%; left: 50%;
+            margin-left: -110px; opacity: 0; transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
+
+        /* --- Validation --- */
+        input.error { border-color: var(--error-color); }
+        .error-message { color: var(--error-color); font-size: 0.8rem; margin-top: 0.25rem; }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; /* Changed by JS */
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            width: 90%;
+            max-width: 600px;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; }
+        .modal-body { margin: 1.5rem 0; }
+        .modal-body .form-group { margin-bottom: 1.5rem; }
+        .upload-area { border: 2px dashed var(--border-color); border-radius: 8px; padding: 2rem; text-align: center; }
+        .upload-area p { margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary-color); }
+        .content-type-group { display: flex; flex-wrap: wrap; gap: 1rem; }
+        .checkbox-container { display: block; position: relative; padding-left: 35px; cursor: pointer; font-size: 1rem; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        .checkbox-container input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+        .checkmark { position: absolute; top: 0; left: 0; height: 25px; width: 25px; background-color: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 4px; }
+        .checkbox-container:hover input ~ .checkmark { background-color: rgba(255,255,255,0.1); }
+        .checkbox-container input:checked ~ .checkmark { background-color: var(--primary-color); }
+        .checkmark:after { content: ""; position: absolute; display: none; }
+        .checkbox-container input:checked ~ .checkmark:after { display: block; }
+        .checkbox-container .checkmark:after { left: 9px; top: 5px; width: 5px; height: 10px; border: solid white; border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 1rem; }
+
+        /* --- Toast Notification --- */
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: var(--success-color);
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 1rem;
+            position: fixed;
+            z-index: 101;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.5s, visibility 0.5s, bottom 0.5s;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+            .config-sections { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .main-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+            .config-selectors { flex-direction: column; }
+            .pricing-row { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; }
+            .pricing-row > div:nth-child(3) { grid-column: 1 / span 2; }
+            .pricing-row > button { grid-column: 2; grid-row: 2; justify-self: end; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="main-header glass-card">
+            <h1>Influencer Price Settings</h1>
+            <div class="global-actions">
+                <button class="btn btn-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    Export Settings
+                </button>
+                <button id="save-changes-btn" class="btn btn-primary" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1-1H7.5a1 1 0 0 0-1 1H2zm3 4a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M.5 1a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H.5zM10 12a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                    </svg>
+                    Save Changes
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Platform Management -->
+            <section class="glass-card">
+                <h2>Platform Management</h2>
+                <div class="platform-grid">
+                    <div class="platform-card glass-card">
+                        <div class="platform-icon" style="background: linear-gradient(45deg, #4267B2, #29487d);">FB</div>
+                        <p>Facebook</p>
+                    </div>
+                    <div class="platform-card glass-card">
+                        <div class="platform-icon" style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);">IG</div>
+                        <p>Instagram</p>
+                    </div>
+                    <div class="platform-card glass-card">
+                        <div class="platform-icon" style="background: #000000;">TT</div>
+                        <p>TikTok</p>
+                    </div>
+                    <button id="add-platform-btn" class="platform-card glass-card">
+                        <div class="plus-icon">+</div>
+                        <p>Add Platform</p>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Pricing Configuration -->
+            <section class="glass-card">
+                <h2>Pricing Configuration</h2>
+                <div class="config-selectors">
+                    <div class="form-group">
+                        <label for="platform-select">Platform</label>
+                        <select id="platform-select">
+                            <option>Facebook</option>
+                            <option>Instagram</option>
+                            <option>TikTok</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="content-type-select">Content Type</label>
+                        <select id="content-type-select">
+                            <option>Photo</option>
+                            <option>Short Video</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="config-sections">
+                    <!-- Base Pricing -->
+                    <div class="sub-section">
+                        <h3>Fixed Base Pricing by Followers</h3>
+                        <div class="pricing-table">
+                            <div class="pricing-row-header pricing-row">
+                                <div>Followers From</div>
+                                <div>Followers To</div>
+                                <div>Base Price (THB)</div>
+                                <div></div>
+                            </div>
+                            <div class="pricing-row">
+                                <input type="number" placeholder="1000" class="error">
+                                <input type="number" placeholder="10000" class="error">
+                                <input type="number" placeholder="1500">
+                                <button class="btn-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>
+                                </button>
+                                <div class="error-message" style="grid-column: 1 / span 2;">Follower ranges cannot overlap.</div>
+                            </div>
+                             <div class="pricing-row">
+                                <input type="number" placeholder="10001">
+                                <input type="number" placeholder="50000">
+                                <input type="number" placeholder="5000">
+                                <button class="btn-icon">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" style="margin-top: 1.5rem; width: 100%;">Add Range</button>
+                    </div>
+
+                    <!-- Pricing Weights -->
+                    <div class="sub-section">
+                        <h3>Pricing Factor Weights</h3>
+                        <div class="weights-form">
+                            <div class="form-group">
+                                <label for="days-posts">
+                                    Recent Post Days
+                                    <div class="tooltip">
+                                        <i class="tooltip-icon">i</i>
+                                        <span class="tooltip-text">Number of days for recent posts to be included in calculations.</span>
+                                    </div>
+                                </label>
+                                <input id="days-posts" type="number" value="30">
+                            </div>
+                             <div class="form-group">
+                                <label for="engagement-weight">
+                                    Engagement Weight
+                                     <div class="tooltip">
+                                        <i class="tooltip-icon">i</i>
+                                        <span class="tooltip-text">Weight factor for total engagement (likes, comments, shares).</span>
+                                    </div>
+                                </label>
+                                <input id="engagement-weight" type="number" placeholder="e.g., 0.4">
+                            </div>
+                             <div class="form-group">
+                                <label for="view-weight">
+                                    View Weight
+                                     <div class="tooltip">
+                                        <i class="tooltip-icon">i</i>
+                                        <span class="tooltip-text">Weight factor for total views. Only for video content.</span>
+                                    </div>
+                                </label>
+                                <input id="view-weight" type="number" placeholder="e.g., 0.2" disabled>
+                            </div>
+                             <div class="form-group">
+                                <label for="rate-weight">
+                                    Engagement Rate Weight
+                                     <div class="tooltip">
+                                        <i class="tooltip-icon">i</i>
+                                        <span class="tooltip-text">Weight factor for engagement rate (engagement / followers).</span>
+                                    </div>
+                                </label>
+                                <input id="rate-weight" type="number" placeholder="e.g., 0.4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Platform Modal -->
+    <div id="add-platform-modal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h2>Add New Platform</h2>
+                <button class="btn-icon" onclick="this.closest('.modal-overlay').style.display='none'">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="platform-name">Platform Name</label>
+                    <input type="text" id="platform-name" placeholder="e.g., YouTube">
+                </div>
+                <div class="form-group">
+                    <label>Upload Icon</label>
+                    <div class="upload-area">
+                        <button class="btn btn-secondary">Choose File</button>
+                        <p>PNG, JPG, SVG accepted. Max 2MB.</p>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label>Supported Content Types</label>
+                    <div class="content-type-group">
+                        <label class="checkbox-container">Photo
+                            <input type="checkbox" checked="checked">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">Short Video
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checkbox-container">Long Video
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                         <label class="checkbox-container">Post
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary">Save Platform</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Data saved successfully!</div>
+
+    <script>
+        // Simple JS to simulate interactivity for the wireframe
+        document.addEventListener('DOMContentLoaded', () => {
+            const addPlatformBtn = document.getElementById('add-platform-btn');
+            const modal = document.getElementById('add-platform-modal');
+            const saveBtn = document.getElementById('save-changes-btn');
+
+            if (addPlatformBtn) {
+                addPlatformBtn.addEventListener('click', () => {
+                    modal.style.display = 'flex';
+                });
+            }
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // Simulate enabling the save button on change
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    saveBtn.disabled = false;
+                });
+            });
+
+            // Simulate toast message
+            saveBtn.addEventListener('click', () => {
+                const toast = document.getElementById('toast');
+                toast.style.visibility = 'visible';
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.visibility = 'hidden';
+                    toast.style.opacity = '0';
+                    saveBtn.disabled = true;
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>
