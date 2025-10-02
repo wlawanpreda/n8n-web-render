@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe: Influencer Price Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- CSS Style Guide Implementation --- */
+        :root {
+            /* Global Variables */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --spacing-unit: 4px;
+
+            /* Color Palette */
+            --color-brand-primary: #C43A3A;
+            --color-brand-primary-darker: #A52D2D;
+            --color-text-secondary: #6C757D;
+            --color-background-light: #F8F9FA;
+            --color-background-white: #FFFFFF;
+            --color-text-main: #343A40;
+            --color-link: #007BFF;
+            --color-border: #DEE2E6;
+            --color-success: #28a745;
+            --color-danger: #dc3545;
+            
+            /* Typography */
+            --h1-size: 2.5rem;
+            --h2-size: 1.75rem;
+            --h3-size: 1.25rem;
+            --body-size: 1.0rem;
+            --metadata-size: 0.875rem;
+            --caption-size: 0.75rem;
+        }
+
+        /* --- Base & Typography --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: var(--font-family-base);
+            background-color: #E9ECEF;
+            color: var(--color-text-main);
+            font-size: var(--body-size);
+            line-height: 1.6;
+            padding: calc(var(--spacing-unit) * 8);
+        }
+        h1, h2, h3 {
+            font-weight: 600;
+            margin-bottom: calc(var(--spacing-unit) * 4);
+        }
+        h1 { font-size: var(--h1-size); font-weight: 700; text-align: center; margin-bottom: calc(var(--spacing-unit) * 10); color: var(--color-brand-primary); }
+        h2 { font-size: var(--h2-size); font-weight: 600; border-bottom: 1px solid var(--color-border); padding-bottom: calc(var(--spacing-unit) * 2); margin-top: calc(var(--spacing-unit) * 10); }
+        h3 { font-size: var(--h3-size); font-weight: 500; }
+        
+        /* --- Layout --- */
+        .wireframe-section {
+            background-color: var(--color-background-white);
+            padding: calc(var(--spacing-unit) * 6);
+            border-radius: var(--border-radius-base);
+            margin-bottom: calc(var(--spacing-unit) * 8);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .centered-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .backoffice-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Components from Style Guide --- */
+        .card-content {
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: calc(var(--spacing-unit) * 8);
+            border: 1px solid var(--color-border);
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-family: var(--font-family-base);
+            font-size: var(--body-size);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-darker);
+        }
+        .btn[disabled] {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-text-secondary);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(108, 117, 125, 0.05);
+        }
+        .badge-tag {
+            background-color: #FBEAEA;
+            color: var(--color-brand-primary);
+            border-radius: 100px;
+            padding: 4px 12px;
+            font-size: var(--metadata-size);
+            font-weight: 500;
+            display: inline-block;
+        }
+        .badge-secondary {
+            background-color: #E9ECEF;
+            color: var(--color-text-secondary);
+        }
+
+        /* --- Custom Components for Wireframe --- */
+        /* Info Tooltip */
+        .info-tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 8px;
+            color: var(--color-text-secondary);
+        }
+        .info-tooltip .tooltip-text {
+            visibility: hidden;
+            width: 220px;
+            background-color: var(--color-text-main);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: var(--caption-size);
+            font-weight: 400;
+        }
+        .info-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: calc(var(--spacing-unit) * 5);
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: calc(var(--spacing-unit) * 2);
+            color: var(--color-text-main);
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-size: var(--body-size);
+            font-family: var(--font-family-base);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-brand-primary);
+            box-shadow: 0 0 0 2px rgba(196, 58, 58, 0.2);
+        }
+        .form-group-inline {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .form-group-inline .form-input {
+            width: 120px;
+        }
+
+        /* Tabs Navigation */
+        .tabs-nav {
+            display: flex;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: calc(var(--spacing-unit) * 6);
+        }
+        .tab-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1px;
+            color: var(--color-text-secondary);
+        }
+        .tab-item.active {
+            border-bottom-color: var(--color-brand-primary);
+            color: var(--color-brand-primary);
+            font-weight: 600;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .sub-tabs-nav { display: flex; gap: 16px; margin-bottom: 24px; align-items: center; }
+
+        /* Table */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .styled-table th, .styled-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .styled-table thead th {
+            background-color: var(--color-background-light);
+            font-weight: 600;
+        }
+        .styled-table tbody tr:hover {
+            background-color: var(--color-background-light);
+        }
+        .icon-cell { width: 60px; text-align: center; }
+        .icon-cell img { width: 24px; height: 24px; }
+        .actions-cell { width: 150px; text-align: right; }
+        .icon-btn { background: none; border: none; cursor: pointer; color: var(--color-danger); font-size: 1.1rem; }
+        .icon-btn:disabled { color: #cccccc; cursor: not-allowed; }
+
+        /* Modal */
+        .modal {
+            display: flex; /* Changed to flex to show in wireframe */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            padding: 32px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 600px;
+            border-radius: var(--border-radius-base);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .modal-footer { text-align: right; margin-top: 32px; display: flex; gap: 16px; justify-content: flex-end; }
+        .checkbox-group { display: flex; gap: 24px; margin-top: 8px; }
+
+        /* Sticky Footer */
+        .sticky-actions {
+            position: sticky;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 16px 24px;
+            border-top: 1px solid var(--color-border);
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+            text-align: right;
+            margin: 24px -24px -24px -24px; /* Adjust to container padding */
+        }
+        
+        /* Helper classes */
+        .d-flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .align-center { align-items: center; }
+        .mt-4 { margin-top: 16px; }
+    </style>
+</head>
+<body>
+
+    <h1>Wireframe: Influencer Price Calculation System</h1>
+
+    <!-- =============================================================== -->
+    <!-- 1. USER FLOW: INFLUENCER (FRONTEND)                             -->
+    <!-- =============================================================== -->
+    <section class="wireframe-section centered-container">
+        <h2>1. Influencer Flow: ตั้งค่าราคา (Set Rate Page)</h2>
+        <div class="card-content">
+            <h3>กำหนดราคาสำหรับคอนเทนต์ของคุณ</h3>
+            <div class="form-group" style="margin-top: 24px;">
+                <label class="form-label">ราคาประเมินจากระบบ</label>
+                <div style="font-size: 2rem; font-weight: 700; color: var(--color-brand-primary);">
+                    15,000 บาท
+                    <div class="info-tooltip">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span class="tooltip-text">ราคานี้ประเมินจากจำนวนผู้ติดตามและค่า Engagement เฉลี่ยของคุณ</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="influencer-rate" class="form-label">ราคาที่คุณต้องการ (บาท)</label>
+                <input type="text" id="influencer-rate" class="form-input" placeholder="15,000">
+            </div>
+            <div style="text-align: right; margin-top: 32px;">
+                <button class="btn btn-primary">บันทึกและไปต่อ</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- 2. USER FLOW: ADMIN (BACKOFFICE)                                 -->
+    <!-- =============================================================== -->
+    <section class="wireframe-section backoffice-container">
+        <h2>2. Admin Flow: BackOffice</h2>
+        
+        <!-- DASHBOARD ตั้งค่าการคำนวณ -->
+        <h3 style="margin-top: 24px;">หน้าจอที่ 1: Dashboard ตั้งค่าการคำนวณราคา</h3>
+        
+        <div class="card-content mt-4">
+            <!-- Navigation -->
+            <nav class="tabs-nav">
+                <div class="tab-item active" data-tab="platform-tiktok"><i class="fa-brands fa-tiktok"></i> TikTok</div>
+                <div class="tab-item" data-tab="platform-ig"><i class="fa-brands fa-instagram"></i> Instagram</div>
+                <div class="tab-item" data-tab="platform-fb"><i class="fa-brands fa-facebook"></i> Facebook</div>
+            </nav>
+
+            <!-- Tab Content -->
+            <div class="tab-content active" id="platform-tiktok">
+                <div class="sub-tabs-nav">
+                    <label class="form-label" style="margin-bottom: 0;">ประเภทคอนเทนต์:</label>
+                    <button class="btn btn-secondary">Photo</button>
+                    <button class="btn btn-primary">Short VDO</button>
+                    <button class="btn btn-secondary">VDO</button>
+                </div>
+                
+                <!-- ตั้งค่าหลัก -->
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 32px;">
+                    <div>
+                        <h4>ตารางตั้งราคาพื้นฐาน (Fixed Base Pricing)</h4>
+                        <table class="styled-table mt-4">
+                            <thead>
+                                <tr>
+                                    <th>ช่วงผู้ติดตาม (Follower Range)</th>
+                                    <th>ราคาพื้นฐาน (บาท)</th>
+                                    <th class="actions-cell"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>10k - 50k</td>
+                                    <td><input type="number" class="form-input" value="5000"></td>
+                                    <td class="actions-cell"><button class="icon-btn"><i class="fa-solid fa-trash-can"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>50k - 100k</td>
+                                    <td><input type="number" class="form-input" value="12000"></td>
+                                    <td class="actions-cell"><button class="icon-btn"><i class="fa-solid fa-trash-can"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>100k - 500k</td>
+                                    <td><input type="number" class="form-input" value="25000"></td>
+                                    <td class="actions-cell"><button class="icon-btn"><i class="fa-solid fa-trash-can"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-secondary mt-4"><i class="fa-solid fa-plus"></i> เพิ่มช่วงราคา</button>
+                    </div>
+                    <div>
+                        <h4>ฟอร์มตั้งค่าน้ำหนัก (Weights)</h4>
+                        <div class="form-group mt-4">
+                            <label class="form-label">Engagement Weight</label>
+                            <input type="number" class="form-input" value="0.4">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">View Weight</label>
+                            <input type="number" class="form-input" value="0.3">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">ER Weight</label>
+                            <input type="number" class="form-input" value="0.3">
+                        </div>
+
+                        <h4 style="margin-top: 32px;">ตั้งค่าทั่วไป (Global Settings)</h4>
+                        <div class="form-group mt-4">
+                            <label class="form-label">คำนวณจากโพสต์ล่าสุดไม่เกิน (วัน)</label>
+                            <input type="number" class="form-input" value="30">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky Save Button -->
+            <div class="sticky-actions">
+                 <!-- Button is disabled by default, enabled via JS on form change -->
+                <button class="btn btn-primary" disabled>บันทึกการตั้งค่า</button>
+            </div>
+        </div>
+
+        <!-- PLATFORM MANAGEMENT -->
+        <h3 style="margin-top: 48px;">หน้าจอที่ 2: หน้าจัดการแพลตฟอร์ม</h3>
+        <div class="card-content mt-4">
+            <div class="d-flex justify-between align-center">
+                <h4>รายการแพลตฟอร์ม Social Media</h4>
+                <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> เพิ่มแพลตฟอร์มใหม่</button>
+            </div>
+            <table class="styled-table mt-4">
+                <thead>
+                    <tr>
+                        <th class="icon-cell">ไอคอน</th>
+                        <th>ชื่อแพลตฟอร์ม</th>
+                        <th>ประเภท</th>
+                        <th class="actions-cell">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="icon-cell"><i class="fa-brands fa-tiktok" style="font-size: 24px; color: #000;"></i></td>
+                        <td>TikTok</td>
+                        <td><span class="badge-tag badge-secondary">Standard</span></td>
+                        <td class="actions-cell">
+                            <button class="icon-btn" disabled><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="icon-cell"><i class="fa-brands fa-instagram" style="font-size: 24px; color: #E1306C;"></i></td>
+                        <td>Instagram</td>
+                        <td><span class="badge-tag badge-secondary">Standard</span></td>
+                        <td class="actions-cell">
+                            <button class="icon-btn" disabled><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="icon-cell"><i class="fa-brands fa-x-twitter" style="font-size: 24px; color: #000;"></i></td>
+                        <td>X (Twitter)</td>
+                        <td><span class="badge-tag">Custom</span></td>
+                        <td class="actions-cell">
+                            <!-- This would trigger a confirmation modal -->
+                            <button class="icon-btn"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="icon-cell"><i class="fa-brands fa-lemonilo" style="font-size: 24px; color: #8DC63F;"><i class="fa-solid fa-lemon"></i></i></td>
+                        <td>Lemon8</td>
+                        <td><span class="badge-tag">Custom</span></td>
+                        <td class="actions-cell">
+                             <button class="icon-btn"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- =============================================================== -->
+    <!-- MODALS / POPUPS                                                 -->
+    <!-- Note: In a real app, these would be hidden by default.          -->
+    <!-- They are displayed here for wireframe purposes.                 -->
+    <!-- =============================================================== -->
+    <!-- Modal: Add/Edit Platform -->
+    <div class="modal" id="add-platform-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>เพิ่มแพลตฟอร์มใหม่</h3>
+                <button style="font-size: 1.5rem; background: none; border: none; cursor: pointer;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="platform-name" class="form-label">ชื่อแพลตฟอร์ม</label>
+                    <input type="text" id="platform-name" class="form-input" placeholder="เช่น Lemon8">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">อัปโหลดไอคอน</label>
+                    <div style="border: 2px dashed var(--color-border); border-radius: 4px; padding: 24px; text-align: center; cursor: pointer;">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: var(--color-text-secondary);"></i>
+                        <p>คลิกเพื่ออัปโหลด หรือลากไฟล์มาวาง</p>
+                        <!-- Preview area would appear here after upload -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ประเภทคอนเทนต์ที่รองรับ</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="content-type"> Photo</label>
+                        <label><input type="checkbox" name="content-type"> Short VDO</label>
+                        <label><input type="checkbox" name="content-type"> VDO</label>
+                        <label><input type="checkbox" name="content-type"> Article</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary">ยกเลิก</button>
+                <!-- Button disabled until required fields are filled -->
+                <button class="btn btn-primary" disabled>บันทึก</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
