@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe: Influencer Pricing System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Using FontAwesome for icons -->
+
+    <style>
+        :root {
+            --primary-color: #A94442;
+            --secondary-color: #C9ADA7;
+            --background-color: #22223B;
+            --surface-color: rgba(74, 78, 105, 0.4);
+            --text-color: #F2E9E4;
+            --text-muted-color: #9A8C98;
+            --border-color: rgba(152, 152, 182, 0.3);
+            --success-color: #5cb85c;
+            --error-color: #D9534F;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        /* --- Base & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Utility --- */
+        .glass-effect {
+            background: var(--surface-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Layout --- */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: 100vh;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        /* --- Sidebar (Platform Management) --- */
+        .platform-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .platform-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .platform-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-left 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .platform-list li .platform-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .platform-list li i {
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .platform-list li:hover {
+            background-color: var(--surface-color);
+        }
+
+        .platform-list li.active {
+            background-color: var(--surface-color);
+            border-left: 4px solid var(--primary-color);
+            font-weight: 600;
+        }
+
+        .delete-icon {
+            color: var(--text-muted-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s, color 0.3s;
+        }
+        
+        .platform-list li:hover .delete-icon {
+            opacity: 1;
+        }
+
+        .delete-icon:hover {
+            color: var(--error-color);
+        }
+
+        /* --- Main Content (Pricing Configuration) --- */
+        .main-content {
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .config-header {
+            margin-bottom: 2rem;
+        }
+
+        .config-panel {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .config-section {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .config-section legend {
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 0 0.5rem;
+            color: var(--secondary-color);
+            margin-left: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted-color);
+        }
+
+        /* --- UI Components --- */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-family);
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+        .btn-primary:hover { background-color: #c2504e; }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+        .btn-secondary:hover { background-color: var(--surface-color); }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: rgba(34, 34, 59, 0.8);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            font-size: 1rem;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(169, 68, 66, 0.3);
+        }
+
+        input:disabled {
+            background-color: rgba(74, 78, 105, 0.2);
+            cursor: not-allowed;
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: block; /* Initially hidden, shown via JS */
+        }
+        
+        /* Table for Base Rate Pricing */
+        .dynamic-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .dynamic-table th, .dynamic-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .dynamic-table th {
+            color: var(--text-muted-color);
+            font-weight: 500;
+        }
+        
+        .dynamic-table td input {
+            font-size: 0.9rem;
+        }
+
+        /* Factor Weights Form */
+        .factor-weights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        /* Tooltip */
+        .tooltip-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tooltip-icon {
+            color: var(--text-muted-color);
+            cursor: help;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 220px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* --- Action/Save Buttons --- */
+        .action-buttons {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* --- Modal --- */
+        .modal {
+            display: none; /* Initially hidden */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+        }
+        
+        .modal-content {
+            position: relative;
+            margin: 10% auto;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .close-button {
+            color: var(--text-muted-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        .upload-area:hover { background-color: var(--surface-color); }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* --- Notification --- */
+        .notification {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: var(--success-color);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1001;
+            right: 2rem;
+            top: 2rem;
+            opacity: 0;
+            transition: visibility 0.5s, opacity 0.5s linear;
+        }
+        
+        .notification.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- 1. Platform Management -->
+        <aside class="platform-sidebar glass-effect">
+            <h2>Platforms</h2>
+            <ul class="platform-list">
+                <li>
+                    <div class="platform-info">
+                        <i class="fab fa-facebook-square" style="color: #4267B2;"></i>
+                        <span>Facebook</span>
+                    </div>
+                </li>
+                <li class="active"> <!-- This represents the selected platform -->
+                    <div class="platform-info">
+                        <i class="fab fa-instagram" style="color: #E1306C;"></i>
+                        <span>Instagram</span>
+                    </div>
+                </li>
+                <li>
+                     <div class="platform-info">
+                        <i class="fab fa-youtube" style="color: #FF0000;"></i>
+                        <span>YouTube</span>
+                    </div>
+                </li>
+                 <li data-user-added="true">
+                    <div class="platform-info">
+                        <i class="fab fa-tiktok" style="color: #FFFFFF;"></i>
+                        <span>TikTok</span>
+                    </div>
+                    <button class="delete-icon" title="Delete TikTok">&times;</button>
+                </li>
+            </ul>
+            <button class="btn btn-secondary" id="addPlatformBtn">
+                <i class="fas fa-plus"></i> Add Platform
+            </button>
+        </aside>
+
+        <!-- 2. Pricing Configuration -->
+        <main class="main-content">
+            <div class="config-header">
+                <h1>Instagram Pricing Configuration</h1>
+                <p style="color: var(--text-muted-color);">Manage base rates and factor weights for Instagram content.</p>
+            </div>
+            
+            <div class="config-panel">
+                <div class="form-group">
+                    <label for="contentType">Content Type</label>
+                    <select id="contentType">
+                        <option value="photo" selected>Photo</option>
+                        <option value="short_video">Short Video (Reels)</option>
+                        <option value="long_video">Long Video (IGTV)</option>
+                        <option value="post">Post</option>
+                    </select>
+                </div>
+
+                <fieldset class="config-section">
+                    <legend>Base Rate Pricing</legend>
+                    <p style="color: var(--text-muted-color); font-size: 0.9rem; margin-bottom: 1rem;">Define pricing tiers based on follower count for 'Photo' content.</p>
+                    <table class="dynamic-table">
+                        <thead>
+                            <tr>
+                                <th>Followers From</th>
+                                <th>Followers To</th>
+                                <th>Base Price ($)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Row representing user flow step 4 -->
+                            <tr>
+                                <td><input type="number" value="10001" placeholder="e.g., 10001"></td>
+                                <td><input type="number" value="100000" placeholder="e.g., 100000"></td>
+                                <td><input type="number" value="500" placeholder="e.g., 500"></td>
+                                <td><button class="btn btn-secondary delete-icon" title="Delete Range">&times;</button></td>
+                            </tr>
+                            <tr>
+                                <td><input type="number" placeholder="e.g., 100001"></td>
+                                <td><input type="number" placeholder="e.g., 500000"></td>
+                                <td><input type="number" placeholder="e.g., 1200"></td>
+                                <td><button class="btn btn-secondary delete-icon" title="Delete Range">&times;</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span class="error-message">Error: Follower ranges cannot overlap.</span>
+                    <button class="btn btn-secondary" style="margin-top: 1rem;"><i class="fas fa-plus"></i> Add Follower Range</button>
+                </fieldset>
+
+                <fieldset class="config-section">
+                    <legend>Pricing Factor Weights</legend>
+                    <p style="color: var(--text-muted-color); font-size: 0.9rem; margin-bottom: 1.5rem;">Adjust the impact of different metrics on the final price calculation.</p>
+                    <div class="factor-weights-grid">
+                        <div class="form-group">
+                             <div class="tooltip-container">
+                                <label for="lastPostDays">Last Post (Days)</label>
+                                <i class="fas fa-question-circle tooltip-icon"></i>
+                                <span class="tooltip-text">Weight for how recently the influencer has posted. A lower number is better.</span>
+                            </div>
+                            <input type="number" id="lastPostDays" value="1.0">
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-container">
+                                <label for="engagementWeight">Engagement Weight</label>
+                                <i class="fas fa-question-circle tooltip-icon"></i>
+                                <span class="tooltip-text">Multiplier for the influencer's total engagement (likes, comments, shares).</span>
+                            </div>
+                            <input type="number" id="engagementWeight" value="1.5">
+                        </div>
+                        <div class="form-group">
+                            <div class="tooltip-container">
+                                <label for="viewWeight">View Weight</label>
+                                <i class="fas fa-question-circle tooltip-icon"></i>
+                                <span class="tooltip-text">Multiplier for video views. Only active for video content types.</span>
+                            </div>
+                            <input type="number" id="viewWeight" value="0.8" disabled> <!-- Disabled as 'Photo' is selected -->
+                        </div>
+                        <div class="form-group">
+                             <div class="tooltip-container">
+                                <label for="engagementRateWeight">Engagement Rate Weight</label>
+                                <i class="fas fa-question-circle tooltip-icon"></i>
+                                <span class="tooltip-text">Multiplier for the influencer's engagement rate (engagement / followers).</span>
+                            </div>
+                            <input type="number" id="engagementRateWeight" value="2.0">
+                             <span class="error-message">Error: Weight cannot be negative.</span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </main>
+    </div>
+
+    <!-- 3. Action/Save -->
+    <div class="action-buttons">
+        <button class="btn btn-secondary">Export Data</button>
+        <button class="btn btn-primary" id="saveBtn">Save Settings</button>
+    </div>
+
+    <!-- Modal for Adding Platform -->
+    <div id="addPlatformModal" class="modal">
+        <div class="modal-content glass-effect">
+            <div class="modal-header">
+                <h2>Add New Platform</h2>
+                <span class="close-button" id="closeModalBtn">&times;</span>
+            </div>
+            <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1.5rem;">
+                <div class="form-group">
+                    <label for="platformName">Platform Name</label>
+                    <input type="text" id="platformName" placeholder="e.g., Twitch">
+                </div>
+                 <div class="form-group">
+                    <label for="platformIcon">Upload Icon</label>
+                    <div class="upload-area">
+                        <i class="fas fa-upload"></i>
+                        <p>Click to browse or drag & drop</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Supported Content Types</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" id="type-photo"> <label for="type-photo">Photo</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="type-short-video"> <label for="type-short-video">Short Video</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="type-long-video"> <label for="type-long-video">Long Video</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="type-post"> <label for="type-post">Post</label></div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
+                    <button class="btn btn-secondary" id="cancelModalBtn">Cancel</button>
+                    <button class="btn btn-primary">Save Platform</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        Settings saved successfully!
+    </div>
+
+    <script>
+        // Simple script for wireframe interaction simulation
+        const addPlatformBtn = document.getElementById('addPlatformBtn');
+        const modal = document.getElementById('addPlatformModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const cancelModalBtn = document.getElementById('cancelModalBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const notification = document.getElementById('notification');
+
+        addPlatformBtn.onclick = () => { modal.style.display = 'block'; };
+        closeModalBtn.onclick = () => { modal.style.display = 'none'; };
+        cancelModalBtn.onclick = () => { modal.style.display = 'none'; };
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        saveBtn.onclick = () => {
+            notification.classList.add('show');
+            setTimeout(() => { notification.classList.remove('show'); }, 3000);
+        };
+    </script>
+</body>
+</html>
