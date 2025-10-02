@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STAR - Influencer Price Calculation Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #b71c1c;
+            --primary-color-dark: #8e1515;
+            --secondary-color: #424242;
+            --background-color: #f4f5f7;
+            --surface-color: #ffffff;
+            --text-color: #212121;
+            --text-color-light: #616161;
+            --border-color: #e0e0e0;
+            --error-color: #d32f2f;
+            --success-color: #388e3c;
+            --disabled-color: #bdbdbd;
+            --disabled-bg-color: #f5f5f5;
+            --shadow: 0 2px 4px rgba(0,0,0,0.05);
+            --border-radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* --- Header --- */
+        header.main-header {
+            background-color: var(--surface-color);
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        header.main-header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        header.main-header .header-actions button {
+            margin-left: 12px;
+        }
+
+        /* --- Main Layout --- */
+        .main-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 24px;
+            padding: 24px;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .content-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            overflow-y: auto;
+        }
+
+        /* --- Panels --- */
+        .panel {
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+        
+        .platform-management-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        .panel h2, .panel h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* --- Platform List --- */
+        .platform-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .platform-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .platform-item:hover {
+            background-color: #fafafa;
+            border-color: #c0c0c0;
+        }
+
+        .platform-item.active {
+            background-color: #feebee;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .platform-item .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            background-color: #eee; /* Placeholder */
+            border-radius: 4px;
+        }
+        
+        .platform-item .platform-name {
+            flex-grow: 1;
+        }
+
+        .platform-item .delete-btn {
+            background: none;
+            border: none;
+            color: var(--text-color-light);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            opacity: 0.5;
+            transition: opacity 0.2s, color 0.2s;
+        }
+
+        .platform-item:hover .delete-btn {
+            opacity: 1;
+        }
+        .platform-item .delete-btn:hover {
+            color: var(--error-color);
+        }
+
+        /* --- Configuration Section --- */
+        .configuration-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .config-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 16px;
+        }
+
+        /* --- Forms & Inputs --- */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .input-field, .select-field {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .input-field:focus, .select-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(183, 28, 28, 0.2);
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 12px;
+            margin-top: 4px;
+            display: none; /* Show with JS */
+        }
+        .input-field.invalid {
+            border-color: var(--error-color);
+        }
+        .input-field.invalid + .error-message {
+            display: block;
+        }
+
+        /* --- Tooltip --- */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            border: 1px solid var(--text-color-light);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 11px;
+            line-height: 14px;
+            text-align: center;
+            color: var(--text-color-light);
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: var(--secondary-color);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--secondary-color) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* --- Pricing Table --- */
+        .pricing-table .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 60px;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .pricing-table .table-header {
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--text-color-light);
+            padding: 0 4px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            padding: 10px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s, opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-color-dark);
+        }
+        
+        .btn-secondary {
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover {
+            background-color: #fafafa;
+        }
+        
+        .btn-text {
+            background: none;
+            color: var(--primary-color);
+        }
+
+        .btn-delete-row {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--error-color);
+            height: 40px;
+            width: 40px;
+            padding: 0;
+            font-size: 20px;
+        }
+        .btn-delete-row:hover {
+            background-color: #fff5f5;
+        }
+        
+        .btn:disabled {
+            background-color: var(--disabled-bg-color);
+            color: var(--disabled-color);
+            cursor: not-allowed;
+            border-color: var(--border-color);
+        }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s 0.3s, opacity 0.3s;
+        }
+        .modal-overlay.visible {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility 0s, opacity 0.3s;
+        }
+
+        .modal-content {
+            background-color: var(--surface-color);
+            padding: 24px 32px;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        /* --- Add Platform Form --- */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .file-uploader {
+            border: 2px dashed var(--border-color);
+            border-radius: 6px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .file-uploader:hover {
+            border-color: var(--primary-color);
+        }
+        .file-uploader span {
+            display: block;
+            color: var(--text-color-light);
+            font-size: 12px;
+        }
+
+        /* --- Toast Notification --- */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+            z-index: 1001;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s, transform 0.3s;
+            visibility: hidden;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+        .toast.success { background-color: var(--success-color); }
+        .toast.error { background-color: var(--error-color); }
+        
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <h1>STAR - Influencer Price Calculation Management</h1>
+        <div class="header-actions">
+            <button class="btn btn-secondary">Export to JSON/CSV</button>
+            <button class="btn btn-primary" disabled>Save Changes</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="panel platform-management-panel">
+            <h3>Platforms</h3>
+            <button class="btn btn-primary">+ Add New Platform</button>
+            <ul class="platform-list">
+                <li class="platform-item">
+                    <div class="icon"></div>
+                    <span class="platform-name">Facebook</span>
+                </li>
+                <li class="platform-item active">
+                    <div class="icon"></div>
+                    <span class="platform-name">Instagram</span>
+                </li>
+                <li class="platform-item">
+                    <div class="icon"></div>
+                    <span class="platform-name">TikTok</span>
+                </li>
+                 <li class="platform-item">
+                    <div class="icon"></div>
+                    <span class="platform-name">YouTube</span>
+                </li>
+                 <li class="platform-item">
+                    <div class="icon"></div>
+                    <span class="platform-name">X</span>
+                </li>
+                <li class="platform-item">
+                    <div class="icon"></div>
+                    <span class="platform-name">Lemon8</span>
+                    <button class="delete-btn" title="Delete Platform">&times;</button>
+                </li>
+            </ul>
+        </aside>
+
+        <div class="content-container">
+            <main class="panel configuration-panel">
+                <div class="config-section">
+                    <div class="filter-group">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="platform-select">Platform</label>
+                            <select id="platform-select" class="select-field">
+                                <option>Facebook</option>
+                                <option selected>Instagram</option>
+                                <option>TikTok</option>
+                                <option>YouTube</option>
+                                <option>X</option>
+                                <option>Lemon8</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="content-type-select">Content Type</label>
+                            <select id="content-type-select" class="select-field">
+                                <option selected>Photo</option>
+                                <option>Short Video (Reels)</option>
+                                <option>Long Video</option>
+                                <option>Post (Story)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>Fixed Base Pricing</h3>
+                    <div class="pricing-table">
+                        <div class="table-row table-header">
+                            <div>Min Followers</div>
+                            <div>Max Followers</div>
+                            <div>Base Price (THB)</div>
+                            <div>Action</div>
+                        </div>
+                        <div class="table-row">
+                            <input type="number" class="input-field" placeholder="e.g., 1000" value="1000">
+                            <input type="number" class="input-field" placeholder="e.g., 10000" value="10000">
+                            <input type="number" class="input-field invalid" placeholder="e.g., 2500" value="2500">
+                            <button class="btn btn-delete-row" title="Delete Tier">&minus;</button>
+                        </div>
+                         <div class="table-row">
+                            <input type="number" class="input-field" placeholder="e.g., 10001" value="10001">
+                            <input type="number" class="input-field" placeholder="e.g., 100000" value="100000">
+                            <input type="number" class="input-field" placeholder="e.g., 5000" value="5000">
+                            <button class="btn btn-delete-row" title="Delete Tier">&minus;</button>
+                        </div>
+                        <div class="table-row">
+                            <input type="number" class="input-field" placeholder="e.g., 100001">
+                            <input type="number" class="input-field" placeholder="e.g., 500000">
+                            <input type="number" class="input-field" placeholder="e.g., 15000">
+                            <button class="btn btn-delete-row" title="Delete Tier">&minus;</button>
+                        </div>
+                    </div>
+                    <p class="error-message" style="display: block;">Error: Follower ranges cannot overlap.</p>
+                    <button class="btn btn-secondary" style="align-self: flex-start;">+ Add Tier</button>
+                </div>
+            </main>
+
+            <aside class="panel weights-panel">
+                <h3>Weight & Rules Configuration</h3>
+                <div class="form-group">
+                    <label for="recency">
+                        Post Recency Period (Days)
+                        <div class="tooltip">?
+                            <span class="tooltiptext">The time window (in days) to pull recent posts for calculation.</span>
+                        </div>
+                    </label>
+                    <input type="number" id="recency" class="input-field" value="30">
+                </div>
+                <div class="form-group">
+                    <label for="engagement-weight">
+                        Engagement Weight
+                         <div class="tooltip">?
+                            <span class="tooltiptext">Multiplier for total engagement (likes, comments, shares). Example: 1.2</span>
+                        </div>
+                    </label>
+                    <input type="number" step="0.01" id="engagement-weight" class="input-field" placeholder="e.g., 1.2">
+                </div>
+                <div class="form-group">
+                    <label for="view-weight">
+                        View Weight
+                         <div class="tooltip">?
+                            <span class="tooltiptext">Multiplier for total views. Only applicable for video content.</span>
+                        </div>
+                    </label>
+                    <input type="number" step="0.01" id="view-weight" class="input-field" placeholder="e.g., 0.8">
+                    <small style="color: var(--text-color-light); font-size: 12px;">(Visible only when Content Type is a video)</small>
+                </div>
+                <div class="form-group">
+                    <label for="engagement-rate-weight">
+                        Engagement Rate Weight
+                         <div class="tooltip">?
+                            <span class="tooltiptext">Multiplier for the post's engagement rate (engagement / followers).</span>
+                        </div>
+                    </label>
+                    <input type="number" step="0.01" id="engagement-rate-weight" class="input-field" placeholder="e.g., 1.5">
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <!-- Modals -->
+    <div class="modal-overlay" id="addPlatformModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Platform</h3>
+                <button class="delete-btn" style="font-size: 24px;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="platform-name">Platform Name</label>
+                    <input type="text" id="platform-name" class="input-field" placeholder="e.g., Threads">
+                </div>
+                <div class="form-group">
+                    <label>Icon</label>
+                    <div class="file-uploader">
+                        <p>Click to upload or drag & drop</p>
+                        <span>SVG, PNG, JPG (max. 2MB)</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Supported Content Types</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="type-photo" name="content-type">
+                            <label for="type-photo">Photo</label>
+                        </div>
+                         <div class="checkbox-item">
+                            <input type="checkbox" id="type-short-video" name="content-type">
+                            <label for="type-short-video">Short Video</label>
+                        </div>
+                         <div class="checkbox-item">
+                            <input type="checkbox" id="type-long-video" name="content-type">
+                            <label for="type-long-video">Long Video</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="type-post" name="content-type">
+                            <label for="type-post">Post</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary">Save Platform</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="deleteConfirmModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Confirm Deletion</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the platform "Lemon8"? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary" style="background-color: var(--error-color);">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast success" id="successToast">Changes saved successfully!</div>
+    <div class="toast error" id="errorToast">Error: Please fix the issues before saving.</div>
+
+</body>
+</html>
