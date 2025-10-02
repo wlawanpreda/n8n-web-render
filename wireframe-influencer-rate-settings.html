@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe: STAR - Standard Influencer Rate Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --surface-color: rgba(30, 30, 30, 0.6);
+            --primary-color: #b71c1c;
+            --primary-hover-color: #c62828;
+            --secondary-color: #424242;
+            --text-color: #e0e0e0;
+            --text-muted-color: #9e9e9e;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --error-color: #e53935;
+            --success-color: #43a047;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        h1, h2 {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        .glass-panel {
+            background: var(--surface-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Platform Management */
+        #platform-management .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .platform-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid transparent;
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            position: relative;
+        }
+
+        .platform-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--border-color);
+        }
+        
+        .platform-card.add-card {
+            border: 2px dashed var(--secondary-color);
+            background: transparent;
+        }
+        
+        .platform-card.add-card:hover {
+            border-color: var(--primary-color);
+            background: rgba(183, 28, 28, 0.1);
+        }
+
+        .platform-card .icon {
+            font-size: 2.5rem;
+        }
+        
+        .platform-card .add-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--primary-color);
+        }
+        
+        .platform-card .platform-name {
+            font-weight: 500;
+        }
+        
+        .platform-card .add-text {
+             font-weight: 600;
+             color: var(--primary-color);
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            color: var(--text-muted-color);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            color: white;
+            background-color: var(--error-color);
+        }
+
+        /* Condition Selection */
+        .condition-selectors {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex-grow: 1;
+        }
+
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted-color);
+        }
+
+        select {
+            background-color: rgba(0,0,0,0.3);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-family: var(--font-family);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23e0e0e0' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(183, 28, 28, 0.4);
+        }
+
+        /* Pricing Details */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Table Styles */
+        .editable-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .editable-table th, .editable-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .editable-table th {
+            color: var(--text-muted-color);
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        .editable-table td .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .editable-table input[type="number"] {
+            width: 100%;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-color);
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .editable-table input[type="number"]:focus {
+            outline: none;
+            background-color: rgba(0,0,0,0.3);
+            border-color: var(--primary-color);
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            padding-top: 4px;
+            display: block;
+        }
+
+        .btn-add-range {
+            margin-top: 1rem;
+        }
+
+        /* Weight Configuration */
+        .weight-config-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .weight-config-form .form-group-horizontal {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .weight-config-form label {
+            flex-basis: 50%;
+        }
+
+        .weight-config-form input[type="number"] {
+            flex-grow: 1;
+            width: 100%;
+            background-color: rgba(0,0,0,0.3);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+        
+        .weight-config-form input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(183, 28, 28, 0.4);
+        }
+        
+        .info-icon {
+            position: relative;
+            cursor: help;
+            color: var(--text-muted-color);
+        }
+        
+        .tooltip {
+            visibility: hidden;
+            width: 220px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .info-icon:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Global Actions */
+        .global-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .btn {
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-family);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(183, 28, 28, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            background-color: var(--secondary-color);
+            cursor: not-allowed;
+            opacity: 0.5;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            /* display: none; */ /* JS will toggle this */
+        }
+        
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-body .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-body input[type="text"] {
+            width: 100%;
+            background-color: rgba(0,0,0,0.3);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+        
+        .file-uploader {
+            border: 2px dashed var(--secondary-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        .file-uploader:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding-top: 1rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 2000;
+            display: none; /* JS will toggle this */
+        }
+        .toast.success {
+            background-color: var(--success-color);
+            display: block; /* Example of shown toast */
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>การตั้งค่าเรทราคา Influencer มาตรฐาน (STAR)</h1>
+
+        <!-- 1. Platform Management -->
+        <section id="platform-management" class="glass-panel">
+            <h2>จัดการแพลตฟอร์ม</h2>
+            <div class="platform-grid">
+                <div class="platform-card">
+                    <div class="icon">FB</div>
+                    <span class="platform-name">Facebook</span>
+                </div>
+                <div class="platform-card">
+                    <div class="icon">IG</div>
+                    <span class="platform-name">Instagram</span>
+                </div>
+                <div class="platform-card">
+                    <div class="icon">TT</div>
+                    <span class="platform-name">TikTok</span>
+                </div>
+                <div class="platform-card">
+                    <div class="icon">YT</div>
+                    <span class="platform-name">YouTube</span>
+                </div>
+                <div class="platform-card">
+                    <div class="icon">X</div>
+                    <span class="platform-name">X (Twitter)</span>
+                    <button class="delete-btn" title="Delete Platform">X</button>
+                </div>
+                 <!-- JS: When user clicks this, show modal -->
+                <div class="platform-card add-card">
+                    <div class="add-icon">+</div>
+                    <span class="add-text">เพิ่มแพลตฟอร์ม</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Condition Selection -->
+        <section id="condition-selection" class="glass-panel">
+             <div class="condition-selectors">
+                <div class="form-group">
+                    <label for="platform-select">เลือกแพลตฟอร์ม</label>
+                    <select id="platform-select">
+                        <option>Instagram</option>
+                        <option>Facebook</option>
+                        <option>TikTok</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="content-type-select">เลือกประเภทคอนเทนต์</label>
+                    <select id="content-type-select">
+                        <option>Photo</option>
+                        <option>Short Video (Reels/Shorts)</option>
+                        <option>Long Video</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Pricing Details -->
+        <section id="pricing-details" class="glass-panel">
+            <div class="pricing-grid">
+                <!-- Left Side: Pricing Table -->
+                <div class="pricing-table-container">
+                    <h2>ตารางราคาพื้นฐานตามผู้ติดตาม</h2>
+                    <table class="editable-table">
+                        <thead>
+                            <tr>
+                                <th>ผู้ติดตาม (ต่ำสุด)</th>
+                                <th>ผู้ติดตาม (สูงสุด)</th>
+                                <th>ราคาพื้นฐาน (บาท)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <!-- JS: This is a row template to be added dynamically -->
+                            <tr>
+                                <td><input type="number" value="10000" placeholder="เช่น 10000"></td>
+                                <td><input type="number" value="50000" placeholder="เช่น 50000"></td>
+                                <td><input type="number" value="3500" placeholder="เช่น 3500"></td>
+                                <td><button class="delete-btn" title="Delete Range">X</button></td>
+                            </tr>
+                            <tr>
+                                <td><input type="number" value="50001" placeholder="เช่น 50001"></td>
+                                <td><input type="number" value="100000" placeholder="เช่น 100000"></td>
+                                <td><input type="number" value="8000" placeholder="เช่น 8000"></td>
+                                <td><button class="delete-btn" title="Delete Range">X</button></td>
+                            </tr>
+                             <!-- Example with validation message -->
+                             <tr>
+                                <td>
+                                    <input type="number" value="90000" placeholder="เช่น 100001" style="border-color: var(--error-color);">
+                                    <span class="error-message">Error: ช่วงผู้ติดตามซ้อนกัน</span>
+                                 </td>
+                                <td><input type="number" value="200000" placeholder="เช่น 200000"></td>
+                                <td><input type="number" value="12000" placeholder="เช่น 12000"></td>
+                                <td><button class="delete-btn" title="Delete Range">X</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                     <!-- JS: When clicked, add a new row to the table body -->
+                    <button class="btn btn-secondary btn-add-range">+ เพิ่มช่วงใหม่</button>
+                </div>
+
+                <!-- Right Side: Weight Config -->
+                <div class="weight-config-container">
+                    <h2>ตั้งค่าน้ำหนัก (Weight)</h2>
+                    <div class="weight-config-form">
+                        <div class="form-group-horizontal">
+                            <label for="post-duration">ระยะเวลาโพสต์ (วัน)</label>
+                            <input type="number" id="post-duration" value="30">
+                            <div class="info-icon">i<span class="tooltip">จำนวนวันที่โพสต์จะแสดงอยู่บนหน้าโปรไฟล์ของ Influencer</span></div>
+                        </div>
+                        <div class="form-group-horizontal">
+                            <label for="engagement-weight">น้ำหนัก Engagement</label>
+                            <input type="number" id="engagement-weight" value="1.5">
+                            <div class="info-icon">i<span class="tooltip">ตัวคูณสำหรับยอด Engagement (Like, Comment, Share)</span></div>
+                        </div>
+                         <div class="form-group-horizontal">
+                            <label for="view-weight">น้ำหนัก View</label>
+                            <input type="number" id="view-weight" value="0.8">
+                            <div class="info-icon">i<span class="tooltip">ตัวคูณสำหรับยอด View ของวิดีโอ</span></div>
+                        </div>
+                         <div class="form-group-horizontal">
+                            <label for="engagement-rate-weight">น้ำหนัก Engagement Rate</label>
+                            <input type="number" id="engagement-rate-weight" value="1.2">
+                             <div class="info-icon">i<span class="tooltip">ตัวคูณสำหรับอัตรา Engagement Rate (Engagement / Followers)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Global Actions -->
+        <footer class="global-actions">
+            <button class="btn btn-secondary">Export ข้อมูล</button>
+            <!-- JS: This button is disabled until a form value changes -->
+            <button class="btn btn-primary" disabled id="save-changes-btn">บันทึกการเปลี่ยนแปลง</button>
+        </footer>
+    </div>
+    
+    <!-- Modal for Adding Platform -->
+    <!-- JS: This modal is hidden by default. Show on "Add Platform" click. -->
+    <div class="modal-overlay" id="add-platform-modal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>เพิ่มแพลตฟอร์มใหม่</h2>
+                <button class="delete-btn" title="Close">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="new-platform-name">ชื่อแพลตฟอร์ม</label>
+                    <input type="text" id="new-platform-name" placeholder="เช่น Threads">
+                </div>
+                <div class="form-group">
+                    <label>อัปโหลดไอคอน</label>
+                    <div class="file-uploader">
+                        <span>คลิกเพื่ออัปโหลด (PNG, JPG, SVG)</span>
+                        <input type="file" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>เลือกประเภทคอนเทนต์ที่รองรับ</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" id="type-photo"> <label for="type-photo">Photo</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="type-short"> <label for="type-short">Short Video</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="type-long"> <label for="type-long">Long Video</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="type-post"> <label for="type-post">Post</label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary">ยกเลิก</button>
+                <button class="btn btn-primary">บันทึก</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <!-- JS: This is hidden by default. Show on save success/failure. -->
+    <div class="toast success" id="toast-notification">
+        บันทึกข้อมูลสำเร็จ!
+    </div>
+
+</body>
+</html>
