@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STAR Standard Price Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- CSS Style Guide Integration --- */
+        :root {
+            /* Global Variables */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --spacing-unit: 4px;
+            
+            /* Color Palette */
+            --color-brand-primary: #C43A3A;
+            --color-brand-primary-darker: #A52D2D;
+            --color-text-secondary: #6C757D;
+            --color-background-light: #F8F9FA;
+            --color-text-main: #343A40;
+            --color-link: #007BFF;
+            --color-badge-bg: #FBEAEA;
+
+            /* Supporting Colors */
+            --color-white: #FFFFFF;
+            --color-border: rgba(52, 58, 64, 0.15);
+            --color-success: #28a745;
+            --color-danger: #dc3545;
+            --color-disabled-bg: #E9ECEF;
+            --color-disabled-text: #6C757D;
+        }
+
+        /* --- Base & Typography --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--color-text-main);
+            padding: calc(var(--spacing-unit) * 5);
+            min-height: 100vh;
+        }
+        
+        h1, h2, h3 {
+            color: var(--color-text-main);
+            margin-bottom: calc(var(--spacing-unit) * 4);
+        }
+
+        h1 { font-size: 2rem; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
+        h2 { font-size: 1.75rem; font-weight: 600; }
+        h3 { font-size: 1.25rem; font-weight: 500; }
+
+        /* --- Glassmorphism Style --- */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.5);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: var(--border-radius-base);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: calc(var(--spacing-unit) * 6);
+            margin-bottom: calc(var(--spacing-unit) * 6);
+        }
+
+        /* --- Header --- */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 6);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 4);
+            position: relative;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            font-family: var(--font-family-base);
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: var(--color-white);
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--color-brand-primary-darker);
+            box-shadow: 0 4px 8px rgba(196, 58, 58, 0.3);
+        }
+        .btn-primary:disabled {
+            background-color: var(--color-disabled-bg);
+            color: var(--color-disabled-text);
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text-main);
+            border: 1px solid var(--color-border);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        /* --- Dropdown Menu --- */
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-base);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            padding: calc(var(--spacing-unit) * 2) 0;
+            min-width: 160px;
+            z-index: 101;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-item {
+            padding: 8px 16px;
+            color: var(--color-text-main);
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            background-color: var(--color-background-light);
+        }
+
+        /* --- Platform Selection --- */
+        .platform-selection-container {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 4);
+            overflow-x: auto;
+            padding-bottom: calc(var(--spacing-unit) * 4); /* For scrollbar */
+        }
+        .platform-card, .add-platform-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: calc(var(--spacing-unit) * 4);
+            border-radius: var(--border-radius-base);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 120px;
+            position: relative;
+        }
+        .platform-card:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-4px);
+        }
+        .platform-card.selected {
+            border-color: var(--color-brand-primary);
+            background-color: var(--color-badge-bg);
+        }
+        .platform-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .platform-name {
+            font-weight: 500;
+        }
+        .delete-platform-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: none;
+            border: none;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+        }
+        .delete-platform-btn:hover {
+            color: var(--color-danger);
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        .add-platform-card {
+            border: 2px dashed var(--color-text-secondary);
+            color: var(--color-text-secondary);
+        }
+        .add-platform-card:hover {
+            border-color: var(--color-brand-primary);
+            color: var(--color-brand-primary);
+            background-color: var(--color-badge-bg);
+        }
+
+        /* --- Configuration Panel --- */
+        .config-header {
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: calc(var(--spacing-unit) * 4);
+        }
+
+        .content-type-tabs {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 2);
+            margin-bottom: calc(var(--spacing-unit) * 6);
+        }
+        .tab {
+            padding: 8px 16px;
+            border-radius: var(--border-radius-base);
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .tab:hover {
+            background-color: var(--color-background-light);
+        }
+        .tab.active {
+            background-color: var(--color-badge-bg);
+            color: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: calc(var(--spacing-unit) * 8);
+        }
+
+        /* --- Pricing Table --- */
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .pricing-table th, .pricing-table td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .pricing-table th {
+            font-weight: 600;
+            color: var(--color-text-secondary);
+        }
+        .follower-range-inputs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-add-range {
+            margin-top: calc(var(--spacing-unit) * 4);
+            color: var(--color-brand-primary);
+            background: transparent;
+            border: 1px solid var(--color-badge-bg);
+        }
+        .btn-add-range:hover {
+            background-color: var(--color-badge-bg);
+        }
+
+        /* --- Forms & Inputs --- */
+        .form-group {
+            margin-bottom: calc(var(--spacing-unit) * 5);
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid var(--color-border);
+            font-size: 1rem;
+            background-color: var(--color-white);
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--color-brand-primary);
+            box-shadow: 0 0 0 3px var(--color-badge-bg);
+        }
+        .validation-feedback {
+            color: var(--color-danger);
+            font-size: 0.875rem;
+            margin-top: 4px;
+        }
+
+        .weight-setting {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        .weight-setting .tooltip-icon {
+            color: var(--color-text-secondary);
+            cursor: help;
+        }
+        .tooltip {
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-text-main);
+            color: var(--color-white);
+            padding: 8px 12px;
+            border-radius: var(--border-radius-base);
+            font-size: 0.875rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            z-index: 10;
+        }
+        .tooltip-icon:hover + .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-overlay.hidden {
+            display: none;
+        }
+        .modal-content {
+            background: var(--color-white);
+            padding: calc(var(--spacing-unit) * 8);
+            border-radius: var(--border-radius-base);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: calc(var(--spacing-unit) * 4);
+        }
+        .modal-body {
+            padding: calc(var(--spacing-unit) * 6) 0;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: calc(var(--spacing-unit) * 3);
+            border-top: 1px solid var(--color-border);
+            padding-top: calc(var(--spacing-unit) * 4);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--color-border);
+            border-radius: var(--border-radius-base);
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: var(--color-brand-primary);
+        }
+        .upload-area .fa-upload {
+            font-size: 2rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 12px;
+        }
+        
+        .checkbox-group label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 16px;
+        }
+        .checkbox-group input[type="checkbox"] {
+            accent-color: var(--color-brand-primary);
+        }
+
+        /* --- Toast Notifications --- */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: var(--border-radius-base);
+            color: var(--color-white);
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 2000;
+            opacity: 1;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .toast.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+        .toast.success { background-color: var(--color-success); }
+        .toast.error { background-color: var(--color-danger); }
+
+    </style>
+</head>
+<body>
+
+    <!-- ======================= -->
+    <!-- 1. Main Layout & Header -->
+    <!-- ======================= -->
+    <header class="main-header glass-panel">
+        <h1>STAR Standard Price Settings</h1>
+        <div class="header-actions">
+            <div class="dropdown">
+                <button class="btn btn-secondary">
+                    <i class="fa-solid fa-download"></i> Export
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item">Export as JSON</li>
+                    <li class="dropdown-item">Export as CSV</li>
+                </ul>
+            </div>
+            <button class="btn btn-primary" id="saveChangesBtn" disabled>
+                <i class="fa-solid fa-save"></i> Save Changes
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- ============================== -->
+        <!-- 2. Platform Selection Section  -->
+        <!-- ============================== -->
+        <section class="platform-selection glass-panel">
+            <h2>Platforms</h2>
+            <div class="platform-selection-container">
+                <!-- Pre-defined platforms (no delete button) -->
+                <div class="platform-card">
+                    <i class="fab fa-facebook-f platform-icon" style="color: #1877F2;"></i>
+                    <span class="platform-name">Facebook</span>
+                </div>
+                <div class="platform-card selected"> <!-- 'selected' class indicates active platform -->
+                    <i class="fab fa-instagram platform-icon" style="color: #E4405F;"></i>
+                    <span class="platform-name">Instagram</span>
+                </div>
+                <div class="platform-card">
+                    <i class="fab fa-tiktok platform-icon" style="color: #000000;"></i>
+                    <span class="platform-name">TikTok</span>
+                </div>
+                <div class="platform-card">
+                    <i class="fab fa-youtube platform-icon" style="color: #FF0000;"></i>
+                    <span class="platform-name">YouTube</span>
+                </div>
+                <div class="platform-card">
+                    <i class="fab fa-twitter platform-icon" style="color: #1DA1F2;"></i>
+                    <span class="platform-name">X</span>
+                </div>
+                <!-- User-added platform (with delete button) -->
+                <div class="platform-card">
+                    <i class="fab fa-linkedin-in platform-icon" style="color: #0A66C2;"></i>
+                    <span class="platform-name">LinkedIn</span>
+                    <button class="delete-platform-btn"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <!-- Add Platform Button -->
+                <div class="add-platform-card">
+                    <i class="fa-solid fa-plus platform-icon"></i>
+                    <span class="platform-name">Add Platform</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================= -->
+        <!-- 3. Configuration Section  -->
+        <!-- ========================= -->
+        <!-- This section's content changes based on the selected platform. -->
+        <!-- This is an example for 'Instagram' -->
+        <section class="configuration-panel glass-panel">
+            <div class="config-header">
+                <h2>Instagram Settings</h2>
+            </div>
+            
+            <!-- Content Type Navigation -->
+            <nav class="content-type-tabs">
+                <div class="tab active">Photo</div>
+                <div class="tab">Short Video</div>
+                <div class="tab">Post</div>
+                <!-- Long Video tab would be hidden for Instagram -->
+            </nav>
+
+            <div class="config-grid">
+                <!-- 3a. Fixed Base Pricing Table -->
+                <div class="pricing-section">
+                    <h3>Fixed Base Pricing (Photo)</h3>
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Follower Range</th>
+                                <th>Base Price (THB)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="follower-range-inputs">
+                                        <input type="number" class="input-field" placeholder="10001">
+                                        <span>-</span>
+                                        <input type="number" class="input-field" placeholder="50000">
+                                    </div>
+                                    <div class="validation-feedback">Min must be less than Max.</div>
+                                </td>
+                                <td>
+                                    <input type="number" class="input-field" placeholder="1500.00">
+                                </td>
+                                <td>
+                                    <button class="delete-platform-btn"><i class="fa-solid fa-trash-can"></i></button>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                    <div class="follower-range-inputs">
+                                        <input type="number" class="input-field" placeholder="50001">
+                                        <span>-</span>
+                                        <input type="number" class="input-field" placeholder="100000">
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="number" class="input-field" placeholder="3000.00">
+                                </td>
+                                <td>
+                                    <button class="delete-platform-btn"><i class="fa-solid fa-trash-can"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-add-range"><i class="fa-solid fa-plus"></i> Add Range</button>
+                </div>
+                
+                <!-- 3b. Weight Calculation Form -->
+                <div class="weight-section">
+                    <h3>Weight Calculation Settings</h3>
+                    <div class="form-group">
+                        <label>Post Recency</label>
+                        <div class="weight-setting">
+                            <span>Latest posts within the last</span>
+                            <input type="number" class="input-field" value="30" style="width: 80px;">
+                            <span>days</span>
+                             <i class="fa-solid fa-circle-question tooltip-icon"></i>
+                             <div class="tooltip">Defines the time window for considering posts.</div>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label>Engagement Weight</label>
+                        <div class="weight-setting">
+                            <input type="number" class="input-field" placeholder="0.0000">
+                            <i class="fa-solid fa-circle-question tooltip-icon"></i>
+                             <div class="tooltip">Multiplier for each engagement (like, comment).</div>
+                        </div>
+                    </div>
+                    <!-- View Weight: Only shown for video content types -->
+                    <div class="form-group" id="viewWeightGroup">
+                        <label>View Weight (for video)</label>
+                        <div class="weight-setting">
+                            <input type="number" class="input-field" placeholder="0.0000">
+                             <i class="fa-solid fa-circle-question tooltip-icon"></i>
+                             <div class="tooltip">Multiplier for each view. Only applies to videos.</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Engagement Rate Weight</label>
+                        <div class="weight-setting">
+                            <input type="number" class="input-field" placeholder="0.0000">
+                            <i class="fa-solid fa-circle-question tooltip-icon"></i>
+                            <div class="tooltip">Multiplier for every 1% of engagement rate.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============================== -->
+    <!-- Modals (Hidden by default)     -->
+    <!-- ============================== -->
+
+    <!-- Modal for User Flow 2: Add Platform -->
+    <div id="addPlatformModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Platform</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="platformName">Platform Name</label>
+                    <input type="text" id="platformName" class="input-field" placeholder="e.g., Lemon8">
+                </div>
+                <div class="form-group">
+                    <label>Upload Icon</label>
+                    <div class="upload-area">
+                        <i class="fa-solid fa-upload"></i>
+                        <p>Drag & Drop file or <strong>Browse</strong></p>
+                        <small>Supports: PNG, JPG, SVG (max 2MB)</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Supported Content Types</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox"> Photo</label>
+                        <label><input type="checkbox"> Short Video</label>
+                        <label><input type="checkbox"> Long Video</label>
+                        <label><input type="checkbox"> Post</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary">Create Platform</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for User Flow 3: Delete Platform Confirmation -->
+    <div id="deletePlatformModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <h2>Confirm Deletion</h2>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this platform? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary" style="background-color: var(--color-danger);">Confirm</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================= -->
+    <!-- Toast Notifications           -->
+    <!-- ============================= -->
+    <div id="toast-success" class="toast success hidden">
+        <i class="fa-solid fa-check-circle"></i> Settings saved successfully!
+    </div>
+    <div id="toast-error" class="toast error hidden">
+        <i class="fa-solid fa-exclamation-circle"></i> Error saving settings. Please try again.
+    </div>
+
+</body>
+</html>
