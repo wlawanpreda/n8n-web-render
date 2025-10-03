@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Influencer Price Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* CSS Style Guide Variables */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --spacing-unit: 4px;
+            
+            --color-brand-primary: #C43A3A;
+            --color-brand-primary-hover: #A52D2D;
+            --color-text-secondary: #6C757D;
+            --color-background-light: #F8F9FA;
+            --color-text-main: #343A40;
+            --color-link: #007BFF;
+            --color-success: #28a745;
+            --color-error: #dc3545;
+            --color-background-white: #FFFFFF;
+            
+            /* Glassmorphism & Layout */
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border-color: rgba(255, 255, 255, 0.2);
+            --backdrop-blur: 10px;
+        }
+
+        /* --- Base & Typography --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background: #1a1a2e;
+            color: var(--color-background-light);
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at top left, rgba(196, 58, 58, 0.3), transparent 40%),
+                              radial-gradient(circle at bottom right, rgba(0, 123, 255, 0.3), transparent 40%);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            color: #FFF;
+        }
+
+        h1 { font-size: 2.5rem; } /* 40px */
+        h2 { font-size: 1.75rem; } /* 28px */
+        h3 { font-size: 1.25rem; } /* 20px */
+        p, label { font-size: 1rem; color: #EAEAEA; }
+        small { font-size: 0.875rem; color: var(--color-text-secondary); }
+
+        /* --- Main Layout --- */
+        .main-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: calc(var(--spacing-unit) * 6);
+            padding: calc(var(--spacing-unit) * 6);
+            height: 100vh;
+        }
+
+        .platform-sidebar {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border-color);
+            backdrop-filter: blur(var(--backdrop-blur));
+            -webkit-backdrop-filter: blur(var(--backdrop-blur));
+            border-radius: var(--border-radius-base);
+            padding: calc(var(--spacing-unit) * 4);
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing-unit) * 6);
+        }
+
+        .config-panel {
+            overflow-y: auto;
+            padding-right: 15px; /* for scrollbar */
+        }
+        /* Custom Scrollbar */
+        .config-panel::-webkit-scrollbar { width: 8px; }
+        .config-panel::-webkit-scrollbar-track { background: transparent; }
+        .config-panel::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.2); border-radius: 10px; }
+        .config-panel::-webkit-scrollbar-thumb:hover { background-color: rgba(255,255,255,0.4); }
+
+
+        /* --- Glass Card Component --- */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border-color);
+            backdrop-filter: blur(var(--backdrop-blur));
+            -webkit-backdrop-filter: blur(var(--backdrop-blur));
+            border-radius: var(--border-radius-base);
+            padding: calc(var(--spacing-unit) * 6);
+            margin-bottom: calc(var(--spacing-unit) * 6);
+        }
+        
+        /* --- Sidebar Components --- */
+        .btn-add-platform {
+            width: 100%;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-background-white);
+            background-color: transparent;
+            border: 1px solid var(--glass-border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-add-platform:hover {
+            background-color: var(--glass-bg);
+            border-color: #FFF;
+        }
+
+        .platform-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing-unit) * 2);
+        }
+        .platform-list li {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-unit) * 3);
+            padding: calc(var(--spacing-unit) * 3);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            color: #EAEAEA;
+            font-weight: 500;
+        }
+        .platform-list li:hover {
+            background-color: var(--glass-bg);
+        }
+        .platform-list li.active {
+            background-color: var(--color-brand-primary);
+            color: #FFF;
+            box-shadow: 0 4px 15px rgba(196, 58, 58, 0.4);
+        }
+        .platform-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* --- Config Panel Components --- */
+        .config-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .config-header .platform-icon {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .tabs-nav {
+            display: flex;
+            gap: 24px;
+            border-bottom: 1px solid var(--glass-border-color);
+            margin-bottom: 24px;
+        }
+        .tab-link {
+            padding: 12px 4px;
+            background: none;
+            border: none;
+            color: var(--color-text-secondary);
+            font-family: var(--font-family-base);
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            border-bottom: 3px solid transparent;
+            transition: color 0.2s ease;
+        }
+        .tab-link:hover {
+            color: #FFF;
+        }
+        .tab-link.active {
+            color: #FFF;
+            border-bottom: 3px solid var(--color-brand-primary);
+        }
+
+        /* --- Form Elements --- */
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #ddd;
+        }
+        .input-field, .select-field {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border-color);
+            border-radius: 4px;
+            color: #FFF;
+            font-family: var(--font-family-base);
+            font-size: 1rem;
+        }
+        .input-field:focus, .select-field:focus {
+            outline: none;
+            border-color: var(--color-brand-primary);
+            box-shadow: 0 0 0 2px rgba(196, 58, 58, 0.5);
+        }
+        .input-field.error {
+            border-color: var(--color-error);
+        }
+        .error-message {
+            color: var(--color-error);
+            font-size: 0.875rem;
+            margin-top: 4px;
+        }
+        .input-with-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .input-with-label .input-field {
+            flex-grow: 1;
+        }
+        .input-with-label span {
+            color: #aaa;
+        }
+
+        /* --- Pricing Table --- */
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        .pricing-table th, .pricing-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border-color);
+        }
+        .pricing-table th {
+            color: #ccc;
+            font-weight: 500;
+        }
+        .follower-range-inputs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .follower-range-inputs .input-field {
+            width: 100px;
+        }
+        .pricing-table .input-field {
+            padding: 8px;
+            text-align: right;
+        }
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .btn-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--color-text-secondary);
+            transition: fill 0.2s ease;
+        }
+        .btn-icon:hover svg {
+            fill: var(--color-error);
+        }
+        .btn-add-tier {
+            margin-top: 16px;
+            padding: 8px 16px;
+            background: transparent;
+            color: var(--color-link);
+            border: 1px solid var(--color-link);
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-add-tier:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        /* --- Weights Configuration --- */
+        .weights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        .weight-card {
+            background-color: rgba(0,0,0,0.15);
+            padding: 16px;
+            border-radius: var(--border-radius-base);
+        }
+        .weight-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip svg { fill: var(--color-text-secondary); width: 16px; height: 16px; }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* --- Action Button --- */
+        .save-button-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+        }
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+            border-radius: 50px; /* Fully rounded */
+            padding: 12px 24px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(196, 58, 58, 0.5);
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(196, 58, 58, 0.6);
+        }
+        .btn-primary:disabled {
+            background-color: var(--color-text-secondary);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        
+        /* --- Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border-color);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-base);
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .modal-header h2 {
+             margin-bottom: 0;
+        }
+        .close-button { background: none; border: none; cursor: pointer; }
+        .close-button svg { width: 24px; height: 24px; fill: #aaa; transition: fill 0.2s ease; }
+        .close-button:hover svg { fill: #fff; }
+        
+        .file-uploader {
+            border: 2px dashed var(--glass-border-color);
+            border-radius: 4px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        .file-uploader:hover {
+            border-color: var(--color-brand-primary);
+        }
+        .file-uploader p { color: #aaa; }
+
+        .checkbox-group { margin-top: 16px; }
+        .checkbox-group label {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 16px;
+            cursor: pointer;
+        }
+        .checkbox-group input { margin-right: 8px; }
+
+        .modal-actions {
+            margin-top: 24px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #ccc;
+            border: 1px solid var(--glass-border-color);
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover { background-color: var(--glass-bg); }
+        .btn-modal-save {
+            background-color: var(--color-brand-primary);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .btn-modal-save:hover { background-color: var(--color-brand-primary-hover); }
+
+        /* --- Toast Notification (Placeholder) --- */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 500;
+            z-index: 3000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease-in-out;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .toast.success { background-color: var(--color-success); }
+        .toast.error { background-color: var(--color-error); }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- ===== LEFT SIDEBAR ===== -->
+        <aside class="platform-sidebar">
+            <button class="btn-add-platform">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Add Platform
+            </button>
+            <nav>
+                <ul class="platform-list">
+                    <li class="active">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Icon" class="platform-icon">
+                        <span>Instagram</span>
+                    </li>
+                    <li>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook Icon" class="platform-icon">
+                        <span>Facebook</span>
+                    </li>
+                    <li>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/TikTok_logo.svg" alt="TikTok Icon" class="platform-icon">
+                        <span>TikTok</span>
+                    </li>
+                    <li>
+                         <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube Icon" class="platform-icon">
+                        <span>YouTube</span>
+                    </li>
+                    <li>
+                         <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X Icon" class="platform-icon" style="filter: invert(1);">
+                        <span>X</span>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ===== RIGHT CONFIG PANEL ===== -->
+        <main class="config-panel">
+            <header class="config-header">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Icon" class="platform-icon">
+                <h2>Settings for Instagram</h2>
+            </header>
+
+            <!-- Global Settings Card -->
+            <section class="glass-card global-settings-card">
+                <h3>Global Settings</h3>
+                <p style="color: var(--color-text-secondary); margin-bottom: 16px;">These settings apply to all platforms.</p>
+                <div class="form-group">
+                    <label for="lookback-period">Recent Post Period</label>
+                    <div class="input-with-label">
+                        <input type="number" id="lookback-period" class="input-field" value="30" style="max-width: 100px;">
+                        <span>days</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Platform-specific settings with tabs -->
+            <div class="tabs-container">
+                <nav class="tabs-nav">
+                    <button class="tab-link active">Base Pricing</button>
+                    <button class="tab-link">Calculation Weights</button>
+                </nav>
+                
+                <div class="tabs-content">
+                    <!-- Base Pricing Tab -->
+                    <div id="base-pricing" class="tab-pane active">
+                        <div class="glass-card">
+                            <div class="form-group">
+                                <label for="content-type">Content Type</label>
+                                <select id="content-type" class="select-field" style="max-width: 200px;">
+                                    <option>Photo</option>
+                                    <option>Short Video</option>
+                                </select>
+                            </div>
+
+                            <table class="pricing-table">
+                                <thead>
+                                    <tr>
+                                        <th>Follower Range (Min - Max)</th>
+                                        <th>Base Price (THB)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="follower-range-inputs">
+                                                <input type="number" class="input-field" value="1000">
+                                                <span>-</span>
+                                                <input type="number" class="input-field" value="10000">
+                                            </div>
+                                        </td>
+                                        <td><input type="number" class="input-field" value="2500"></td>
+                                        <td>
+                                            <button class="btn-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path></svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="follower-range-inputs">
+                                                <input type="number" class="input-field error" value="10001">
+                                                <span>-</span>
+                                                <input type="number" class="input-field" value="100000">
+                                            </div>
+                                             <div class="error-message">Follower ranges cannot overlap.</div>
+                                        </td>
+                                        <td><input type="number" class="input-field" value="5000"></td>
+                                        <td>
+                                            <button class="btn-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path></svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn-add-tier">+ Add Tier</button>
+                        </div>
+                    </div>
+                    <!-- Calculation Weights Tab -->
+                    <div id="calc-weights" class="tab-pane" style="display: none;">
+                         <div class="glass-card">
+                            <div class="weights-grid">
+                                <div class="weight-card">
+                                    <div class="form-group">
+                                        <label for="eng-weight" class="weight-label">
+                                            <span>Engagement Weight</span>
+                                            <div class="tooltip">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"></path></svg>
+                                                <span class="tooltiptext">Multiplier for total engagement (likes, comments, shares).</span>
+                                            </div>
+                                        </label>
+                                        <input type="number" step="0.01" id="eng-weight" class="input-field" value="0.5">
+                                    </div>
+                                </div>
+                                <div class="weight-card">
+                                    <div class="form-group">
+                                        <label for="view-weight" class="weight-label">
+                                            <span>View Weight</span>
+                                            <div class="tooltip">
+                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"></path></svg>
+                                                <span class="tooltiptext">Multiplier for total views. Only applicable for video content.</span>
+                                            </div>
+                                        </label>
+                                        <input type="number" step="0.01" id="view-weight" class="input-field" value="0.2">
+                                    </div>
+                                </div>
+                                <div class="weight-card">
+                                    <div class="form-group">
+                                        <label for="eng-rate-weight" class="weight-label">
+                                            <span>Engagement Rate Weight</span>
+                                            <div class="tooltip">
+                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"></path></svg>
+                                                <span class="tooltiptext">Multiplier for the post's engagement rate (engagement / followers).</span>
+                                            </div>
+                                        </label>
+                                        <input type="number" step="0.01" id="eng-rate-weight" class="input-field" value="1.2">
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ===== ACTION BUTTON ===== -->
+    <div class="save-button-container">
+        <button class="btn-primary" disabled>Save All Changes</button>
+    </div>
+    
+    <!-- ===== ADD PLATFORM MODAL ===== -->
+    <div class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Platform</h2>
+                <button class="close-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+                </button>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="platform-name">Platform Name</label>
+                    <input type="text" id="platform-name" class="input-field" placeholder="e.g., Lemon8">
+                </div>
+                <div class="form-group">
+                    <label for="platform-icon">Icon</label>
+                    <div class="file-uploader">
+                        <p>Drag & drop image here, or click to browse</p>
+                        <small>PNG, SVG, or JPG recommended</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Supported Content Types</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="content-type"> Photo</label>
+                        <label><input type="checkbox" name="content-type"> Short Video</label>
+                        <label><input type="checkbox" name="content-type"> Long Video</label>
+                        <label><input type="checkbox" name="content-type"> Post</label>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-modal-save">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- ===== TOAST NOTIFICATION (For demo) ===== -->
+    <div id="toast" class="toast success">Settings saved successfully!</div>
+
+</body>
+</html>
