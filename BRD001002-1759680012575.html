@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe: E-Catalog & Review System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables from Style Guide */
+        :root {
+            --font-family-base: 'Kanit', Sarabun, 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --spacing-unit: 4px;
+            --color-brand-primary: #C43A3A;
+            --color-brand-primary-hover: #A52D2D;
+            --color-text-secondary: #6C757D;
+            --color-background-light: #F8F9FA;
+            --color-text-main: #343A40;
+            --color-link: #007BFF;
+            --color-background-white: #FFFFFF;
+        }
+
+        /* Base and Typography */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font-family-base);
+            background-color: #ECEFF1;
+            color: var(--color-text-main);
+            margin: 0;
+            line-height: 1.6;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-text-main);
+        }
+        h2.section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--color-text-main);
+            border-bottom: 2px solid #E0E0E0;
+            padding-bottom: calc(var(--spacing-unit) * 2);
+            margin-bottom: calc(var(--spacing-unit) * 6);
+        }
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-top: 0;
+        }
+
+        /* Layout */
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: calc(var(--spacing-unit) * 5);
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: calc(var(--spacing-unit) * 6);
+        }
+
+        /* Product Card Styling (Component) */
+        .product-card {
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        .card-link-wrapper {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .card-image-container {
+            position: relative;
+            background-color: #eee;
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .card-body {
+            padding: calc(var(--spacing-unit) * 4);
+            flex-grow: 1;
+        }
+        .card-footer {
+            padding: 0 calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 4);
+            margin-top: auto;
+        }
+
+        /* Sponsored Card Variant */
+        .product-card.sponsored {
+            background-color: #FFF9F9;
+            border: 1px solid #FBEAEA;
+        }
+
+        /* Badge Styling (Component) */
+        .badge-tag {
+            position: absolute;
+            top: calc(var(--spacing-unit) * 3);
+            left: calc(var(--spacing-unit) * 3);
+            background-color: #FBEAEA;
+            color: var(--color-brand-primary);
+            border-radius: 100px;
+            padding: var(--spacing-unit) calc(var(--spacing-unit) * 2.5);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Rating & Reviews Snippets */
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-unit) * 2);
+            margin: calc(var(--spacing-unit) * 2) 0;
+            font-size: 0.875rem;
+        }
+        .rating-summary .stars {
+            color: #FFC107;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        .rating-summary .review-count {
+            color: var(--color-text-secondary);
+        }
+        .review-snippets {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            padding-left: calc(var(--spacing-unit) * 3);
+            border-left: 3px solid var(--color-background-light);
+        }
+        .review-snippets .snippet {
+            margin: 0 0 calc(var(--spacing-unit) * 2);
+        }
+        .review-snippets .reviewer {
+            font-weight: 500;
+            color: var(--color-text-main);
+        }
+
+        /* Buttons (Components) */
+        .btn-primary, .btn-secondary-link {
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-family: var(--font-family-base);
+        }
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-hover);
+        }
+        .btn-secondary-link {
+            background: transparent;
+            color: var(--color-link);
+            border: 1px solid var(--color-link);
+            padding: 8px 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .btn-secondary-link:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        /* --- WRITE REVIEW PAGE STYLES --- */
+        #review-section {
+            background-color: var(--color-background-white);
+            margin-top: calc(var(--spacing-unit) * 10);
+            padding-top: var(--spacing-unit);
+            padding-bottom: calc(var(--spacing-unit) * 5);
+        }
+        .review-product-header {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-unit) * 4);
+            background-color: var(--color-background-light);
+            padding: calc(var(--spacing-unit) * 4);
+            border-radius: var(--border-radius-base);
+            margin-bottom: calc(var(--spacing-unit) * 6);
+        }
+        .review-product-header img {
+            border-radius: 4px;
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+        .review-form .form-group {
+            margin-bottom: calc(var(--spacing-unit) * 5);
+        }
+        .review-form label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: calc(var(--spacing-unit) * 2);
+        }
+        .review-form input[type="text"],
+        .review-form textarea {
+            width: 100%;
+            padding: calc(var(--spacing-unit) * 3);
+            border: 1px solid #CED4DA;
+            border-radius: 4px;
+            font-family: var(--font-family-base);
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .review-form textarea {
+            resize: vertical;
+        }
+
+        /* Interactive Star Rating Input */
+        .star-rating-input {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+        .star-rating-input input[type="radio"] {
+            display: none;
+        }
+        .star-rating-input label {
+            font-size: 2.5rem;
+            color: #CED4DA;
+            cursor: pointer;
+            transition: color 0.2s;
+            margin: 0;
+            padding: 0 2px;
+        }
+        .star-rating-input label:hover,
+        .star-rating-input label:hover ~ label,
+        .star-rating-input input[type="radio"]:checked ~ label {
+            color: #FFC107;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 4);
+            align-items: center;
+            margin-top: calc(var(--spacing-unit) * 6);
+        }
+        .form-actions .btn-secondary-link.cancel {
+            width: auto;
+            border-color: var(--color-text-secondary);
+            color: var(--color-text-secondary);
+        }
+        .form-actions .btn-secondary-link.cancel:hover {
+            background-color: rgba(108, 117, 125, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================= -->
+    <!--  E-CATALOG PAGE (MAIN)  -->
+    <!-- ========================= -->
+    <main id="catalog-page">
+        <div class="content-wrapper">
+            <h1>E-Catalog</h1>
+
+            <!-- Section A: Recommended/Sponsored Products -->
+            <section id="sponsored-section">
+                <h2 class="section-title">สินค้าแนะนำสำหรับคุณ</h2>
+                <div class="product-grid">
+                    <!-- Sponsored Product Card 1 -->
+                    <div class="product-card sponsored">
+                        <a href="#!" class="card-link-wrapper">
+                            <div class="card-image-container">
+                                <img src="https://images.unsplash.com/photo-1542496658-60b36a42a0de?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="สินค้าแนะนำสำหรับคุณ 1">
+                                <span class="badge-tag">สนับสนุนโดยแบรนด์</span>
+                            </div>
+                            <div class="card-body">
+                                <h3>สมาร์ทวอทช์ดีไซน์ใหม่ เพื่อไลฟ์สไตล์ที่ไม่หยุดนิ่ง</h3>
+                                <p style="color:var(--color-text-secondary); font-size: 0.9rem;">ฟังก์ชันครบครันสำหรับคนรักสุขภาพและการออกกำลังกายในทุกวัน</p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Sponsored Product Card 2 -->
+                    <div class="product-card sponsored">
+                        <a href="#!" class="card-link-wrapper">
+                            <div class="card-image-container">
+                                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="สินค้าแนะนำสำหรับคุณ 2">
+                                <span class="badge-tag">สำหรับคุณ</span>
+                            </div>
+                            <div class="card-body">
+                                <h3>รองเท้าวิ่งรุ่นใหม่ น้ำหนักเบา ระบายอากาศได้ดีเยี่ยม</h3>
+                                <p style="color:var(--color-text-secondary); font-size: 0.9rem;">พร้อมเทคโนโลยีซัพพอร์ตเท้า ให้ทุกก้าวของคุณมั่นใจ</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section B: General Products -->
+            <section id="general-section" style="margin-top: 40px;">
+                <h2 class="section-title">สินค้าทั่วไป</h2>
+                <div class="product-grid">
+                    <!-- General Product Card 1 -->
+                    <div class="product-card">
+                        <a href="#!" class="card-link-wrapper">
+                            <div class="card-image-container">
+                                <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="สินค้าทั่วไป 1">
+                            </div>
+                            <div class="card-body">
+                                <h3>เซรั่มออร์แกนิกบำรุงผิวหน้า สกัดจากธรรมชาติ 100%</h3>
+                                <div class="rating-summary">
+                                    <span class="stars">★★★★☆</span>
+                                    <span class="rating-text">4.8</span>
+                                    <span class="review-count">(256 รีวิว)</span>
+                                </div>
+                                <div class="review-snippets">
+                                    <p class="snippet">"ใช้ดีมากค่ะ หน้าชุ่มชื้นขึ้น รอยสิวจางลงอย่างเห็นได้ชัด" <span class="reviewer">- คุณสมศรี</span></p>
+                                    <p class="snippet">"อ่อนโยนกับผิวแพ้ง่ายจริงๆ ชอบมากครับ" <span class="reviewer">- คุณสมชาย</span></p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-footer">
+                            <a href="#review-section" class="btn-secondary-link">เขียนรีวิว</a>
+                        </div>
+                    </div>
+                    <!-- General Product Card 2 -->
+                    <div class="product-card">
+                        <a href="#!" class="card-link-wrapper">
+                            <div class="card-image-container">
+                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="สินค้าทั่วไป 2">
+                            </div>
+                            <div class="card-body">
+                                <h3>หูฟังไร้สาย Studio Pro ตัดเสียงรบกวนดีเยี่ยม</h3>
+                                <div class="rating-summary">
+                                    <span class="stars">★★★★★</span>
+                                    <span class="rating-text">5.0</span>
+                                    <span class="review-count">(98 รีวิว)</span>
+                                </div>
+                                <div class="review-snippets">
+                                    <p class="snippet">"เสียงดีมาก ตัดเสียงรบกวนได้ดีเยี่ยม ใส่สบายหู ไม่เจ็บเลย" <span class="reviewer">- คุณมานี</span></p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-footer">
+                            <a href="#review-section" class="btn-secondary-link">เขียนรีวิว</a>
+                        </div>
+                    </div>
+                    <!-- General Product Card 3 -->
+                    <div class="product-card">
+                        <a href="#!" class="card-link-wrapper">
+                            <div class="card-image-container">
+                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="สินค้าทั่วไป 3">
+                            </div>
+                            <div class="card-body">
+                                <h3>นาฬิกาข้อมือดีไซน์ Minimal</h3>
+                                <div class="rating-summary">
+                                    <span class="stars">★★★★☆</span>
+                                    <span class="rating-text">4.2</span>
+                                    <span class="review-count">(45 รีวิว)</span>
+                                </div>
+                                <div class="review-snippets">
+                                    <p class="snippet">"สวย เรียบหรู ดูดี เข้ากับทุกชุดเลยค่ะ" <span class="reviewer">- คุณชูใจ</span></p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="card-footer">
+                            <a href="#review-section" class="btn-secondary-link">เขียนรีวิว</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ========================= -->
+    <!--  WRITE REVIEW "PAGE"  -->
+    <!-- ========================= -->
+    <section id="review-section">
+        <div class="content-wrapper">
+            <h2 class="section-title">เขียนรีวิวสินค้า</h2>
+            
+            <div class="review-product-header">
+                <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=200" alt="สินค้าที่จะรีวิว">
+                <h3>เซรั่มออร์แกนิกบำรุงผิวหน้า สกัดจากธรรมชาติ 100%</h3>
+            </div>
+
+            <form class="review-form" action="#catalog-page" onsubmit="alert('ส่งรีวิวเรียบร้อยแล้ว!'); return true;">
+                <div class="form-group">
+                    <label>ให้คะแนนสินค้านี้:</label>
+                    <div class="star-rating-input">
+                        <input type="radio" id="star5" name="rating" value="5" required><label for="star5" title="5 stars">★</label>
+                        <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars">★</label>
+                        <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars">★</label>
+                        <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars">★</label>
+                        <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star">★</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="review-title">หัวข้อรีวิว:</label>
+                    <input type="text" id="review-title" placeholder="เช่น 'ใช้ดีบอกต่อ' หรือ 'ประทับใจมากที่สุด'" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-body">รายละเอียดรีวิว:</label>
+                    <textarea id="review-body" rows="6" placeholder="บอกเล่าประสบการณ์ของคุณเกี่ยวกับสินค้า เช่น คุณสมบัติที่ชอบ สิ่งที่อยากให้ปรับปรุง..." required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">ส่งรีวิว</button>
+                    <a href="#catalog-page" class="btn-secondary-link cancel">ยกเลิก</a>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</body>
+</html>
