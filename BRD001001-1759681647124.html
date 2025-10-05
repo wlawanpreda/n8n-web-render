@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Catalog Wireframe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --font-family-base: "Kanit", "Sarabun", 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --spacing-unit: 4px;
+
+            /* Color Palette from Style Guide */
+            --color-brand-primary: #C43A3A;
+            --color-text-secondary: #6C757D;
+            --color-background-light: #F8F9FA;
+            --color-text-main: #343A40;
+            --color-link: #007BFF;
+            --color-background-white: #FFFFFF;
+            --color-star-active: #FFC107;
+            --color-star-inactive: #E0E0E0;
+        }
+
+        /* General Body & HTML Styling */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background-white);
+            color: var(--color-text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Typography Scale */
+        h1 {
+            font-size: 2.5rem; /* 40px */
+            font-weight: 700;
+            color: var(--color-text-main);
+            margin-bottom: 24px;
+        }
+        h2 {
+            font-size: 1.75rem; /* 28px */
+            font-weight: 600;
+            color: var(--color-text-main);
+            border-bottom: 2px solid var(--color-background-light);
+            padding-bottom: 8px;
+            margin-top: 40px;
+            margin-bottom: 24px;
+        }
+        h3.card-title {
+            font-size: 1.25rem; /* 20px */
+            font-weight: 500;
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: var(--color-text-main);
+        }
+        p {
+            font-size: 1.0rem; /* 16px */
+            margin-top: 0;
+        }
+
+        /* Section Layouts */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .highlighted-products .carousel-container {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            padding-bottom: 16px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .highlighted-products .carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+        .highlighted-products .card-content {
+            flex: 0 0 320px;
+        }
+
+        /* Component Styling from Guide */
+        .card-content {
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-content:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+        .card-content img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            background-color: #eee;
+        }
+        .card-body {
+            padding: 16px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-body > *:last-child {
+            margin-top: auto;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+            border-radius: 4px;
+            padding: 12px 24px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            transition: background-color 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #A52D2D;
+        }
+
+        .btn-secondary-link {
+            background: transparent;
+            color: var(--color-link);
+            border: 1px solid var(--color-link);
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 500;
+            display: block;
+            transition: background-color 0.2s ease;
+        }
+        .btn-secondary-link:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+        
+        .card-tag-wrapper {
+            position: relative;
+        }
+        .badge-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: #FBEAEA;
+            color: var(--color-brand-primary);
+            border-radius: 100px;
+            padding: 4px 10px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .star-rating {
+            margin-bottom: 12px;
+            color: var(--color-star-active);
+        }
+        .star-rating .far {
+            color: var(--color-star-inactive);
+        }
+
+        .review-snippets {
+            margin-bottom: 16px;
+        }
+        .review-snippet {
+            font-size: 0.875rem; /* metadata */
+            color: var(--color-text-secondary);
+            margin: 0 0 4px 0;
+            font-style: italic;
+            border-left: 2px solid var(--color-background-light);
+            padding-left: 8px;
+        }
+
+        /* Write Review Page Specifics */
+        .review-page-wrapper {
+            background-color: var(--color-background-light);
+            padding-top: 40px;
+            padding-bottom: 40px;
+            margin-top: 40px;
+            border-radius: var(--border-radius-base);
+        }
+        .review-page-wrapper h2 {
+            border-bottom: none;
+            text-align: center;
+            margin-top: 0;
+        }
+        .product-title-review {
+            color: var(--color-brand-primary);
+        }
+        .review-form-card {
+            max-width: 600px;
+            margin: 24px auto 0;
+            padding: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        textarea#review-text {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border-radius: var(--border-radius-base);
+            border: 1px solid #ced4da;
+            font-family: var(--font-family-base);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+        }
+        textarea#review-text:focus {
+            outline: none;
+            border-color: var(--color-link);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        .review-form-card form {
+            display: flex;
+            flex-direction: column;
+        }
+        .review-form-card .btn-primary {
+            align-self: flex-end;
+        }
+
+        /* Interactive Star Rating Input */
+        .star-rating-input {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+        .star-rating-input input[type="radio"] {
+            display: none;
+        }
+        .star-rating-input label {
+            color: var(--color-star-inactive);
+            font-size: 2rem;
+            padding: 0 4px;
+            cursor: pointer;
+            transition: color 0.2s;
+            margin-bottom: 0;
+        }
+        .star-rating-input input[type="radio"]:checked ~ label,
+        .star-rating-input label:hover,
+        .star-rating-input label:hover ~ label {
+            color: var(--color-star-active);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======================= -->
+    <!-- E-Catalog (Page 1)      -->
+    <!-- ======================= -->
+    <main class="container">
+        <h1>E-Catalog สินค้า</h1>
+
+        <!-- Highlighted Products Section -->
+        <section class="highlighted-products">
+            <h2>สินค้าที่น่าสนใจ</h2>
+            <div class="carousel-container">
+                <article class="card-content">
+                    <img src="https://placehold.co/600x400/C43A3A/FFFFFF?text=Highlighted+1" alt="Highlighted Product 1">
+                    <div class="card-body">
+                        <h3 class="card-title">กาแฟคั่วพิเศษ สูตรลับ</h3>
+                        <div class="star-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="review-snippets">
+                            <p class="review-snippet">"หอม อร่อยเกินคาดจริงๆ"</p>
+                        </div>
+                        <a href="#review-page" class="btn-secondary-link">เขียนรีวิว</a>
+                    </div>
+                </article>
+                <article class="card-content">
+                    <img src="https://placehold.co/600x400/6C757D/FFFFFF?text=Highlighted+2" alt="Highlighted Product 2">
+                    <div class="card-body">
+                        <h3 class="card-title">ชุดหูฟังไร้สาย Pro</h3>
+                        <div class="star-rating">
+                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <div class="review-snippets">
+                            <p class="review-snippet">"เสียงดีมาก ตัดเสียงรบกวนเยี่ยม"</p>
+                            <p class="review-snippet">"แบตอึดสุดๆ"</p>
+                        </div>
+                        <a href="#review-page" class="btn-secondary-link">เขียนรีวิว</a>
+                    </div>
+                </article>
+                <article class="card-content">
+                    <img src="https://placehold.co/600x400/343A40/FFFFFF?text=Highlighted+3" alt="Highlighted Product 3">
+                    <div class="card-body">
+                        <h3 class="card-title">ปากกา Stylus อัจฉริยะ</h3>
+                        <div class="star-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        </div>
+                        <div class="review-snippets">
+                            <p class="review-snippet">"เขียนลื่น ตอบสนองไว"</p>
+                        </div>
+                        <a href="#review-page" class="btn-secondary-link">เขียนรีวิว</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Main Product Grid -->
+        <section class="main-products">
+            <h2>สินค้าทั้งหมด</h2>
+            <div class="product-grid">
+                <!-- Repeat Product Card -->
+                <article class="card-content">
+                    <img src="https://placehold.co/600x400/cccccc/333333?text=Product+A" alt="Product A">
+                    <div class="card-body">
+                        <h3 class="card-title">เมาส์เกมมิ่ง X-Series</h3>
+                        <div class="star-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        </div>
+                        <div class="review-snippets">
+                            <p class="review-snippet">"คลิกมันส์มือดี"</p>
+                        </div>
+                        <a href="#review-page" class="btn-secondary-link">เขียนรีวิว</a>
+                    </div>
+                </article>
+                <article class="card-content">
+                    <img src="https://placehold.co/600x400/cccccc/333333?text=Product+B" alt="Product B">
+                    <div class="card-body">
+                        <h3 class="card-title">คีย์บอร์ด Mechanical RGB</h3>
+                        <div class="star-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="review-snippets">
+                            <p class="review-snippet">"ไฟสวย เสียงเพราะ"</p>
+                             <p class="review-snippet">"คุ้มราคามากครับ"</p>
+                        </div>
+                        <a href="#review-page" class="btn-secondary-link">เขียนรีวิว</a>
+                    </div>
+                </article>
+                <article class="card-content">
+                    <img src="https://placehold.co/600x400/cccccc/333333?text=Product+C" alt="Product C">
+                    <div class="card-body">
+                        <h3 class="card-title">สมุดโน้ตปกแข็ง</h3>
+                         <div class="star-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        </div>
+                        <div class="review-snippets">
+                           <p class="review-snippet">"กระดาษคุณภาพดี เขียนไม่ซึม"</p>
+                        </div>
+                        <a href="#review-page" class="btn-secondary-link">เขียนรีวิว</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+        
+        <!-- Sponsored Products Section -->
+        <section class="sponsored-products">
+            <h2>สินค้าโฆษณา</h2>
+            <div class="product-grid">
+                <article class="card-content">
+                    <div class="card-tag-wrapper">
+                        <img src="https://placehold.co/600x400/FBEAEA/C43A3A?text=Sponsored+1" alt="Sponsored Product 1">
+                        <span class="badge-tag">สินค้าโฆษณา</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">เครื่องฟอกอากาศ Nano-Pure</h3>
+                         <div class="star-rating">
+                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <div class="review-snippets">
+                            <p class="review-snippet">"อากาศในห้องสดชื่นขึ้นเยอะ"</p>
+                        </div>
+                        <a href="#review-page" class="btn-secondary-link">เขียนรีวิว</a>
+                    </div>
+                </article>
+                <article class="card-content">
+                    <div class="card-tag-wrapper">
+                        <img src="https://placehold.co/600x400/FBEAEA/C43A3A?text=Sponsored+2" alt="Sponsored Product 2">
+                        <span class="badge-tag">สินค้าโฆษณา</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">โปรตีนพืช รสช็อกโกแลต</h3>
+                         <div class="star-rating">
+                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+                        </div>
+                         <div class="review-snippets">
+                            <p class="review-snippet">"ละลายง่าย รสชาติใช้ได้"</p>
+                        </div>
+                        <a href="#review-page" class="btn-secondary-link">เขียนรีวิว</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======================= -->
+    <!-- Write Review (Page 2)   -->
+    <!-- ======================= -->
+    <section id="review-page" class="review-page-wrapper">
+        <div class="container">
+            <h2>เขียนรีวิวสำหรับ: <span class="product-title-review">คีย์บอร์ด Mechanical RGB</span></h2>
+            <div class="card-content review-form-card">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label>ให้คะแนนสินค้า:</label>
+                        <div class="star-rating-input">
+                            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"><i class="fas fa-star"></i></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-text">รายละเอียดรีวิว:</label>
+                        <textarea id="review-text" name="review-text" placeholder="เล่าประสบการณ์ของคุณเกี่ยวกับสินค้า..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">ส่งรีวิว</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
