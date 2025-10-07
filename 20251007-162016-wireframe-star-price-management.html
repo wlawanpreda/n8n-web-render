@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STAR - Influencer Rate Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Style Guide Implementation: Muted Red Theme + Liquid Glass Effect */
+        
+        :root {
+            /* Color Palette */
+            --color-brand-primary: #C43A3A;
+            --color-brand-primary-hover: #A52D2D;
+            --color-text-secondary: #6C757D;
+            --color-background-light: #F8F9FA;
+            --color-text-main: #343A40;
+            --color-link: #007BFF;
+            --color-background-white: #FFFFFF;
+            --color-error: #dc3545;
+            --color-success: #28a745;
+            
+            /* Base Styles */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --spacing-unit: 4px;
+
+            /* Glass Effect */
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+            --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            --glass-blur: 10px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background: #f0f2f5; /* A slightly darker background to make glass pop */
+            background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            color: var(--color-text-main);
+            line-height: 1.6;
+            padding: calc(var(--spacing-unit) * 8);
+        }
+
+        .app-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: calc(var(--spacing-unit) * 10);
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: calc(var(--spacing-unit) * 8);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-text-main);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--color-brand-primary);
+            border-bottom: 2px solid var(--color-brand-primary);
+            padding-bottom: calc(var(--spacing-unit) * 2);
+            margin-bottom: calc(var(--spacing-unit) * 6);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: calc(var(--spacing-unit) * 4);
+        }
+
+        /* Card Component (with Glass Effect) */
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--border-radius-base);
+            border: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            padding: calc(var(--spacing-unit) * 6);
+        }
+
+        /* Platform Management Section */
+        #platform-management {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing-unit) * 4);
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: calc(var(--spacing-unit) * 4);
+        }
+
+        .platform-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: calc(var(--spacing-unit) * 3);
+            text-align: center;
+            padding: calc(var(--spacing-unit) * 4);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .platform-card .icon {
+            width: 50px;
+            height: 50px;
+            font-size: 2.5rem;
+            color: var(--color-brand-primary);
+        }
+
+        .platform-card .platform-name {
+            font-weight: 600;
+            color: var(--color-text-main);
+        }
+
+        /* Buttons */
+        .btn {
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-family: var(--font-family-base);
+            border: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn:active {
+             transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: var(--color-background-white);
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-background-white);
+            color: var(--color-text-main);
+            border: 1px solid #ccc;
+        }
+        .btn-secondary:hover {
+             background-color: #f0f0f0;
+        }
+        
+        .btn-configure {
+            background: transparent;
+            color: var(--color-link);
+            border: 1px solid var(--color-link);
+            padding: 4px 12px;
+            font-size: 0.875rem;
+        }
+        .btn-configure:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        /* Pricing Rule Section */
+        #pricing-rules {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing-unit) * 6);
+        }
+
+        .config-selectors {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(var(--spacing-unit) * 4);
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: calc(var(--spacing-unit) * 4);
+        }
+        
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: calc(var(--spacing-unit) * 2);
+            color: var(--color-text-main);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: var(--border-radius-base);
+            border: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.7);
+            font-family: var(--font-family-base);
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--color-brand-primary);
+            box-shadow: 0 0 0 3px rgba(196, 58, 58, 0.2);
+        }
+
+        .validation-error {
+            color: var(--color-error);
+            font-size: 0.875rem;
+            margin-top: var(--spacing-unit);
+            display: block; /* Hidden by default in a real app */
+        }
+
+        /* Table Styling */
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: calc(var(--spacing-unit) * 4);
+        }
+        .pricing-table th,
+        .pricing-table td {
+            padding: calc(var(--spacing-unit) * 3);
+            text-align: left;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .pricing-table th {
+            font-weight: 600;
+        }
+        .pricing-table input[type="number"] {
+            padding: 8px;
+        }
+        .pricing-table .action-cell {
+            text-align: center;
+        }
+        .btn-delete-tier {
+            background: none;
+            border: none;
+            color: var(--color-error);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .add-tier-container {
+            text-align: right;
+        }
+        
+        /* Weight Configuration */
+        .weight-config-form {
+             display: grid;
+             grid-template-columns: repeat(2, 1fr);
+             gap: calc(var(--spacing-unit) * 4);
+        }
+        
+        .hidden-by-default {
+            display: none; /* In a real app, JS would toggle this */
+        }
+
+        /* Tooltip */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip-icon {
+            cursor: help;
+            color: var(--color-text-secondary);
+            margin-left: var(--spacing-unit);
+            font-style: normal;
+            border: 1px solid var(--color-text-secondary);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .tooltip-container .tooltip-text {
+            visibility: hidden;
+            width: 220px;
+            background-color: var(--color-text-main);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Global Sticky Actions */
+        .sticky-actions {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: var(--spacing-unit) * 2;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none; /* Change to 'flex' with JS to show */
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+            padding-bottom: var(--spacing-unit) * 2;
+            margin-bottom: var(--spacing-unit) * 4;
+        }
+        .close-button {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-text-main);
+            cursor: pointer;
+        }
+        .file-uploader p {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-top: var(--spacing-unit);
+        }
+        .checkbox-group {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 4);
+            flex-wrap: wrap;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-unit);
+        }
+        .modal-actions {
+            margin-top: calc(var(--spacing-unit) * 6);
+            display: flex;
+            justify-content: flex-end;
+            gap: calc(var(--spacing-unit) * 2);
+        }
+
+        /* Toast Notification */
+        .toast {
+            visibility: hidden; /* Change to 'visible' with JS */
+            min-width: 250px;
+            background-color: var(--color-text-main);
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1002;
+            right: 20px;
+            top: 20px;
+            font-size: 1rem;
+        }
+        .toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @keyframes fadein { from {top: 0; opacity: 0;} to {top: 20px; opacity: 1;} }
+        @keyframes fadeout { from {top: 20px; opacity: 1;} to {top: 0; opacity: 0;} }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>Influencer Standard Rate Settings (STAR)</h1>
+        </header>
+
+        <main>
+            <!-- SECTION 1: PLATFORM MANAGEMENT -->
+            <section id="platform-management">
+                <h2>Platform Management</h2>
+                <div class="platform-grid">
+                    <!-- Sample Platform Cards -->
+                    <div class="card platform-card">
+                        <div class="icon">📷</div>
+                        <span class="platform-name">Instagram</span>
+                        <button class="btn btn-configure">Configure</button>
+                    </div>
+                    <div class="card platform-card">
+                        <div class="icon">🎵</div>
+                        <span class="platform-name">TikTok</span>
+                        <button class="btn btn-configure">Configure</button>
+                    </div>
+                    <div class="card platform-card">
+                        <div class="icon">▶️</div>
+                        <span class="platform-name">YouTube</span>
+                        <button class="btn btn-configure">Configure</button>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="document.getElementById('add-platform-modal').style.display='flex'">+ Add Platform</button>
+            </section>
+
+            <!-- SECTION 2: PRICING RULE CONFIGURATION -->
+            <section id="pricing-rules">
+                <h2>Pricing Rule Configuration</h2>
+                
+                <div class="config-selectors">
+                    <div class="form-group">
+                        <label for="select-platform">Select Platform</label>
+                        <select id="select-platform">
+                            <option>Instagram</option>
+                            <option>TikTok</option>
+                            <option>YouTube</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="select-content-type">Select Content Type</label>
+                        <select id="select-content-type">
+                            <option>Photo</option>
+                            <option>Short Video</option>
+                            <option>Long Video</option>
+                            <option>Post</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Sub-Section A: Fixed Base Pricing -->
+                <div class="card">
+                    <h3>Fixed Base Pricing</h3>
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Follower Range (From)</th>
+                                <th>Follower Range (To)</th>
+                                <th>Base Price (THB)</th>
+                                <th class="action-cell">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="number" placeholder="10000" value="10000"></td>
+                                <td><input type="number" placeholder="50000" value="50000"></td>
+                                <td><input type="number" placeholder="5000" value="5000"></td>
+                                <td class="action-cell"><button class="btn-delete-tier">&times;</button></td>
+                            </tr>
+                            <tr>
+                                <td><input type="number" placeholder="50001" value="50001"></td>
+                                <td><input type="number" placeholder="100000" value="100000"></td>
+                                <td><input type="number" placeholder="8000" value="8000"></td>
+                                <td class="action-cell"><button class="btn-delete-tier">&times;</button></td>
+                            </tr>
+                             <tr>
+                                <td><input type="number" placeholder="100001"></td>
+                                <td><input type="number" placeholder="500000"></td>
+                                <td>
+                                    <input type="number" placeholder="12000">
+                                    <span class="validation-error">Error: Overlapping range detected.</span>
+                                </td>
+                                <td class="action-cell"><button class="btn-delete-tier">&times;</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="add-tier-container">
+                        <button class="btn btn-secondary">+ Add Tier</button>
+                    </div>
+                </div>
+
+                <!-- Sub-Section B: Weight Configuration -->
+                <div class="card">
+                    <h3>Weight Configuration</h3>
+                    <div class="weight-config-form">
+                        <div class="form-group">
+                            <label for="post-period">Recent Post Period (Days)
+                                <span class="tooltip-container">
+                                    <i class="tooltip-icon">?</i>
+                                    <span class="tooltip-text">Calculates average stats from posts within this period.</span>
+                                </span>
+                            </label>
+                            <input type="number" id="post-period" value="30">
+                        </div>
+                        <div class="form-group">
+                             <label for="engagement-weight">Engagement Weight
+                                <span class="tooltip-container">
+                                    <i class="tooltip-icon">?</i>
+                                    <span class="tooltip-text">Value added per average engagement (like/comment/share).</span>
+                                </span>
+                             </label>
+                             <input type="number" step="0.01" id="engagement-weight" placeholder="e.g., 0.5">
+                        </div>
+                        <div class="form-group"> <!-- This would be shown/hidden by JS -->
+                             <label for="view-weight">View Weight
+                                <span class="tooltip-container">
+                                    <i class="tooltip-icon">?</i>
+                                    <span class="tooltip-text">Value added per average view. (For Video Content Only)</span>
+                                </span>
+                            </label>
+                             <input type="number" step="0.01" id="view-weight" placeholder="e.g., 0.1">
+                        </div>
+                        <div class="form-group">
+                             <label for="er-weight">Engagement Rate Weight
+                                <span class="tooltip-container">
+                                    <i class="tooltip-icon">?</i>
+                                    <span class="tooltip-text">Multiplier for every 1% of Engagement Rate.</span>
+                                </span>
+                            </label>
+                             <input type="number" step="0.01" id="er-weight" placeholder="e.g., 1.2">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- GLOBAL ELEMENTS -->
+    <div class="sticky-actions">
+        <button class="btn btn-secondary">Export to JSON</button>
+        <button class="btn btn-primary">Save All Settings</button>
+    </div>
+
+    <!-- MODAL: Add New Platform -->
+    <div id="add-platform-modal" class="modal">
+        <div class="card modal-content">
+            <div class="modal-header">
+                <h3>Add New Platform</h3>
+                <span class="close-button" onclick="document.getElementById('add-platform-modal').style.display='none'">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="platform-name">Platform Name</label>
+                    <input type="text" id="platform-name" placeholder="e.g., Facebook">
+                </div>
+                <div class="form-group file-uploader">
+                    <label for="platform-icon">Upload Icon</label>
+                    <input type="file" id="platform-icon">
+                    <p>Supported: PNG, JPG, SVG. Max size: 2MB</p>
+                </div>
+                <div class="form-group">
+                    <label>Supported Content Types</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" id="type-photo" checked><label for="type-photo">Photo</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="type-short-video"><label for="type-short-video">Short Video</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="type-long-video"><label for="type-long-video">Long Video</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="type-post" checked><label for="type-post">Post</label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="document.getElementById('add-platform-modal').style.display='none'">Cancel</button>
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast-notification" class="toast">Settings saved successfully!</div>
+
+</body>
+</html>
