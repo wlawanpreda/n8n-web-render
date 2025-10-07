@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STAR - Influencer Price Calculation Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* CSS Style Guide Variables */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --spacing-unit: 4px;
+
+            --color-brand-primary: #C43A3A;
+            --color-brand-primary-hover: #A52D2D;
+            --color-text-secondary: #6C757D;
+            --color-background-light: #F8F9FA;
+            --color-background-white: #FFFFFF;
+            --color-text-main: #343A40;
+            --color-link: #007BFF;
+            --color-disabled: #BDBDBD;
+            --color-border: #DEE2E6;
+
+            /* Glassmorphism Effect */
+            --glass-background: rgba(255, 255, 255, 0.6);
+            --glass-border-color: rgba(255, 255, 255, 0.8);
+            --glass-blur: 10px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--color-text-main);
+            line-height: 1.6;
+            padding: calc(var(--spacing-unit) * 5);
+            padding-bottom: 100px; /* Space for sticky footer */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 calc(var(--spacing-unit) * 4);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: calc(var(--spacing-unit) * 4) 0;
+            margin-bottom: calc(var(--spacing-unit) * 6);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: calc(var(--spacing-unit) * 4);
+            padding-bottom: calc(var(--spacing-unit) * 2);
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: calc(var(--spacing-unit) * 3);
+        }
+        
+        .section {
+            background: var(--glass-background);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-radius: var(--border-radius-base);
+            border: 1px solid var(--glass-border-color);
+            padding: calc(var(--spacing-unit) * 6);
+            margin-bottom: calc(var(--spacing-unit) * 8);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+
+        /* Component: Buttons */
+        .btn {
+            font-family: var(--font-family-base);
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: var(--color-background-white);
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-hover);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-text-secondary);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(108, 117, 125, 0.05);
+            color: var(--color-text-main);
+            border-color: var(--color-text-main);
+        }
+        
+        /* Platform Management Section */
+        .platform-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: calc(var(--spacing-unit) * 4);
+        }
+        .platform-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: calc(var(--spacing-unit) * 5);
+        }
+        .platform-card {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: var(--border-radius-base);
+            padding: calc(var(--spacing-unit) * 4);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing-unit) * 3);
+        }
+        .platform-card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        .platform-card-header {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-unit) * 3);
+        }
+        .platform-card-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--color-background-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .platform-card-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .platform-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: calc(var(--spacing-unit) * 2);
+        }
+        .badge-tag {
+            background-color: #FBEAEA;
+            color: var(--color-brand-primary);
+            border-radius: 100px;
+            padding: 4px 10px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .platform-card-actions {
+            margin-top: auto;
+            padding-top: calc(var(--spacing-unit) * 3);
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            justify-content: flex-end;
+            gap: calc(var(--spacing-unit) * 2);
+        }
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+        }
+        .icon-btn:hover {
+            color: var(--color-text-main);
+        }
+        .icon-btn.delete:hover {
+            color: var(--color-brand-primary);
+        }
+        .icon-btn:disabled {
+            color: var(--color-disabled);
+            cursor: not-allowed;
+        }
+
+        /* Pricing Configuration Section */
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(var(--spacing-unit) * 10);
+        }
+        .form-group {
+            margin-bottom: calc(var(--spacing-unit) * 4);
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: calc(var(--spacing-unit) * 2);
+        }
+        .form-control, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-background-white);
+            font-size: 1rem;
+            font-family: var(--font-family-base);
+        }
+        .form-control:focus, select:focus {
+            outline: none;
+            border-color: var(--color-brand-primary);
+            box-shadow: 0 0 0 2px rgba(196, 58, 58, 0.2);
+        }
+        .form-control:disabled {
+            background-color: var(--color-background-light);
+            cursor: not-allowed;
+        }
+        .tooltip-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--color-text-secondary);
+            color: white;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 18px;
+            cursor: help;
+            margin-left: 8px;
+        }
+        .error-message {
+            color: var(--color-brand-primary);
+            font-size: 0.875rem;
+            margin-top: calc(var(--spacing-unit) * 1);
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: calc(var(--spacing-unit) * 4);
+        }
+        th, td {
+            text-align: left;
+            padding: calc(var(--spacing-unit) * 3);
+            border-bottom: 1px solid var(--color-border);
+        }
+        thead {
+            background-color: var(--color-background-light);
+        }
+        th {
+            font-weight: 600;
+        }
+        .table-actions {
+            text-align: right;
+        }
+        
+        /* Sticky Footer */
+        .sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            padding: calc(var(--spacing-unit) * 4);
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+            text-align: right;
+            border-top: 1px solid var(--glass-border-color);
+        }
+        .sticky-footer .container {
+             padding: 0;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>STAR Price Calculation Settings</h1>
+            <button class="btn btn-secondary">Export Settings (JSON/CSV)</button>
+        </header>
+
+        <main>
+            <!-- 1. Platform Management -->
+            <section class="section">
+                <div class="platform-header">
+                    <h2>1. Platform Management</h2>
+                    <button class="btn btn-primary">+ Add New Platform</button>
+                </div>
+                <div class="platform-list">
+                    <!-- Default Platform Example -->
+                    <div class="platform-card">
+                        <div class="platform-card-header">
+                            <div class="platform-card-icon">FB</div>
+                            <span class="platform-card-name">Facebook</span>
+                        </div>
+                        <div class="platform-card-tags">
+                            <span class="badge-tag">Photo</span>
+                            <span class="badge-tag">Long Video</span>
+                            <span class="badge-tag">Post</span>
+                        </div>
+                        <div class="platform-card-actions">
+                            <button class="icon-btn" title="Edit">✏️</button>
+                            <button class="icon-btn delete" title="Default platforms cannot be deleted" disabled>🗑️</button>
+                        </div>
+                    </div>
+                    <!-- Default Platform Example -->
+                    <div class="platform-card">
+                        <div class="platform-card-header">
+                            <div class="platform-card-icon">IG</div>
+                            <span class="platform-card-name">Instagram</span>
+                        </div>
+                        <div class="platform-card-tags">
+                            <span class="badge-tag">Photo</span>
+                            <span class="badge-tag">Short Video</span>
+                        </div>
+                        <div class="platform-card-actions">
+                             <button class="icon-btn" title="Edit">✏️</button>
+                            <button class="icon-btn delete" title="Default platforms cannot be deleted" disabled>🗑️</button>
+                        </div>
+                    </div>
+                     <!-- Default Platform Example -->
+                    <div class="platform-card">
+                        <div class="platform-card-header">
+                            <div class="platform-card-icon">TT</div>
+                            <span class="platform-card-name">TikTok</span>
+                        </div>
+                        <div class="platform-card-tags">
+                            <span class="badge-tag">Short Video</span>
+                        </div>
+                        <div class="platform-card-actions">
+                             <button class="icon-btn" title="Edit">✏️</button>
+                            <button class="icon-btn delete" title="Default platforms cannot be deleted" disabled>🗑️</button>
+                        </div>
+                    </div>
+                    <!-- Custom Platform Example -->
+                    <div class="platform-card">
+                        <div class="platform-card-header">
+                            <div class="platform-card-icon">LN</div>
+                            <span class="platform-card-name">Lemon8</span>
+                        </div>
+                        <div class="platform-card-tags">
+                            <span class="badge-tag">Photo</span>
+                            <span class="badge-tag">Post</span>
+                        </div>
+                        <div class="platform-card-actions">
+                             <button class="icon-btn" title="Edit">✏️</button>
+                            <button class="icon-btn delete" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Pricing Configuration -->
+            <section class="section">
+                <h2>2. Pricing Configuration</h2>
+                <div class="form-group">
+                    <label for="select-platform">Select Platform</label>
+                    <select id="select-platform">
+                        <option>Facebook</option>
+                        <option>Instagram</option>
+                        <option>TikTok</option>
+                        <option>Lemon8</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="select-content-type">Select Content Type</label>
+                    <select id="select-content-type">
+                        <option>Photo</option>
+                        <option>Long Video</option>
+                        <option>Post</option>
+                    </select>
+                </div>
+                
+                <div class="config-grid">
+                    <div>
+                        <h3>Weight & Variable Settings</h3>
+                        <div class="form-group">
+                            <label for="post-recency">Post Recency (days) <span class="tooltip-icon" title="How many recent days to look back for posts.">?</span></label>
+                            <input type="number" id="post-recency" class="form-control" value="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="engagement-weight">Engagement Weight <span class="tooltip-icon" title="Multiplier for likes, comments, shares.">?</span></label>
+                            <input type="number" step="0.01" id="engagement-weight" class="form-control" placeholder="e.g., 0.4">
+                        </div>
+                        <div class="form-group">
+                            <label for="view-weight">View Weight <span class="tooltip-icon" title="Multiplier for video views. Disabled for non-video types.">?</span></label>
+                            <input type="number" step="0.01" id="view-weight" class="form-control" placeholder="e.g., 0.25" disabled>
+                        </div>
+                         <div class="form-group">
+                            <label for="engagement-rate-weight">Engagement Rate Weight <span class="tooltip-icon" title="Multiplier for engagement relative to followers.">?</span></label>
+                            <input type="number" step="0.01" id="engagement-rate-weight" class="form-control" placeholder="e.g., 0.35">
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3>Follower Tiers & Base Pricing</h3>
+                        <button class="btn btn-primary" style="margin-bottom: 16px;">+ Add Tier</button>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Followers From</th>
+                                    <th>Followers To</th>
+                                    <th>Base Price (THB)</th>
+                                    <th class="table-actions"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="number" class="form-control" value="10000"></td>
+                                    <td><input type="number" class="form-control" value="50000"></td>
+                                    <td><input type="number" class="form-control" value="1500"></td>
+                                    <td class="table-actions"><button class="icon-btn delete" title="Delete Tier">🗑️</button></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="number" class="form-control" value="50001"></td>
+                                    <td><input type="number" class="form-control" value="100000"></td>
+                                    <td><input type="number" class="form-control" value="3000"></td>
+                                    <td class="table-actions"><button class="icon-btn delete" title="Delete Tier">🗑️</button></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="number" class="form-control" value="100001" style="border-color: var(--color-brand-primary);"></td>
+                                    <td><input type="number" class="form-control" value="100000" style="border-color: var(--color-brand-primary);"></td>
+                                    <td><input type="number" class="form-control" placeholder="e.g., 5000"></td>
+                                    <td class="table-actions"><button class="icon-btn delete" title="Delete Tier">🗑️</button></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><p class="error-message">Follower ranges cannot overlap. 'From' must be less than 'To'.</p></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Change History -->
+            <section class="section">
+                <h2>3. Change History</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Editor</th>
+                            <th>Date & Time</th>
+                            <th>Details of Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>admin_user@star.co</td>
+                            <td>2024-10-26 15:30:10</td>
+                            <td>Updated Instagram 'Photo' base price for 100k-500k tier.</td>
+                        </tr>
+                        <tr>
+                            <td>sales_team_lead@star.co</td>
+                            <td>2024-10-26 11:05:23</td>
+                            <td>Changed 'Engagement Weight' for TikTok from 0.4 to 0.45.</td>
+                        </tr>
+                        <tr>
+                            <td>admin_user@star.co</td>
+                            <td>2024-10-25 09:12:44</td>
+                            <td>Added new platform: 'Lemon8' with content types: Photo, Post.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                 <a href="#" style="color: var(--color-link); display: block; text-align: right; margin-top: 16px;">View Full History</a>
+            </section>
+        </main>
+    </div>
+
+    <footer class="sticky-footer">
+        <div class="container">
+            <button class="btn btn-primary">Save All Changes</button>
+        </div>
+    </footer>
+
+</body>
+</html>
