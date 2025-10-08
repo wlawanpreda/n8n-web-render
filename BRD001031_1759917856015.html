@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management System Wireframe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Style Guide Implementation: Muted Red Theme */
+        :root {
+            /* Global Variables */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --spacing-unit: 4px;
+
+            /* Color Palette */
+            --color-brand-primary: #C43A3A;
+            --color-brand-primary-hover: #A52D2D;
+            --color-text-secondary: #6C757D;
+            --color-background-light: #F8F9FA;
+            --color-text-main: #343A40;
+            --color-link: #007BFF;
+            --color-background-white: #FFFFFF;
+            --color-border: #DEE2E6;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background-white);
+            color: var(--color-text-main);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Typography */
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: calc(var(--spacing-unit) * 6); }
+        h2 { font-size: 1.75rem; font-weight: 600; margin-bottom: calc(var(--spacing-unit) * 4); }
+        h3 { font-size: 1.25rem; font-weight: 500; margin-bottom: calc(var(--spacing-unit) * 3); }
+        p { margin-bottom: calc(var(--spacing-unit) * 4); }
+        .metadata { font-size: 0.875rem; color: var(--color-text-secondary); }
+
+        /* Page & Layout */
+        .page {
+            display: none;
+            min-height: 100vh;
+        }
+        .page.active {
+            display: block;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: calc(var(--spacing-unit) * 8);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 8);
+            background-color: var(--color-background-light);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .header-nav a {
+            margin-left: 16px;
+            text-decoration: none;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+        .header-nav a:hover {
+            color: var(--color-brand-primary);
+        }
+        .header-nav .logout-btn {
+            color: var(--color-brand-primary);
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: calc(var(--spacing-unit) * 6);
+        }
+
+        /* Components */
+        .btn {
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-family-base);
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: var(--color-background-white);
+            border-radius: 4px;
+            padding: 12px 24px;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-hover);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-link);
+            border: 1px solid var(--color-link);
+            border-radius: 4px;
+            padding: 8px 16px;
+        }
+        .btn-secondary:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .card {
+            background-color: var(--color-background-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-base);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
+            color: var(--color-text-main);
+            display: block;
+        }
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .card-body {
+            padding: calc(var(--spacing-unit) * 5);
+        }
+        .card-footer {
+            padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 5);
+            background-color: var(--color-background-light);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .badge {
+            display: inline-block;
+            border-radius: 100px;
+            padding: 4px 10px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .badge-urgent {
+            background-color: #FBEAEA;
+            color: var(--color-brand-primary);
+        }
+        .badge-inprogress {
+            background-color: #e0eaff;
+            color: #0045b8;
+        }
+        .badge-done {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: calc(var(--spacing-unit) * 4);
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: calc(var(--spacing-unit) * 2);
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: var(--font-family-base);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-link);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        /* Login Page Specific */
+        #login-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-background-light);
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: calc(var(--spacing-unit) * 8);
+        }
+        
+        /* Dashboard Page Specific */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: calc(var(--spacing-unit) * 6);
+        }
+        
+        /* Project Detail Page Specific */
+        .project-meta {
+            background-color: var(--color-background-light);
+            padding: calc(var(--spacing-unit) * 6);
+            border-radius: var(--border-radius-base);
+            margin-bottom: calc(var(--spacing-unit) * 6);
+        }
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: calc(var(--spacing-unit) * 5);
+        }
+        .kanban-column {
+            background-color: var(--color-background-light);
+            border-radius: var(--border-radius-base);
+            padding: calc(var(--spacing-unit) * 4);
+        }
+        .kanban-column h3 {
+            border-bottom: 2px solid var(--color-border);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .kanban-task {
+            background-color: var(--color-background-white);
+            padding: 12px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
+        }
+        .kanban-task p {
+             margin-bottom: 0;
+             font-size: 0.95rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ======================= Login Page ======================= -->
+    <div id="login-page" class="page active">
+        <div class="card login-card">
+            <div class="card-body">
+                <h1 style="text-align: center;">Login</h1>
+                <p class="metadata" style="text-align: center; margin-bottom: 24px;">Welcome to the Project Management System</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" value="developer@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-control" value="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= Dashboard Page ======================= -->
+    <div id="dashboard-page" class="page">
+        <header class="header">
+            <h3>Project Dashboard</h3>
+            <nav class="header-nav">
+                <span>Welcome, <strong>AI Developer</strong></span>
+                <a href="#" class="nav-link" data-target="profile-page">Profile</a>
+                <a href="#" class="logout-btn">Logout</a>
+            </nav>
+        </header>
+        <div class="container">
+            <div class="page-header">
+                <h2>Your Projects</h2>
+                <button class="btn btn-primary">Create New Project</button>
+            </div>
+            <div class="project-grid">
+                <!-- Project Card 1 -->
+                <a href="#" class="card nav-link" data-target="project-detail-page">
+                    <div class="card-body">
+                        <h3>Website Redesign</h3>
+                        <p class="metadata">Update company website with new branding.</p>
+                    </div>
+                    <div class="card-footer metadata">
+                        <span>Status: <span class="badge badge-inprogress">In Progress</span></span>
+                        <span style="float: right;">Team: 5 Members</span>
+                    </div>
+                </a>
+                <!-- Project Card 2 -->
+                <a href="#" class="card nav-link" data-target="project-detail-page">
+                    <div class="card-body">
+                        <h3>Mobile App Launch</h3>
+                        <p class="metadata">Develop and launch the new iOS and Android app.</p>
+                    </div>
+                    <div class="card-footer metadata">
+                        <span>Status: <span class="badge badge-urgent">Urgent</span></span>
+                        <span style="float: right;">Team: 8 Members</span>
+                    </div>
+                </a>
+                <!-- Project Card 3 -->
+                <a href="#" class="card nav-link" data-target="project-detail-page">
+                    <div class="card-body">
+                        <h3>API Integration</h3>
+                        <p class="metadata">Integrate third-party payment gateway.</p>
+                    </div>
+                    <div class="card-footer metadata">
+                        <span>Status: <span class="badge badge-done">Done</span></span>
+                        <span style="float: right;">Team: 3 Members</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= Project Detail Page ======================= -->
+    <div id="project-detail-page" class="page">
+        <header class="header">
+            <h3>Project Details</h3>
+            <nav class="header-nav">
+                <span>Welcome, <strong>AI Developer</strong></span>
+                <a href="#" class="nav-link" data-target="profile-page">Profile</a>
+                <a href="#" class="logout-btn">Logout</a>
+            </nav>
+        </header>
+        <div class="container">
+            <div class="page-header">
+                <button class="btn btn-secondary nav-link" data-target="dashboard-page">← Back to Dashboard</button>
+                <button class="btn btn-primary">Add New Task</button>
+            </div>
+            <div class="project-meta">
+                <h2>Website Redesign</h2>
+                <p>This project focuses on updating the main company website to align with the new brand identity launched in Q3. Key deliverables include a new UI kit, responsive layouts for all pages, and improved page load performance.</p>
+                <p class="metadata"><strong>Team Members:</strong> A.I. Developer, U.I. Designer, Q.A. Engineer, Project Manager</p>
+            </div>
+
+            <div class="kanban-board">
+                <div class="kanban-column">
+                    <h3>To Do</h3>
+                    <div class="kanban-task"><p>Design Homepage Mockup</p></div>
+                    <div class="kanban-task"><p>Create UI Kit in Figma</p></div>
+                    <div class="kanban-task"><p>Setup Staging Environment</p></div>
+                </div>
+                <div class="kanban-column">
+                    <h3>In Progress</h3>
+                    <div class="kanban-task"><p>Develop Navbar Component</p></div>
+                    <div class="kanban-task"><p>Write User Stories for Checkout Flow</p></div>
+                </div>
+                <div class="kanban-column">
+                    <h3>Done</h3>
+                    <div class="kanban-task"><p>Finalize Project Requirements</p></div>
+                    <div class="kanban-task"><p>Choose Technology Stack</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= User Profile Page ======================= -->
+    <div id="profile-page" class="page">
+        <header class="header">
+            <h3>Profile & Settings</h3>
+            <nav class="header-nav">
+                <span>Welcome, <strong>AI Developer</strong></span>
+                <a href="#" class="nav-link" data-target="profile-page">Profile</a>
+                <a href="#" class="logout-btn">Logout</a>
+            </nav>
+        </header>
+        <div class="container">
+            <button class="btn btn-secondary nav-link" data-target="dashboard-page" style="margin-bottom: 24px;">← Back to Dashboard</button>
+            <div class="card">
+                <div class="card-body">
+                    <h2>Edit Profile</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" class="form-control" value="AI Developer">
+                        </div>
+                        <div class="form-group">
+                            <label for="position">Position</label>
+                            <input type="text" id="position" class="form-control" value="Frontend Developer">
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePic">Profile Picture</label>
+                            <input type="file" id="profilePic" class="form-control">
+                        </div>
+                        <hr style="margin: 24px 0; border: 0; border-top: 1px solid var(--color-border);">
+                        <h2>Change Password</h2>
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password</label>
+                            <input type="password" id="currentPassword" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" id="newPassword" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm New Password</label>
+                            <input type="password" id="confirmPassword" class="form-control">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const loginForm = document.getElementById('login-form');
+            const logoutButtons = document.querySelectorAll('.logout-btn');
+
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                    if (page.id === pageId) {
+                        page.classList.add('active');
+                    }
+                });
+            }
+
+            // Handle Navigation Links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetPageId = this.getAttribute('data-target');
+                    showPage(targetPageId);
+                });
+            });
+
+            // Handle Login
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    showPage('dashboard-page');
+                });
+            }
+
+            // Handle Logout
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    showPage('login-page');
+                });
+            });
+
+            // Initially show the login page
+            showPage('login-page');
+        });
+    </script>
+
+</body>
+</html>
