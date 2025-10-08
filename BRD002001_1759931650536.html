@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Catalog Wireframe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /
+        /* CSS Style Guide Implementation */
+        :root {
+            /* Global Variables */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --spacing-unit: 4px;
+
+            /* Color Palette */
+            --color-brand-primary: #C43A3A;
+            --color-brand-primary-hover: #A52D2D;
+            --color-text-secondary: #6C757D;
+            --color-background-light: #F8F9FA;
+            --color-background-white: #FFFFFF;
+            --color-text-main: #343A40;
+            --color-link: #007BFF;
+            --color-border: #DEE2E6;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background-white);
+            color: var(--color-text-main);
+            margin: 0;
+            line-height: 1.6;
+            font-size: 1.0rem; /* 16px */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: calc(var(--spacing-unit) * 6);
+        }
+
+        /* Typography */
+        h1 { font-size: 2.5rem; font-weight: 700; }
+        h2 { font-size: 1.75rem; font-weight: 600; margin-top: 0; margin-bottom: calc(var(--spacing-unit) * 4); }
+        h3 { font-size: 1.25rem; font-weight: 500; margin-top: 0; margin-bottom: calc(var(--spacing-unit) * 2); }
+        p { margin-top: 0; }
+        .text-meta { font-size: 0.875rem; color: var(--color-text-secondary); }
+
+        /* Component: Button */
+        .btn {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid transparent;
+            font-family: var(--font-family-base);
+            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+            border-radius: 4px;
+            padding: 12px 24px;
+            font-weight: 600;
+            border: none;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-hover);
+        }
+
+        /* Component: Product Card */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: calc(var(--spacing-unit) * 6);
+        }
+
+        .product-card {
+            background-color: var(--color-background-light);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-base);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .product-card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+        .product-card__image {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            background-color: #e0e0e0;
+        }
+        .product-card__content {
+            padding: calc(var(--spacing-unit) * 4);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card__name {
+            font-size: 1.1rem; /* Slightly smaller than H3 */
+            font-weight: 600;
+            color: var(--color-text-main);
+            margin-bottom: calc(var(--spacing-unit) * 2);
+        }
+        .product-card__price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-brand-primary);
+            margin-bottom: calc(var(--spacing-unit) * 2);
+        }
+        .product-card__rating {
+            color: #FFC107;
+            margin-bottom: calc(var(--spacing-unit) * 3);
+        }
+        .product-card__reviews {
+            margin-top: auto;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            border-top: 1px solid var(--color-border);
+            padding-top: calc(var(--spacing-unit) * 3);
+        }
+        .product-card__review-item {
+            margin-bottom: calc(var(--spacing-unit) * 1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        /* Component: Sponsored Badge */
+        .product-card--sponsored .product-card__badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #FBEAEA;
+            color: var(--color-brand-primary);
+            border-radius: 100px;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* --- Page Specific Styles --- */
+        .page { display: block; }
+        .page.hidden { display: none; }
+
+        /* Homepage Sections */
+        .section { padding: calc(var(--spacing-unit) * 8) 0; }
+        .section-light { background-color: var(--color-background-light); }
+        .hero-banner {
+            background-color: var(--color-text-secondary);
+            color: white;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: var(--border-radius-base);
+        }
+        .brand-showcase__grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 20px;
+            filter: grayscale(100%);
+            opacity: 0.6;
+        }
+        .brand-logo { height: 40px; }
+        .loading-indicator {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+        }
+        .loading-indicator i {
+            margin-right: 10px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Search/Filter Page */
+        .search-page-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: calc(var(--spacing-unit) * 8);
+        }
+        .filters-sidebar { border-right: 1px solid var(--color-border); padding-right: calc(var(--spacing-unit) * 6); }
+        .filter-group { margin-bottom: calc(var(--spacing-unit) * 6); }
+        .filter-group h3 { border-bottom: 2px solid var(--color-brand-primary); padding-bottom: calc(var(--spacing-unit) * 2); }
+        .filter-group ul { list-style: none; padding: 0; }
+        .filter-group li { margin-bottom: calc(var(--spacing-unit) * 2); }
+        .sort-controls { display: flex; justify-content: flex-end; margin-bottom: calc(var(--spacing-unit) * 4); }
+        .sort-controls select {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--color-border);
+            font-family: var(--font-family-base);
+        }
+
+        /* Review Submission Page */
+        .review-page-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+        .review-product-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background-color: var(--color-background-light);
+            border-radius: var(--border-radius-base);
+            margin-bottom: 30px;
+        }
+        .review-product-info img { width: 100px; height: 100px; object-fit: cover; border-radius: 4px; }
+        .review-form .star-rating-input {
+            font-size: 2.5rem;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .review-form .star-rating-input .fa-star:hover,
+        .review-form .star-rating-input .fa-star.selected {
+            color: #FFC107;
+        }
+        .review-form textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            font-family: var(--font-family-base);
+            font-size: 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-base);
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--color-link);
+            text-decoration: none;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        /* NEW: Product Detail Page */
+        .product-detail-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: calc(var(--spacing-unit) * 10);
+            margin-top: calc(var(--spacing-unit) * 6);
+        }
+        @media (min-width: 768px) {
+            .product-detail-layout {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .product-detail__image-gallery img {
+            width: 100%;
+            border-radius: var(--border-radius-base);
+            border: 1px solid var(--color-border);
+        }
+        .product-detail__info h1 {
+            font-size: 2.2rem;
+            margin-bottom: calc(var(--spacing-unit) * 2);
+        }
+        .product-detail__price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-brand-primary);
+            margin: calc(var(--spacing-unit) * 4) 0;
+        }
+        .product-detail__brand {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+        }
+        .product-detail__brand a {
+            color: var(--color-link);
+            text-decoration: none;
+        }
+        .product-detail__brand a:hover { text-decoration: underline; }
+        .product-detail__options { margin-bottom: calc(var(--spacing-unit) * 6); }
+        .option-group { margin-bottom: calc(var(--spacing-unit) * 4); }
+        .option-group label { display: block; font-weight: 600; margin-bottom: calc(var(--spacing-unit) * 2); }
+        .option-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-background-white);
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 8px;
+            font-family: var(--font-family-base);
+        }
+        .option-btn.active {
+            border-color: var(--color-brand-primary);
+            background-color: #fef4f4;
+            font-weight: 600;
+            box-shadow: 0 0 0 1px var(--color-brand-primary);
+        }
+        .coupon-list, .promo-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .coupon-item, .promo-item {
+            border: 1px dashed var(--color-brand-primary);
+            padding: 12px;
+            border-radius: var(--border-radius-base);
+            background-color: #fef4f4;
+            font-size: 0.9rem;
+        }
+        .brand-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border-radius: var(--border-radius-base);
+        }
+        .review-list .review-item {
+             border-bottom: 1px solid var(--color-border);
+             padding: 16px 0;
+        }
+         .review-list .review-item:last-child {
+             border-bottom: none;
+        }
+        .qa-item {
+             border-bottom: 1px solid var(--color-border);
+             padding: 16px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =================================== HOMEPAGE =================================== -->
+    <div id="page-home" class="page">
+        <header class="container" style="padding-top: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--color-border);">
+            <h1>E-Catalog</h1>
+        </header>
+        
+        <main>
+            <section class="section">
+                <div class="container">
+                    <div class="hero-banner">
+                        <div>
+                            <h2>Biggest Sale of the Season!</h2>
+                            <p>Get up to 50% off on selected items.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="section section-light">
+                <div class="container">
+                    <div class="brand-showcase__grid">
+                        <img src="https://via.placeholder.com/150x50/cccccc/808080?text=Brand+A" alt="Brand A" class="brand-logo">
+                        <img src="https://via.placeholder.com/150x50/cccccc/808080?text=Brand+B" alt="Brand B" class="brand-logo">
+                        <img src="https://via.placeholder.com/150x50/cccccc/808080?text=Brand+C" alt="Brand C" class="brand-logo">
+                        <img src="https://via.placeholder.com/150x50/cccccc/808080?text=Brand+D" alt="Brand D" class="brand-logo">
+                        <img src="https://via.placeholder.com/150x50/cccccc/808080?text=Brand+E" alt="Brand E" class="brand-logo">
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <h2>Trending Products</h2>
+                    <p class="text-meta">Popular choices from our customers this week</p>
+                    <div class="product-grid" id="product-listing-container">
+                        <!-- Product cards will be injected here by JS -->
+                    </div>
+                    <div id="loading-indicator" class="loading-indicator" style="display: none;">
+                        <i class="fas fa-spinner"></i> Loading more products...
+                    </div>
+                     <div id="sentinel"></div>
+                </div>
+            </section>
+             <section class="section section-light">
+                <div class="container">
+                    <h2>Ready to Find More?</h2>
+                    <p>Apply filters to see products tailored for you.</p>
+                    <button class="btn btn-primary" onclick="navigateTo('page-search')">Go to Filter & Search Page</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- =================================== SEARCH / FILTER RESULTS PAGE =================================== -->
+    <div id="page-search" class="page hidden">
+        <div class="container">
+            <a href="#" onclick="event.preventDefault(); navigateTo('page-home')" class="back-link">&lt; Back to Home</a>
+            <h1>Search Results</h1>
+            <div class="search-page-layout">
+                <aside class="filters-sidebar">
+                    <div class="filter-group">
+                        <h3>Category</h3>
+                         <ul>
+                            <li><label><input type="checkbox" checked> Electronics</label></li>
+                            <li><label><input type="checkbox"> Books</label></li>
+                            <li><label><input type="checkbox"> Home & Kitchen</label></li>
+                            <li><label><input type="checkbox"> Fashion</label></li>
+                        </ul>
+                    </div>
+                    <div class="filter-group">
+                        <h3>Brand</h3>
+                        <ul>
+                            <li><label><input type="checkbox"> Brand A</label></li>
+                            <li><label><input type="checkbox"> Brand B</label></li>
+                            <li><label><input type="checkbox" checked> Brand C</label></li>
+                        </ul>
+                    </div>
+                     <div class="filter-group">
+                        <h3>Price Range</h3>
+                        <input type="range" min="0" max="10000" style="width: 100%;">
+                    </div>
+                </aside>
+                <main class="search-results-content">
+                    <div class="sort-controls">
+                        <label for="sort-by">Sort by: </label>
+                        <select id="sort-by">
+                            <option>Popularity</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Rating</option>
+                        </select>
+                    </div>
+                    <div class="product-grid">
+                        <!-- Filtered products appear here -->
+                         <div class="product-card" onclick="navigateTo('page-product-detail')">
+                            <img class="product-card__image" src="https://via.placeholder.com/300x400/94B49F/FFFFFF?text=Filtered+1" alt="Product Image">
+                            <div class="product-card__content">
+                                <h3 class="product-card__name">Filtered Product 1</h3>
+                                <div class="product-card__price">฿2,499</div>
+                                <div class="product-card__rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                </div>
+                                <div class="product-card__reviews">
+                                    <div class="product-card__review-item">"Amazing quality!"</div>
+                                    <div class="product-card__review-item">"Worth every penny."</div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="product-card product-card--sponsored" onclick="navigateTo('page-product-detail')">
+                            <div class="product-card__badge">Sponsored</div>
+                            <img class="product-card__image" src="https://via.placeholder.com/300x400/CEE5D0/FFFFFF?text=Sponsored" alt="Product Image">
+                            <div class="product-card__content">
+                                <h3 class="product-card__name">Sponsored Filtered Product</h3>
+                                <div class="product-card__price">฿3,150</div>
+                                <div class="product-card__rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <div class="product-card__reviews">
+                                    <div class="product-card__review-item">"This is a paid placement but good."</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    
+    <!-- =================================== PRODUCT DETAIL PAGE =================================== -->
+    <div id="page-product-detail" class="page hidden">
+        <div class="container">
+            <a href="#" onclick="event.preventDefault(); navigateTo('page-home');" class="back-link">&lt; Back to Catalog</a>
+            <div class="product-detail-layout">
+                <!-- Left Column: Image -->
+                <div class="product-detail__image-gallery">
+                    <img id="detail-product-image" src="https://via.placeholder.com/600x800/343A40/FFFFFF?text=Product+Cover" alt="Product Image">
+                </div>
+                <!-- Right Column: Info -->
+                <div class="product-detail__info">
+                    <h1>Modern Smartphone Pro</h1>
+                    <div class="product-detail__brand">by <a href="#">Brand A</a></div>
+                    <div class="product-detail__price">฿28,500</div>
+                    <div class="product-detail__options">
+                        <div class="option-group">
+                            <label>Color:</label>
+                            <button class="option-btn active">Midnight Black</button>
+                            <button class="option-btn">Starlight White</button>
+                            <button class="option-btn">Pacific Blue</button>
+                        </div>
+                        <div class="option-group">
+                            <label>Size:</label>
+                            <button class="option-btn">128GB</button>
+                            <button class="option-btn active">256GB</button>
+                        </div>
+                    </div>
+                     <button class="btn btn-primary" style="width: 100%; font-size: 1.2rem; padding: 15px;">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Coupons Section -->
+            <section class="section">
+                <h2>Related Coupons</h2>
+                <div class="coupon-list">
+                    <div class="coupon-item">Get ฿100 Off</div>
+                    <div class="coupon-item">10% Off Electronics</div>
+                </div>
+            </section>
+
+            <!-- Promotions Section -->
+            <section class="section section-light">
+                <h2>Related Promotions</h2>
+                <div class="promo-list">
+                    <div class="promo-item">Buy 1 Get 1 Free on accessories</div>
+                    <div class="promo-item">Free shipping on orders over ฿1000</div>
+                </div>
+            </section>
+
+            <!-- Product Description -->
+            <section class="section">
+                <h2>Product Details</h2>
+                <p>This is a detailed description of the Modern Smartphone Pro. It features the latest A18 Bionic chip, a stunning ProMotion XDR display, and a professional-grade camera system that captures incredible photos and videos. Built with durable ceramic shield front cover, tougher than any smartphone glass. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </section>
+            
+            <!-- Recommended Products -->
+            <section class="section section-light">
+                <h2>Recommended for You</h2>
+                <div class="product-grid">
+                    <!-- Sample recommended products -->
+                    <div class="product-card" onclick="navigateTo('page-product-detail')"> <img class="product-card__image" src="https://via.placeholder.com/300x400/6C757D/FFFFFF?text=Watch" alt="Classic Leather Watch"><div class="product-card__content"><h3 class="product-card__name">Classic Leather Watch</h3><div class="product-card__price">฿8,200</div></div></div>
+                    <div class="product-card" onclick="navigateTo('page-product-detail')"> <img class="product-card__image" src="https://via.placeholder.com/300x400/28A745/FFFFFF?text=Earbuds" alt="Wireless Bluetooth Earbuds"><div class="product-card__content"><h3 class="product-card__name">Wireless Bluetooth Earbuds</h3><div class="product-card__price">฿2,990</div></div></div>
+                    <div class="product-card" onclick="navigateTo('page-product-detail')"> <img class="product-card__image" src="https://via.placeholder.com/300x400/007BFF/FFFFFF?text=TV" alt="4K Ultra HD Smart TV"><div class="product-card__content"><h3 class="product-card__name">4K Ultra HD Smart TV</h3><div class="product-card__price">฿35,990</div></div></div>
+                </div>
+            </section>
+
+            <!-- Brand Info -->
+            <section class="section">
+                <h2>About The Brand</h2>
+                <div class="brand-info">
+                     <img src="https://via.placeholder.com/150x50/cccccc/808080?text=Brand+A" alt="Brand A" class="brand-logo" style="filter: none; opacity: 1;">
+                     <p>Brand A is a leading innovator in consumer electronics, dedicated to creating products that enrich people's lives. Founded in 1995, we have been at the forefront of technology, pushing boundaries and setting new standards in the industry.</p>
+                </div>
+            </section>
+            
+            <!-- Q&A Section -->
+            <section class="section section-light">
+                <h2>Questions & Answers</h2>
+                 <div class="qa-item">
+                    <p><strong>Q:</strong> Does it support 5G?</p>
+                    <p><strong>A:</strong> Yes, it supports all major 5G bands for super-fast downloads and streaming.</p>
+                </div>
+                <div class="qa-item">
+                    <p><strong>Q:</strong> Is the charger included in the box?</p>
+                    <p><strong>A:</strong> To reduce environmental impact, the power adapter is sold separately. A USB-C to Lightning cable is included.</p>
+                </div>
+            </section>
+
+            <!-- Reviews Section -->
+            <section class="section">
+                <h2>Customer Reviews</h2>
+                <div class="review-list">
+                    <div class="review-item">
+                        <div class="product-card__rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p><strong>Amazing Phone!</strong> - The camera quality is outstanding, and the battery lasts all day. Highly recommended!</p>
+                        <span class="text-meta">by John D. on 15 May 2024</span>
+                    </div>
+                     <div class="review-item">
+                        <div class="product-card__rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
+                        <p><strong>Great value</strong> - Very fast and responsive. The screen is beautiful. My only complaint is that it's a bit heavy.</p>
+                        <span class="text-meta">by Jane S. on 12 May 2024</span>
+                    </div>
+                </div>
+                <br>
+                <button class="btn btn-primary" onclick="navigateTo('page-review')">Write a Review</button>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- =================================== REVIEW SUBMISSION PAGE =================================== -->
+    <div id="page-review" class="page hidden">
+        <div class="container review-page-wrapper">
+             <a href="#" onclick="event.preventDefault(); navigateTo('page-product-detail')" class="back-link">&lt; Back to Product</a>
+            <h2>Write a Review</h2>
+            <div class="review-product-info">
+                <img id="review-product-image" src="https://via.placeholder.com/300x400/343A40/FFFFFF?text=Product" alt="Product to review">
+                <h3 id="review-product-name">Modern Smartphone Pro</h3>
+            </div>
+            <form class="review-form" onsubmit="event.preventDefault(); alert('Review Submitted! Returning to product page.'); navigateTo('page-product-detail');">
+                <div class="form-group">
+                    <label>Your Rating</label>
+                    <div class="star-rating-input" id="star-rating-input">
+                        <i class="far fa-star" data-value="1"></i>
+                        <i class="far fa-star" data-value="2"></i>
+                        <i class="far fa-star" data-value="3"></i>
+                        <i class="far fa-star" data-value="4"></i>
+                        <i class="far fa-star" data-value="5"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="review-text">Your Review</label>
+                    <textarea id="review-text" placeholder="Tell us what you think about this product..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+<script>
+    const products = [
+        { name: 'Modern Smartphone Pro', price: '฿28,500', image: 'https://via.placeholder.com/300x400/343A40/FFFFFF?text=Phone', rating: 5, reviews: [`"Fast and sleek!"`, `"Best camera ever."`], sponsored: false },
+        { name: 'Classic Leather Watch', price: '฿8,200', image: 'https://via.placeholder.com/300x400/6C757D/FFFFFF?text=Watch', rating: 4.5, reviews: [`"Looks very premium."`, `"Goes with everything."`], sponsored: false },
+        { name: 'Pro Gaming Headset (Sponsored)', price: '฿4,500', image: 'https://via.placeholder.com/300x400/C43A3A/FFFFFF?text=Sponsor', rating: 4, reviews: [`"Great sound for the price."`], sponsored: true },
+        { name: 'Ergonomic Office Chair', price: '฿6,750', image: 'https://via.placeholder.com/300x400/F8F9FA/343A40?text=Chair', rating: 5, reviews: [`"My back pain is gone!"`, `"Very comfortable for long hours."`], sponsored: false },
+        { name: '4K Ultra HD Smart TV', price: '฿35,990', image: 'https://via.placeholder.com/300x400/007BFF/FFFFFF?text=TV', rating: 4.5, reviews: [`"Incredible picture quality."`], sponsored: false },
+        { name: 'Wireless Bluetooth Earbuds', price: '฿2,990', image: 'https://via.placeholder.com/300x400/28A745/FFFFFF?text=Earbuds', rating: 4, reviews: [`"Good battery life."`, `"Connects easily."`], sponsored: false },
+    ];
+
+    function renderStars(rating) {
+        let stars = '';
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 !== 0;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        for(let i = 0; i < fullStars; i++) stars += '<i class="fas fa-star"></i>';
+        if(halfStar) stars += '<i class="fas fa-star-half-alt"></i>';
+        for(let i = 0; i < emptyStars; i++) stars += '<i class="far fa-star"></i>';
+        return stars;
+    }
+
+    function createProductCard(product) {
+        const reviewsHTML = product.reviews.map(r => `<div class="product-card__review-item">${r}</div>`).join('');
+        const sponsoredClass = product.sponsored ? 'product-card--sponsored' : '';
+        const sponsoredBadge = product.sponsored ? '<div class="product-card__badge">Sponsored</div>' : '';
+
+        return `
+            <div class="product-card ${sponsoredClass}" onclick="navigateTo('page-product-detail')">
+                ${sponsoredBadge}
+                <img class="product-card__image" src="${product.image}" alt="${product.name}">
+                <div class="product-card__content">
+                    <h3 class="product-card__name">${product.name}</h3>
+                    <div class="product-card__price">${product.price}</div>
+                    <div class="product-card__rating">${renderStars(product.rating)}</div>
+                    <div class="product-card__reviews">${reviewsHTML}</div>
+                </div>
+            </div>
+        `;
+    }
+
+    const productContainer = document.getElementById('product-listing-container');
+    let productsLoaded = 0;
+
+    function loadProducts(count = 6) {
+        const loadingIndicator = document.getElementById('loading-indicator');
+        loadingIndicator.style.display = 'block';
+
+        setTimeout(() => {
+            let fragment = '';
+            const end = Math.min(productsLoaded + count, products.length * 5); // Simulate a larger pool of products
+            for (let i = productsLoaded; i < end; i++) {
+                fragment += createProductCard(products[i % products.length]);
+            }
+            productContainer.innerHTML += fragment;
+            productsLoaded = end;
+            loadingIndicator.style.display = 'none';
+        }, 1500); // Simulate network delay
+    }
+
+    // --- Page Navigation Logic ---
+    const pages = document.querySelectorAll('.page');
+    function navigateTo(pageId) {
+        window.scrollTo(0, 0);
+        pages.forEach(page => {
+            if (page.id === pageId) {
+                page.classList.remove('hidden');
+            } else {
+                page.classList.add('hidden');
+            }
+        });
+    }
+
+    // --- Interactive Star Rating Logic ---
+    const stars = document.querySelectorAll('#star-rating-input .fa-star');
+    stars.forEach(star => {
+        star.addEventListener('mouseover', (e) => {
+            const rating = e.target.dataset.value;
+            stars.forEach(s => {
+                s.classList.remove('fas');
+                s.classList.add('far');
+                if(s.dataset.value <= rating) {
+                    s.classList.add('selected');
+                } else {
+                    s.classList.remove('selected');
+                }
+            });
+        });
+        star.addEventListener('mouseout', () => {
+             stars.forEach(s => s.classList.remove('selected'));
+        });
+        star.addEventListener('click', (e) => {
+            const rating = e.target.dataset.value;
+            stars.forEach(s => {
+                s.classList.remove('fas', 'selected');
+                s.classList.add('far');
+                if (s.dataset.value <= rating) {
+                    s.classList.remove('far');
+                    s.classList.add('fas');
+                }
+            });
+        });
+    });
+
+    // --- Lazy Load Logic ---
+    const sentinel = document.getElementById('sentinel');
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            loadProducts();
+        }
+    });
+    observer.observe(sentinel);
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', () => {
+        loadProducts();
+    });
+
+</script>
+</body>
+</html>
