@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF--8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Product Review System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Global Variables */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --border-radius-small: 4px;
+            --spacing-unit: 4px;
+            --transition-base: all 0.3s ease;
+
+            /* Color Palette */
+            --color-brand-primary: #ED1C24;
+            --color-brand-primary-hover: #D41920;
+            --color-background-gray: #F2F3F5;
+            --color-background-white: #FFFFFF;
+            --color-background-light-pink: #FBEAEA;
+            --color-text-main: #343A40;
+            --color-text-secondary: #6C757D;
+            --color-text-light: #999999;
+            --color-border-light: #E0E0E0;
+            --color-star-yellow: #FFC107;
+        }
+
+        /* Base & Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background-gray);
+            color: var(--color-text-main);
+            font-size: 1rem; /* 16px */
+            line-height: 1.6;
+        }
+        
+        h1 {
+            font-size: 2rem; /* 32px */
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-size: 1.5rem; /* 24px */
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        h3 {
+            font-size: 1.125rem; /* 18px */
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        p, div, span {
+            font-size: 1rem; /* 16px */
+            font-weight: 400;
+        }
+        
+        .text-small {
+             font-size: 0.875rem; /* 14px */
+             line-height: 1.5;
+        }
+        
+        .text-caption {
+            font-size: 0.75rem; /* 12px */
+            line-height: 1.4;
+        }
+        
+        .text-secondary {
+            color: var(--color-text-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Generic Components */
+        .card {
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            font-family: var(--font-family-base);
+            border: none;
+            border-radius: var(--border-radius-small);
+            padding: 10px 24px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-base);
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-hover);
+        }
+        
+        .btn-secondary {
+            background-color: var(--color-background-light-pink);
+            color: var(--color-brand-primary);
+            border: 1px solid var(--color-brand-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #F5D5D5;
+        }
+        
+        .btn-cancel {
+            background-color: transparent;
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border-light);
+        }
+
+        .btn-cancel:hover {
+            background-color: var(--color-background-gray);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: var(--color-background-white);
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-small);
+            padding: 8px 32px 8px 12px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            color: var(--color-text-main);
+        }
+        
+        .dropdown::after {
+            content: '▼';
+            font-size: 10px;
+            color: var(--color-text-secondary);
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        /* Utility Classes */
+        .d-flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .align-center { align-items: center; }
+        .gap-1 { gap: 8px; }
+        .gap-2 { gap: 16px; }
+        .gap-3 { gap: 24px; }
+        .mb-1 { margin-bottom: 8px; }
+        .mb-2 { margin-bottom: 16px; }
+        .mb-3 { margin-bottom: 24px; }
+        .mt-1 { margin-top: 8px; }
+        .mt-2 { margin-top: 16px; }
+        .mt-3 { margin-top: 24px; }
+        .w-100 { width: 100%; }
+        
+        .placeholder-image {
+            background-color: #E0E0E0; /* Lighter gray for placeholder */
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-light);
+            font-size: 0.875rem;
+        }
+
+        .page-switcher {
+            background: var(--color-background-white);
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* --- 1. Product Detail Page --- */
+        #product-page, #dashboard-page {
+            display: none;
+        }
+        #product-page.active, #dashboard-page.active {
+            display: block;
+        }
+        
+        .product-header .placeholder-image {
+            width: 100%;
+            height: 400px;
+            border-radius: var(--border-radius-base);
+        }
+
+        /* Review Summary Section */
+        .review-summary {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 32px;
+            align-items: center;
+            border-bottom: 1px solid var(--color-border-light);
+            padding-bottom: 24px;
+        }
+        
+        .summary-score {
+            text-align: center;
+        }
+        
+        .summary-score .avg-rating {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-text-main);
+        }
+        
+        .summary-score .star-rating {
+            font-size: 1.5rem;
+            color: var(--color-star-yellow);
+        }
+        
+        .summary-distribution .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        
+        .summary-distribution .progress-bar {
+            flex-grow: 1;
+            background-color: var(--color-background-gray);
+            border-radius: 100px;
+            height: 8px;
+            overflow: hidden;
+        }
+        
+        .summary-distribution .progress-fill {
+            background-color: var(--color-star-yellow);
+            height: 100%;
+            border-radius: 100px;
+        }
+
+        /* Review List Section */
+        .review-controls {
+            padding: 16px 0;
+        }
+
+        .review-card {
+            border-bottom: 1px solid var(--color-border-light);
+            padding: 24px 0;
+        }
+        
+        .review-card:last-child {
+            border-bottom: none;
+        }
+
+        .review-card-header .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #E0E0E0;
+            margin-right: 12px;
+        }
+
+        .review-card-header .user-name {
+            font-weight: 600;
+        }
+        
+        .review-card .star-rating .star {
+            color: var(--color-star-yellow);
+        }
+
+        .review-images {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        .review-images .img-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .merchant-reply {
+            background-color: var(--color-background-light-pink);
+            border-left: 4px solid var(--color-brand-primary);
+            padding: 16px;
+            border-radius: var(--border-radius-small);
+            margin-top: 16px;
+        }
+        
+        .merchant-reply .reply-header {
+            font-weight: 600;
+            color: var(--color-brand-primary);
+        }
+
+        /* --- 2. Write Review Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--color-background-white);
+            padding: 32px;
+            border-radius: var(--border-radius-base);
+            width: 90%;
+            max-width: 600px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .form-rating .stars {
+            font-size: 2.5rem;
+            color: var(--color-text-light);
+            cursor: pointer;
+        }
+        
+        .form-rating .stars .star:hover,
+        .form-rating .stars .star.selected {
+            color: var(--color-star-yellow);
+        }
+
+        .form-group textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-small);
+            font-family: var(--font-family-base);
+            font-size: 1rem;
+            resize: vertical;
+        }
+        
+        .form-group textarea:focus {
+            border-color: var(--color-brand-primary);
+            outline: none;
+        }
+        
+        #char-counter {
+            text-align: right;
+            color: var(--color-text-secondary);
+        }
+
+        .image-uploader-box {
+            border: 2px dashed var(--color-border-light);
+            border-radius: var(--border-radius-base);
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        
+        .image-uploader-box:hover {
+            border-color: var(--color-brand-primary);
+            background-color: var(--color-background-light-pink);
+        }
+        
+        #image-preview-container {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .img-preview-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+        
+        .img-preview-wrapper .placeholder-image {
+            border-radius: var(--border-radius-small);
+        }
+
+        .delete-img-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background-color: var(--color-brand-primary);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* --- 3. Merchant Dashboard --- */
+        #dashboard-page .layout {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background-color: var(--color-background-white);
+            border-right: 1px solid var(--color-border-light);
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 24px;
+        }
+        
+        .main-content {
+            margin-left: 240px;
+            padding: 24px;
+            width: calc(100% - 240px);
+        }
+        
+        .page-header {
+             background-color: var(--color-background-white);
+             padding: 20px 24px;
+             border-radius: var(--border-radius-base);
+             margin-bottom: 24px;
+             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .filter-bar {
+            gap: 16px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-small);
+            font-size: 0.9375rem;
+            transition: var(--transition-base);
+        }
+
+        .form-input:focus {
+            border-color: var(--color-brand-primary); 
+            outline: none;
+        }
+
+        .review-item-merchant {
+            border-bottom: 1px solid var(--color-border-light);
+            padding: 16px 0;
+        }
+        .review-item-merchant:last-child { border-bottom: none; }
+        
+        .review-item-merchant .product-info .placeholder-image {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--border-radius-small);
+        }
+        
+        .reply-form {
+            margin-top: 16px;
+            display: none;
+        }
+        
+        .reply-form textarea {
+            width: 100%;
+            min-height: 80px;
+            margin-bottom: 8px;
+            padding: 12px;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-small);
+            font-family: var(--font-family-base);
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        /* --- 4. Notifications --- */
+        #notification-icon {
+            position: fixed;
+            top: 18px;
+            right: 100px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 101;
+        }
+        
+        #notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background-color: var(--color-brand-primary);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .notification-panel {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            width: 350px;
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+            overflow: hidden;
+        }
+        
+        .notification-panel.active { display: block; }
+        
+        .notification-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+        
+        .notification-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .notification-item {
+            padding: 16px;
+            border-bottom: 1px solid var(--color-border-light);
+            display: flex;
+            gap: 12px;
+            font-size: 0.875rem;
+        }
+        
+        .notification-item:last-child { border-bottom: none; }
+        
+        .notification-item.alert-ai { background-color: var(--color-background-light-pink); }
+        .notification-item .icon { font-size: 1.25rem; }
+    </style>
+</head>
+<body>
+
+    <div class="page-switcher">
+        <strong>Wireframe Prototype:</strong>
+        <button id="show-product-btn" class="btn btn-secondary">1. Product Detail Page (Customer View)</button>
+        <button id="show-dashboard-btn" class="btn btn-secondary">2. Merchant Dashboard (Seller View)</button>
+    </div>
+
+    <div id="notification-icon" title="Notifications">
+        <span>🔔</span>
+        <div id="notification-badge">3</div>
+    </div>
+
+    <div class="notification-panel" id="notification-panel">
+        <div class="notification-header">
+            <h3>การแจ้งเตือน</h3>
+        </div>
+        <div class="notification-list">
+            <div class="notification-item">
+                <span class="icon">💬</span>
+                <div>
+                    <strong>ร้านค้า ตอบกลับรีวิวของคุณ</strong>
+                    <p class="text-secondary text-small">"ขอบคุณสำหรับรีวิวครับ..." ในสินค้า "เสื้อยืดคอกลม"</p>
+                </div>
+            </div>
+             <div class="notification-item alert-ai">
+                <span class="icon">🤖</span>
+                <div>
+                    <strong>รีวิวของคุณอาจมีคำไม่เหมาะสม</strong>
+                    <p class="text-secondary text-small">ระบบ AI ตรวจพบบางส่วนของข้อความ โปรดตรวจสอบและแก้ไข</p>
+                </div>
+            </div>
+            <div class="notification-item">
+                <span class="icon">⭐</span>
+                <div>
+                    <strong>คุณได้รับรีวิวใหม่</strong>
+                    <p class="text-secondary text-small">ลูกค้าให้ 5 ดาวสำหรับสินค้า "กางเกงยีนส์"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- ========= 1. PRODUCT DETAIL PAGE ============ -->
+    <!-- ============================================= -->
+    <main id="product-page" class="container active">
+        <section class="product-header card d-flex gap-3">
+            <div style="flex: 1;">
+                <div class="placeholder-image"><span>Product Image</span></div>
+            </div>
+            <div style="flex: 1;">
+                <h1>เสื้อยืดคอกลม Cotton 100%</h1>
+                <p class="text-secondary mb-2">แบรนด์: SimpleWear</p>
+                <h2 style="color: var(--color-brand-primary);">฿290.00</h2>
+                <p class="mb-3">เสื้อยืดคุณภาพดี ผลิตจากผ้าฝ้าย 100% เนื้อนุ่ม ใส่สบาย ระบายอากาศได้ดี เหมาะกับทุกโอกาส</p>
+                <button class="btn btn-primary w-100">เพิ่มลงตะกร้า</button>
+            </div>
+        </section>
+
+        <section id="review-section" class="card">
+            <h2>รีวิวสินค้า (125)</h2>
+            
+            <!-- Review Summary -->
+            <div class="review-summary mt-3 mb-3">
+                <div class="summary-score">
+                    <div class="avg-rating">4.8</div>
+                    <div class="star-rating">★★★★<span style="color: var(--color-border-light)">★</span></div>
+                    <div class="text-secondary text-small">จาก 125 รีวิว</div>
+                </div>
+                <div class="summary-distribution">
+                    <div class="bar-row text-small text-secondary"><span>5 ดาว</span><div class="progress-bar"><div class="progress-fill" style="width: 90%;"></div></div><span>110</span></div>
+                    <div class="bar-row text-small text-secondary"><span>4 ดาว</span><div class="progress-bar"><div class="progress-fill" style="width: 8%;"></div></div><span>10</span></div>
+                    <div class="bar-row text-small text-secondary"><span>3 ดาว</span><div class="progress-bar"><div class="progress-fill" style="width: 2%;"></div></div><span>3</span></div>
+                    <div class="bar-row text-small text-secondary"><span>2 ดาว</span><div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div><span>0</span></div>
+                    <div class="bar-row text-small text-secondary"><span>1 ดาว</span><div class="progress-bar"><div class="progress-fill" style="width: 1%;"></div></div><span>2</span></div>
+                </div>
+            </div>
+            
+            <!-- Review Controls -->
+            <div class="review-controls d-flex justify-between align-center">
+                <button id="write-review-btn" class="btn btn-primary">เขียนรีวิว</button>
+                <div class="d-flex align-center gap-1">
+                    <label for="sort-reviews" class="text-small">เรียงลำดับตาม:</label>
+                    <div class="dropdown">
+                        <select id="sort-reviews" class="dropdown-select">
+                            <option value="newest">ใหม่ล่าสุด</option>
+                            <option value="highest">คะแนนสูงสุด</option>
+                            <option value="lowest">คะแนนต่ำสุด</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review List -->
+            <div id="review-list">
+                <article class="review-card" data-rating="5" data-date="2023-10-27T10:00:00Z">
+                    <div class="review-card-header d-flex align-center mb-1">
+                        <div class="user-avatar"></div>
+                        <div>
+                            <span class="user-name">สมชาย ใจดี</span>
+                            <div class="star-rating" aria-label="5 จาก 5 ดาว">
+                                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-secondary text-small mb-2">27 ต.ค. 2566</p>
+                    <p>เสื้อสวยมากครับ เนื้อผ้านุ่ม ใส่สบายจริงๆ ส่งของเร็วมากครับ ประทับใจสุดๆ เดี๋ยวจะสั่งสีอื่นเพิ่มแน่นอนครับ</p>
+                    <div class="review-images">
+                        <div class="img-thumbnail"><div class="placeholder-image"><span>Image 1</span></div></div>
+                        <div class="img-thumbnail"><div class="placeholder-image"><span>Image 2</span></div></div>
+                    </div>
+                     <div class="merchant-reply">
+                        <p class="reply-header mb-1">คำตอบกลับจากร้านค้า:</p>
+                        <p>ขอบคุณสำหรับรีวิวและการสนับสนุนครับ! ทางร้านดีใจที่คุณลูกค้าชอบสินค้าของเรา โอกาสหน้าเชิญใหม่นะครับ</p>
+                    </div>
+                </article>
+                <article class="review-card" data-rating="1" data-date="2023-10-26T14:30:00Z">
+                    <div class="review-card-header d-flex align-center mb-1">
+                        <div class="user-avatar"></div>
+                        <div>
+                            <span class="user-name">มานี มีตา</span>
+                            <div class="star-rating" aria-label="1 จาก 5 ดาว">
+                                <span class="star">★</span><span class="star" style="color: var(--color-border-light)">★</span><span class="star" style="color: var(--color-border-light)">★</span><span class="star" style="color: var(--color-border-light)">★</span><span class="star" style="color: var(--color-border-light)">★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-secondary text-small mb-2">26 ต.ค. 2566</p>
+                    <p>สั่งสีขาว แต่ได้สีดำมาแทน ผิดหวังนิดหน่อยครับ แต่เนื้อผ้าดีเลยไม่ได้ส่งคืน</p>
+                </article>
+                 <article class="review-card" data-rating="4" data-date="2023-09-15T11:20:00Z">
+                    <div class="review-card-header d-flex align-center mb-1">
+                        <div class="user-avatar"></div>
+                        <div>
+                            <span class="user-name">Peter Pan</span>
+                            <div class="star-rating" aria-label="4 จาก 5 ดาว">
+                                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color: var(--color-border-light)">★</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-secondary text-small mb-2">15 ก.ย. 2566</p>
+                    <p>Good quality, but the size is a bit smaller than expected. I recommend ordering one size up.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+    
+    <!-- ============================================= -->
+    <!-- ======== 2. WRITE REVIEW MODAL ============== -->
+    <!-- ============================================= -->
+    <div id="review-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header mb-3">
+                <h2>เขียนรีวิวสินค้า</h2>
+            </div>
+            <form id="review-form">
+                <div class="form-group mb-3 text-center">
+                    <label class="mb-1 d-block">ให้คะแนนสินค้า</label>
+                    <div id="form-stars" class="form-rating">
+                        <div class="stars" data-rating="0">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="review-text" class="mb-1 d-block">ข้อความรีวิว</label>
+                    <textarea id="review-text" name="review-text" placeholder="บอกเล่าประสบการณ์ของคุณ..." maxlength="500"></textarea>
+                    <div id="char-counter" class="text-caption text-secondary">0/500</div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="mb-1 d-block">เพิ่มรูปภาพ (สูงสุด 3 รูป)</label>
+                    <div id="image-uploader" class="image-uploader-box">
+                        <p>คลิกเพื่อเลือกรูปภาพ</p>
+                    </div>
+                    <input type="file" id="image-upload-input" multiple accept="image/*" style="display: none;">
+                    <div id="image-preview-container"></div>
+                </div>
+                
+                <div class="d-flex justify-between gap-2 mt-3">
+                    <button type="button" id="cancel-review-btn" class="btn btn-cancel w-100">ยกเลิก</button>
+                    <button type="submit" class="btn btn-primary w-100">ส่งรีวิว</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ============================================= -->
+    <!-- ====== 3. MERCHANT DASHBOARD PAGE =========== -->
+    <!-- ============================================= -->
+    <div id="dashboard-page">
+        <div class="layout">
+            <aside class="sidebar">
+                <h3>Merchant Dashboard</h3>
+                <p class="text-secondary">SimpleWear</p>
+                <hr style="margin: 16px 0; border-color: var(--color-border-light); border-style: solid; border-width: 1px 0 0 0;">
+                <p><strong>เมนู</strong></p>
+                <ul style="list-style: none; padding: 0; margin-top: 8px;">
+                    <li style="padding: 8px; background: var(--color-background-light-pink); border-radius: 4px; color: var(--color-brand-primary);">จัดการรีวิว</li>
+                    <li style="padding: 8px;">สินค้าของฉัน</li>
+                    <li style="padding: 8px;">คำสั่งซื้อ</li>
+                    <li style="padding: 8px;">การตั้งค่า</li>
+                </ul>
+            </aside>
+            <main class="main-content">
+                <div class="page-header">
+                    <h1>จัดการรีวิว</h1>
+                    <p class="text-secondary">ดู ตอบกลับ และจัดการรีวิวจากลูกค้าทั้งหมด</p>
+                </div>
+
+                <div class="stats-cards mb-3">
+                    <div class="card">
+                        <h3>คะแนนเฉลี่ยรวม</h3>
+                        <p style="font-size: 2rem; font-weight: bold; color: var(--color-brand-primary);">4.8 <span class="star-rating" style="font-size:1.5rem">★</span></p>
+                    </div>
+                    <div class="card">
+                        <h3>รีวิวทั้งหมด</h3>
+                        <p style="font-size: 2rem; font-weight: bold;">125</p>
+                    </div>
+                     <div class="card">
+                        <h3>รีวิวที่ยังไม่ตอบ</h3>
+                        <p style="font-size: 2rem; font-weight: bold;">2</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>รีวิวทั้งหมด</h3>
+                    <div class="filter-bar d-flex align-center my-3">
+                        <input type="text" placeholder="ค้นหาจากชื่อสินค้าหรือลูกค้า..." class="form-input" style="flex:2">
+                        <select class="form-input" style="flex:1">
+                            <option>สินค้าทั้งหมด</option>
+                            <option>เสื้อยืดคอกลม</option>
+                            <option>กางเกงยีนส์</option>
+                        </select>
+                         <select class="form-input" style="flex:1">
+                            <option>คะแนนดาวทั้งหมด</option>
+                            <option>5 ดาว</option>
+                            <option>4 ดาว</option>
+                            <option>3 ดาว</option>
+                            <option>2 ดาว</option>
+                            <option>1 ดาว</option>
+                        </select>
+                    </div>
+                    
+                    <div id="merchant-review-list">
+                        <!-- Review item 1 -->
+                        <div class="review-item-merchant">
+                            <div class="d-flex justify-between">
+                                <div class="product-info d-flex align-center gap-2">
+                                    <div class="placeholder-image"></div>
+                                    <div>
+                                        <strong>เสื้อยืดคอกลม Cotton 100%</strong>
+                                        <p class="text-secondary text-small">รีวิวโดย: สมชาย ใจดี</p>
+                                    </div>
+                                </div>
+                                <div class="text-secondary text-small">27 ต.ค. 2566</div>
+                            </div>
+                            <div class="d-flex gap-2 mt-2">
+                                <div class="star-rating" aria-label="5 จาก 5 ดาว">★★★★★</div>
+                                <p>เสื้อสวยมากครับ เนื้อผ้านุ่ม ใส่สบายจริงๆ...</p>
+                            </div>
+                            <div class="merchant-reply">
+                                <p class="reply-header mb-1">ตอบกลับแล้ว:</p>
+                                <p>ขอบคุณสำหรับรีวิวและการสนับสนุนครับ! ...</p>
+                            </div>
+                        </div>
+                        <!-- Review item 2 -->
+                        <div class="review-item-merchant">
+                            <div class="d-flex justify-between">
+                                <div class="product-info d-flex align-center gap-2">
+                                    <div class="placeholder-image"></div>
+                                    <div>
+                                        <strong>เสื้อยืดคอกลม Cotton 100%</strong>
+                                        <p class="text-secondary text-small">รีวิวโดย: มานี มีตา</p>
+                                    </div>
+                                </div>
+                                <div class="text-secondary text-small">26 ต.ค. 2566</div>
+                            </div>
+                            <div class="d-flex gap-2 mt-2">
+                                <div class="star-rating" aria-label="1 จาก 5 ดาว">★<span style="color: var(--color-border-light)">★★★★</span></div>
+                                <p>สั่งสีขาว แต่ได้สีดำมาแทน ผิดหวังนิดหน่อยครับ...</p>
+                            </div>
+                            <button class="btn btn-secondary mt-2 reply-btn">ตอบกลับ</button>
+                            <div class="reply-form">
+                                <textarea placeholder="พิมพ์คำตอบกลับ..."></textarea>
+                                <div class="d-flex gap-1 justify-end">
+                                    <button class="btn btn-cancel cancel-reply-btn">ยกเลิก</button>
+                                    <button class="btn btn-primary submit-reply-btn">ส่งคำตอบ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Page switching logic
+            const productPage = document.getElementById('product-page');
+            const dashboardPage = document.getElementById('dashboard-page');
+            const showProductBtn = document.getElementById('show-product-btn');
+            const showDashboardBtn = document.getElementById('show-dashboard-btn');
+            
+            showProductBtn.onclick = () => {
+                productPage.classList.add('active');
+                dashboardPage.classList.remove('active');
+            };
+            showDashboardBtn.onclick = () => {
+                dashboardPage.classList.add('active');
+                productPage.classList.remove('active');
+            };
+
+            // Modal logic
+            const modal = document.getElementById('review-modal');
+            const writeReviewBtn = document.getElementById('write-review-btn');
+            const cancelReviewBtn = document.getElementById('cancel-review-btn');
+            
+            writeReviewBtn.onclick = () => modal.classList.add('active');
+            cancelReviewBtn.onclick = () => modal.classList.remove('active');
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            };
+            
+            // Star rating logic
+            const starsContainer = document.getElementById('form-stars');
+            const stars = starsContainer.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const rating = star.dataset.value;
+                    starsContainer.querySelector('.stars').dataset.rating = rating;
+                    stars.forEach(s => {
+                        s.classList.toggle('selected', s.dataset.value <= rating);
+                    });
+                });
+            });
+
+            // Char counter logic
+            const reviewText = document.getElementById('review-text');
+            const charCounter = document.getElementById('char-counter');
+            reviewText.addEventListener('input', () => {
+                const count = reviewText.value.length;
+                charCounter.textContent = `${count}/500`;
+            });
+
+            // Image upload simulation
+            const uploaderBox = document.getElementById('image-uploader');
+            const fileInput = document.getElementById('image-upload-input');
+            const previewContainer = document.getElementById('image-preview-container');
+            
+            uploaderBox.onclick = () => fileInput.click();
+            fileInput.onchange = () => {
+                if (previewContainer.children.length < 3) {
+                   addPreviewImage();
+                }
+                if (previewContainer.children.length >= 3) {
+                   uploaderBox.style.display = 'none';
+                }
+            };
+
+            function addPreviewImage() {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'img-preview-wrapper';
+                
+                const placeholder = document.createElement('div');
+                placeholder.className = 'placeholder-image';
+                placeholder.innerHTML = `<span>Img ${previewContainer.children.length + 1}</span>`;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-img-btn';
+                deleteBtn.innerHTML = '×';
+                deleteBtn.onclick = () => {
+                    wrapper.remove();
+                    uploaderBox.style.display = 'block';
+                };
+                
+                wrapper.appendChild(placeholder);
+                wrapper.appendChild(deleteBtn);
+                previewContainer.appendChild(wrapper);
+            }
+
+            // Form submission logic
+            const reviewForm = document.getElementById('review-form');
+            reviewForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const rating = starsContainer.querySelector('.stars').dataset.rating;
+                const text = reviewText.value;
+                const imageCount = previewContainer.children.length;
+                
+                if (rating === '0' || !text) {
+                    alert('กรุณาให้คะแนนและกรอกข้อความรีวิว');
+                    return;
+                }
+                
+                // Create new review card
+                const reviewList = document.getElementById('review-list');
+                const newReview = document.createElement('article');
+                newReview.className = 'review-card';
+                newReview.dataset.rating = rating;
+                newReview.dataset.date = new Date().toISOString();
+                
+                let starsHTML = '';
+                for (let i = 1; i <= 5; i++) {
+                    starsHTML += `<span class="star" ${i > rating ? 'style="color: var(--color-border-light)"' : ''}>★</span>`;
+                }
+
+                let imagesHTML = '';
+                if (imageCount > 0) {
+                    imagesHTML = '<div class="review-images">';
+                    for(let i=0; i < imageCount; i++) {
+                        imagesHTML += '<div class="img-thumbnail"><div class="placeholder-image"><span>New Img</span></div></div>';
+                    }
+                    imagesHTML += '</div>';
+                }
+                
+                newReview.innerHTML = `
+                    <div class="review-card-header d-flex align-center mb-1">
+                        <div class="user-avatar"></div>
+                        <div>
+                            <span class="user-name">คุณ (ผู้ใช้ปัจจุบัน)</span>
+                            <div class="star-rating" aria-label="${rating} จาก 5 ดาว">${starsHTML}</div>
+                        </div>
+                    </div>
+                    <p class="text-secondary text-small mb-2">เมื่อสักครู่นี้</p>
+                    <p>${text}</p>
+                    ${imagesHTML}
+                `;
+                
+                reviewList.prepend(newReview);
+                
+                // Reset form and close modal
+                modal.classList.remove('active');
+                reviewForm.reset();
+                charCounter.textContent = '0/500';
+                previewContainer.innerHTML = '';
+                uploaderBox.style.display = 'block';
+                 stars.forEach(s => s.classList.remove('selected'));
+                starsContainer.querySelector('.stars').dataset.rating = 0;
+                
+                alert('ส่งรีวิวสำเร็จ!');
+            });
+            
+            // Sorting logic
+            const sortSelect = document.getElementById('sort-reviews');
+            sortSelect.addEventListener('change', (e) => {
+                const sortBy = e.target.value;
+                const reviewList = document.getElementById('review-list');
+                const reviews = Array.from(reviewList.querySelectorAll('.review-card'));
+                
+                reviews.sort((a, b) => {
+                    if (sortBy === 'newest') {
+                        return new Date(b.dataset.date) - new Date(a.dataset.date);
+                    } else if (sortBy === 'highest') {
+                        return b.dataset.rating - a.dataset.rating;
+                    } else if (sortBy === 'lowest') {
+                        return a.dataset.rating - b.dataset.rating;
+                    }
+                });
+                
+                reviews.forEach(review => reviewList.appendChild(review));
+            });
+
+            // Merchant reply logic
+            const merchantReviewList = document.getElementById('merchant-review-list');
+            merchantReviewList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('reply-btn')) {
+                    const replyForm = e.target.nextElementSibling;
+                    replyForm.style.display = 'block';
+                    e.target.style.display = 'none';
+                }
+                if (e.target.classList.contains('cancel-reply-btn')) {
+                     const replyForm = e.target.closest('.reply-form');
+                     replyForm.style.display = 'none';
+                     replyForm.previousElementSibling.style.display = 'inline-block';
+                }
+                if (e.target.classList.contains('submit-reply-btn')) {
+                    const replyForm = e.target.closest('.reply-form');
+                    const textArea = replyForm.querySelector('textarea');
+                    const replyText = textArea.value;
+                    if (!replyText) { alert('กรุณาพิมพ์ข้อความ'); return; }
+
+                    const reviewItem = replyForm.closest('.review-item-merchant');
+                    replyForm.remove(); // or hide and reset
+                    reviewItem.querySelector('.reply-btn').remove();
+
+                    const replyDisplay = document.createElement('div');
+                    replyDisplay.className = 'merchant-reply';
+                    replyDisplay.innerHTML = `
+                        <p class="reply-header mb-1">ตอบกลับแล้ว:</p>
+                        <p>${replyText}</p>
+                    `;
+                    reviewItem.appendChild(replyDisplay);
+                }
+            });
+
+            // Notification Panel Logic
+            const notifIcon = document.getElementById('notification-icon');
+            const notifPanel = document.getElementById('notification-panel');
+            notifIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                notifPanel.classList.toggle('active');
+            });
+            document.addEventListener('click', (e) => {
+                if (!notifPanel.contains(e.target) && !notifIcon.contains(e.target)) {
+                    notifPanel.classList.remove('active');
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
