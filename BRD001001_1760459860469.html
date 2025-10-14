@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Product Review System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* CSS Variables from Style Guide */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --border-radius-small: 4px;
+            --spacing-unit: 4px;
+            --transition-base: all 0.3s ease;
+
+            --color-brand-primary: #ED1C24;
+            --color-brand-primary-hover: #D41920;
+            --color-background-gray: #F2F3F5;
+            --color-background-white: #FFFFFF;
+            --color-background-light-pink: #FBEAEA;
+            --color-text-main: #343A40;
+            --color-text-secondary: #6C757D;
+            --color-text-light: #999999;
+            --color-border-light: #E0E0E0;
+            
+            --star-color-active: #FFC107;
+            --star-color-inactive: #E0E0E0;
+        }
+
+        /* General Body Styles */
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background-gray);
+            margin: 0;
+            color: var(--color-text-main);
+            font-size: 1rem; /* 16px */
+            line-height: 1.6;
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+            min-height: 100vh;
+        }
+        .page.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Typography */
+        h1 { font-size: 2rem; font-weight: 700; line-height: 1.3; }
+        h2 { font-size: 1.5rem; font-weight: 600; line-height: 1.4; margin-bottom: 16px; }
+        h3 { font-size: 1.125rem; font-weight: 500; line-height: 1.5; }
+        p { margin-top: 0; margin-bottom: 16px; }
+
+        /* Card Component */
+        .card {
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            border: 1px solid var(--color-border-light);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: var(--border-radius-small);
+            padding: 10px 24px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: var(--transition-base);
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-hover);
+        }
+        
+        .btn-secondary {
+            background-color: var(--color-background-white);
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border-light);
+        }
+        .btn-secondary:hover {
+            background-color: var(--color-background-gray);
+            border-color: #BDBDBD;
+        }
+        
+        .btn-submit {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+            padding: 10px 32px;
+        }
+        .btn-submit:hover {
+            background-color: var(--color-brand-primary-hover);
+        }
+
+        /* Form elements */
+        .form-group { margin-bottom: 20px; }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-main);
+            margin-bottom: 6px;
+        }
+        .form-input, textarea.form-input, select.form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-small);
+            font-size: 0.9375rem;
+            transition: var(--transition-base);
+            box-sizing: border-box;
+            font-family: var(--font-family-base);
+        }
+        .form-input:focus {
+            border-color: var(--color-brand-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(237, 28, 36, 0.1);
+        }
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Star Rating Display */
+        .star-rating { display: flex; align-items: center; gap: 2px; }
+        .star-rating svg { width: 20px; height: 20px; }
+        .star-rating .star-filled { fill: var(--star-color-active); }
+        .star-rating .star-empty { fill: var(--star-color-inactive); }
+
+        /* --- Page 1: Product Detail --- */
+        #product-page-reviews .review-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        #product-page-reviews .summary-left { display: flex; align-items: center; gap: 16px; }
+        #product-page-reviews .avg-rating { font-size: 2.5rem; font-weight: 700; }
+        #product-page-reviews .total-reviews { font-size: 0.875rem; color: var(--color-text-secondary); }
+        
+        #product-page-reviews .review-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            margin-bottom: 24px;
+        }
+
+        #product-page-reviews .review-item {
+            display: flex;
+            gap: 16px;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid var(--color-border-light);
+        }
+        #product-page-reviews .review-item:first-child { border-top: none; margin-top:0; padding-top:0;}
+
+        .review-avatar-placeholder {
+            width: 48px;
+            height: 48px;
+            background-color: #BDBDBD;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .review-content .review-author { font-weight: 600; }
+        .review-content .review-meta { font-size: 0.75rem; color: var(--color-text-light); margin-bottom: 8px; }
+        
+        .review-images { display: flex; gap: 8px; margin-top: 12px; }
+        .review-image-placeholder {
+            width: 80px;
+            height: 80px;
+            background-color: #E0E0E0;
+            border-radius: var(--border-radius-small);
+        }
+
+        .merchant-reply {
+            margin-top: 16px;
+            padding: 16px;
+            background-color: var(--color-background-light-pink);
+            border-left: 4px solid var(--color-brand-primary);
+            border-radius: var(--border-radius-small);
+        }
+        .merchant-reply .reply-header { font-weight: 600; color: var(--color-brand-primary); }
+
+        /* --- Page 2: Write Review --- */
+        #write-review-page .back-link {
+            display: inline-block;
+            margin-bottom: 16px;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        #write-review-page .back-link:hover { color: var(--color-brand-primary); }
+        
+        .star-rating-input .star-label {
+            cursor: pointer;
+            color: var(--star-color-inactive);
+            font-size: 36px;
+            transition: var(--transition-base);
+        }
+        .star-rating-input .star-label:hover,
+        .star-rating-input .star-label.hovered {
+            color: var(--star-color-active);
+            transform: scale(1.2);
+        }
+        .char-counter {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+            margin-top: 4px;
+        }
+
+        .image-uploader .upload-area {
+            border: 2px dashed var(--color-border-light);
+            border-radius: var(--border-radius-base);
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            background-color: var(--color-background-gray);
+            transition: var(--transition-base);
+        }
+        .image-uploader .upload-area:hover {
+            border-color: var(--color-brand-primary);
+            background-color: var(--color-background-light-pink);
+        }
+        .image-uploader .upload-instructions { font-size: 0.875rem; color: var(--color-text-secondary); }
+
+        .image-previews { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+        .preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+        .preview-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #E0E0E0;
+            border-radius: var(--border-radius-base);
+        }
+        .remove-image-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 24px;
+            height: 24px;
+            background-color: var(--color-brand-primary);
+            color: white;
+            border-radius: 50%;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        /* --- Page 3: Merchant Dashboard --- */
+        .backend-layout {
+            display: flex;
+        }
+        .sidebar-main {
+            width: 240px;
+            height: 100vh;
+            background-color: var(--color-background-white);
+            border-right: 1px solid var(--color-border-light);
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar-main .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-brand-primary);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .sidebar-main .nav-link {
+            display: block;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--color-text-main);
+            border-radius: var(--border-radius-small);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .sidebar-main .nav-link:hover {
+             background-color: var(--color-background-gray);
+        }
+        .sidebar-main .nav-link.active {
+            background-color: var(--color-background-light-pink);
+            color: var(--color-brand-primary);
+        }
+
+        .main-content {
+            margin-left: 240px;
+            padding: 24px;
+            width: calc(100% - 240px);
+            box-sizing: border-box;
+        }
+
+        .page-header {
+            background-color: var(--color-background-white);
+            padding: 20px 24px;
+            border-radius: var(--border-radius-base);
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .merchant-review-item {
+            display: flex;
+            gap: 20px;
+        }
+        .merchant-product-image-placeholder {
+            width: 100px;
+            height: 100px;
+            background-color: #E0E0E0;
+            border-radius: var(--border-radius-small);
+            flex-shrink: 0;
+        }
+        .reply-form {
+            margin-top: 16px;
+            display: none;
+        }
+        .reply-form.active {
+            display: block;
+        }
+        .reply-actions {
+            margin-top: 12px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        
+        /* A little helper for the prototype links */
+        .prototype-switcher {
+            background: #fff;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            z-index: 100;
+            border-top: 1px solid var(--color-border-light);
+        }
+         .prototype-switcher b {
+            margin-right: 15px;
+         }
+    </style>
+</head>
+<body>
+
+    <!-- Page 1: Product Detail Page (Review Section) -->
+    <div id="product-page" class="page active">
+        <div class="container">
+            <div id="product-page-reviews">
+                <h2>รีวิวสินค้า (32)</h2>
+                
+                <div class="card review-summary">
+                    <div class="summary-left">
+                        <div class="avg-rating">4.8</div>
+                        <div>
+                            <div class="star-rating">
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill-opacity="0.5"></path></svg>
+                            </div>
+                            <div class="total-reviews">จาก 32 รีวิว</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="showPage('write-review-page')">เขียนรีวิว</button>
+                </div>
+                
+                <div class="review-controls">
+                    <label for="sort-reviews" class="form-label" style="margin:0;">เรียงตาม:</label>
+                    <select id="sort-reviews" class="form-input" style="width: 200px;">
+                        <option value="latest">ล่าสุด</option>
+                        <option value="highest">คะแนนสูงสุด</option>
+                        <option value="lowest">คะแนนต่ำสุด</option>
+                    </select>
+                </div>
+                
+                <div class="card review-list">
+                    <!-- Review Item 1 -->
+                    <div class="review-item">
+                        <div class="review-avatar-placeholder"></div>
+                        <div class="review-content">
+                            <div class="review-author">สมชาย ใจดี</div>
+                            <div class="star-rating">
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                            </div>
+                            <div class="review-meta">2 วันที่แล้ว</div>
+                            <p>สินค้าดีมากครับ จัดส่งรวดเร็ว คุณภาพเกินราคาไปมากเลยครับ ชอบมากๆๆๆ</p>
+                            <div class="review-images">
+                                <div class="review-image-placeholder"></div>
+                                <div class="review-image-placeholder"></div>
+                            </div>
+                            <div class="merchant-reply">
+                                <div class="reply-header">คำตอบจากร้านค้า:</div>
+                                <p>ขอบคุณมากค่ะ! ทางร้านดีใจที่คุณลูกค้าชอบสินค้าของเรานะคะ หวังว่าจะได้ให้บริการอีกในครั้งต่อไปค่ะ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Review Item 2 -->
+                    <div class="review-item">
+                        <div class="review-avatar-placeholder"></div>
+                        <div class="review-content">
+                            <div class="review-author">มานี มีนา</div>
+                            <div class="star-rating">
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-empty" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-empty" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                            </div>
+                            <div class="review-meta">5 วันที่แล้ว</div>
+                            <p>แพ็คของมาไม่ค่อยดีเท่าไหร่ค่ะ กล่องบุบเล็กน้อย แต่ของข้างในไม่เสียหาย โดยรวมพอใช้ได้ค่ะ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: Write/Edit Review Page -->
+    <div id="write-review-page" class="page">
+        <div class="container">
+            <a href="#" class="back-link" onclick="event.preventDefault(); showPage('product-page')">&lt; กลับไปหน้ารายละเอียดสินค้า</a>
+            <div class="card">
+                <h2>เขียนรีวิว</h2>
+                <form onsubmit="submitReview(event)">
+                    <div class="form-group">
+                        <label class="form-label">ให้คะแนนสินค้า</label>
+                        <div class="star-rating-input" data-rating="0">
+                            <span class="star-label" data-value="1">★</span>
+                            <span class="star-label" data-value="2">★</span>
+                            <span class="star-label" data-value="3">★</span>
+                            <span class="star-label" data-value="4">★</span>
+                            <span class="star-label" data-value="5">★</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-text" class="form-label">ข้อความรีวิว</label>
+                        <textarea id="review-text" class="form-input" placeholder="เล่าประสบการณ์ของคุณเกี่ยวกับสินค้านี้..." maxlength="500" oninput="updateCharCounter(this)"></textarea>
+                        <div class="char-counter"><span id="char-count">0</span> / 500</div>
+                    </div>
+                    <div class="form-group image-uploader">
+                        <label class="form-label">เพิ่มรูปภาพ (สูงสุด 3 รูป)</label>
+                         <div class="upload-area" onclick="addImagePreview()">
+                             <div>+ เพิ่มรูปภาพ</div>
+                             <div class="upload-instructions">ลากและวางไฟล์ หรือคลิกเพื่อเลือกไฟล์</div>
+                         </div>
+                        <div class="image-previews" id="image-previews-container">
+                           <!-- JS will add previews here -->
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-submit" style="width: 100%;">ส่งรีวิว</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 3: Merchant's Review Management Page -->
+    <div id="merchant-page" class="page">
+        <div class="backend-layout">
+            <aside class="sidebar-main">
+                <div class="logo">Sale Here</div>
+                <a href="#" class="nav-link">ภาพรวม</a>
+                <a href="#" class="nav-link">สินค้า</a>
+                <a href="#" class="nav-link active">รีวิว</a>
+                <a href="#" class="nav-link">คำสั่งซื้อ</a>
+                <a href="#" class="nav-link">ตั้งค่า</a>
+            </aside>
+            <main class="main-content">
+                <div class="page-header">
+                    <h1>จัดการรีวิว</h1>
+                    <p style="color: var(--color-text-secondary); margin:0;">ภาพรวมสถิติและตอบกลับรีวิวจากลูกค้า</p>
+                </div>
+
+                <!-- Stats card can go here -->
+
+                <div class="card">
+                    <h2>รีวิวทั้งหมด</h2>
+                    
+                    <!-- Merchant Review Item 1 -->
+                    <div class="merchant-review-item review-item">
+                        <div class="merchant-product-image-placeholder"></div>
+                        <div class="review-content" style="width: 100%;">
+                            <div style="display:flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <h3 style="margin:0;">ชื่อสินค้าตัวอย่าง A</h3>
+                                    <div class="review-author">โดย: สมชาย ใจดี</div>
+                                </div>
+                                <button class="btn btn-secondary" onclick="toggleReplyForm(this)">ตอบกลับ</button>
+                            </div>
+                            <div class="star-rating" style="margin: 8px 0;">
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                            </div>
+                            <p>สินค้าดีมากครับ จัดส่งรวดเร็ว คุณภาพเกินราคาไปมากเลยครับ ชอบมากๆๆๆ</p>
+
+                            <div class="reply-form">
+                                <textarea class="form-input" placeholder="พิมพ์คำตอบกลับ..."></textarea>
+                                <div class="reply-actions">
+                                    <button class="btn btn-secondary" onclick="toggleReplyForm(this, true)">ยกเลิก</button>
+                                    <button class="btn btn-submit">ส่งคำตอบ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Merchant Review Item 2 -->
+                    <div class="merchant-review-item review-item">
+                        <div class="merchant-product-image-placeholder"></div>
+                        <div class="review-content" style="width: 100%;">
+                            <div style="display:flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <h3 style="margin:0;">ชื่อสินค้าตัวอย่าง B</h3>
+                                    <div class="review-author">โดย: มานี มีนา</div>
+                                </div>
+                                <button class="btn btn-secondary" onclick="toggleReplyForm(this)">ตอบกลับ</button>
+                            </div>
+                             <div class="star-rating" style="margin: 8px 0;">
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-filled" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-empty" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                                <svg class="star-empty" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                            </div>
+                            <p>แพ็คของมาไม่ค่อยดีเท่าไหร่ค่ะ กล่องบุบเล็กน้อย แต่ของข้างในไม่เสียหาย โดยรวมพอใช้ได้ค่ะ</p>
+
+                             <div class="reply-form">
+                                <textarea class="form-input" placeholder="พิมพ์คำตอบกลับ..."></textarea>
+                                <div class="reply-actions">
+                                    <button class="btn btn-secondary" onclick="toggleReplyForm(this, true)">ยกเลิก</button>
+                                    <button class="btn btn-submit">ส่งคำตอบ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="prototype-switcher">
+        <b>Prototype Views:</b>
+        <a href="#" onclick="event.preventDefault(); showPage('product-page')">1. Product Reviews</a> |
+        <a href="#" onclick="event.preventDefault(); showPage('write-review-page')">2. Write Review Form</a> |
+        <a href="#" onclick="event.preventDefault(); showPage('merchant-page')">3. Merchant Dashboard</a>
+    </div>
+
+<script>
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    // --- Write Review Page Logic ---
+
+    // Character Counter
+    function updateCharCounter(textarea) {
+        const count = textarea.value.length;
+        document.getElementById('char-count').textContent = count;
+    }
+
+    // Star Rating Input
+    document.addEventListener('DOMContentLoaded', () => {
+        const starRatingContainer = document.querySelector('.star-rating-input');
+        if (!starRatingContainer) return;
+
+        const stars = starRatingContainer.querySelectorAll('.star-label');
+        
+        const setRating = (rating) => {
+             stars.forEach(star => {
+                if (parseInt(star.dataset.value) <= rating) {
+                    star.style.color = 'var(--star-color-active)';
+                } else {
+                    star.style.color = 'var(--star-color-inactive)';
+                }
+            });
+            starRatingContainer.dataset.rating = rating;
+        };
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', () => {
+                const rating = parseInt(star.dataset.value);
+                stars.forEach(s => {
+                    s.classList.toggle('hovered', parseInt(s.dataset.value) <= rating);
+                });
+            });
+            star.addEventListener('mouseout', () => {
+                stars.forEach(s => s.classList.remove('hovered'));
+            });
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.dataset.value);
+                setRating(rating);
+            });
+        });
+    });
+
+    // Image Uploader Simulation
+    let imageCount = 0;
+    function addImagePreview() {
+        if (imageCount >= 3) {
+            alert('คุณสามารถอัปโหลดได้สูงสุด 3 รูปภาพ');
+            return;
+        }
+        imageCount++;
+        const container = document.getElementById('image-previews-container');
+        const previewItem = document.createElement('div');
+        previewItem.className = 'preview-item';
+        previewItem.innerHTML = `
+            <div class="preview-image-placeholder"></div>
+            <div class="remove-image-btn" onclick="removeImagePreview(this)">×</div>
+        `;
+        container.appendChild(previewItem);
+    }
+
+    function removeImagePreview(button) {
+        button.parentElement.remove();
+        imageCount--;
+    }
+    
+    // Submit Review Simulation
+    function submitReview(event) {
+        event.preventDefault();
+        alert('ส่งรีวิวสำเร็จ!\nขอบคุณสำหรับความคิดเห็นของคุณ');
+        // Reset form
+        event.target.reset();
+        document.getElementById('char-count').textContent = '0';
+        document.getElementById('image-previews-container').innerHTML = '';
+        imageCount = 0;
+        const starRatingContainer = document.querySelector('.star-rating-input');
+        if(starRatingContainer) {
+             const stars = starRatingContainer.querySelectorAll('.star-label');
+             stars.forEach(star => star.style.color = 'var(--star-color-inactive)');
+             starRatingContainer.dataset.rating = 0;
+        }
+        // Go back to product page
+        showPage('product-page');
+    }
+
+    // --- Merchant Page Logic ---
+    function toggleReplyForm(button, isCancel = false) {
+        const reviewContent = isCancel ? button.closest('.review-content') : button.parentElement.parentElement;
+        const replyForm = reviewContent.querySelector('.reply-form');
+        const replyButton = reviewContent.querySelector('.btn-secondary');
+
+        if (replyForm.classList.contains('active')) {
+            replyForm.classList.remove('active');
+            replyButton.style.display = 'inline-block';
+        } else {
+            // Close any other open forms
+            document.querySelectorAll('.reply-form.active').forEach(form => {
+                form.classList.remove('active');
+                form.closest('.review-content').querySelector('.btn-secondary').style.display = 'inline-block';
+            });
+
+            replyForm.classList.add('active');
+            replyButton.style.display = 'none';
+        }
+    }
+
+</script>
+
+</body>
+</html>
