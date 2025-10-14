@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sale Here - Review System Wireframe</title>
+    <style>
+        /* CSS Variables from Style Guide */
+        :root {
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --border-radius-small: 4px;
+            --spacing-unit: 4px;
+            --transition-base: all 0.3s ease;
+
+            --color-brand-primary: #ED1C24;
+            --color-brand-primary-hover: #D41920;
+            --color-background-gray: #F2F3F5;
+            --color-background-white: #FFFFFF;
+            --color-background-light-pink: #FBEAEA;
+            --color-text-main: #343A40;
+            --color-text-secondary: #6C757D;
+            --color-text-light: #999999;
+            --color-border-light: #E0E0E0;
+        }
+
+        /* Base Typography & Body */
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background-gray);
+            color: var(--color-text-main);
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        h1 { font-size: 2rem; font-weight: 700; line-height: 1.3; margin-bottom: 1rem; }
+        h2 { font-size: 1.5rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.75rem; }
+        h3 { font-size: 1.125rem; font-weight: 500; line-height: 1.5; margin-bottom: 0.5rem; }
+        p { margin-top: 0; margin-bottom: 1rem; }
+        a { color: var(--color-brand-primary); text-decoration: none; transition: var(--transition-base); }
+        a:hover { color: var(--color-brand-primary-hover); }
+
+        /* Layout */
+        .page { display: none; }
+        .page.active { display: block; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        .main-layout { display: flex; }
+        .sidebar-main {
+            width: 240px;
+            min-height: 100vh;
+            background-color: var(--color-background-white);
+            border-right: 1px solid var(--color-border-light);
+            padding: 20px;
+            flex-shrink: 0;
+        }
+        .sidebar-main h2 {
+            font-size: 1.2rem;
+            color: var(--color-brand-primary);
+            border-bottom: 1px solid var(--color-border-light);
+            padding-bottom: 10px;
+            margin-top:0;
+        }
+        .sidebar-main ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar-main li a {
+            display: block;
+            padding: 10px 15px;
+            border-radius: var(--border-radius-small);
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+        .sidebar-main li a:hover, .sidebar-main li a.active {
+            background-color: var(--color-background-light-pink);
+            color: var(--color-brand-primary);
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 24px;
+        }
+        .top-nav {
+            background-color: var(--color-brand-primary);
+            color: white;
+            padding: 10px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-nav .logo { font-weight: 700; font-size: 1.5rem; }
+        .top-nav .user-switcher a {
+            color: white;
+            margin-left: 15px;
+            padding: 8px 12px;
+            border-radius: var(--border-radius-small);
+            border: 1px solid transparent;
+        }
+         .top-nav .user-switcher a.active {
+            background-color: white;
+            color: var(--color-brand-primary);
+         }
+        
+        /* Components */
+        .card {
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: var(--border-radius-small);
+            padding: 10px 24px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition-base);
+        }
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+        }
+        .btn-primary:hover { background-color: var(--color-brand-primary-hover); }
+        .btn-secondary {
+            background-color: var(--color-background-light-pink);
+            color: var(--color-brand-primary);
+        }
+        .btn-secondary:hover { background-color: #F5D5D5; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn-cancel {
+            background-color: transparent;
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border-light);
+        }
+        .btn-cancel:hover { background-color: var(--color-background-gray); }
+
+        .placeholder-img {
+            background-color: #cccccc;
+            border: 1px solid var(--color-border-light);
+            display: block;
+            cursor: pointer;
+        }
+        .product-image { width: 100%; height: 300px; }
+        .review-image { width: 80px; height: 80px; margin-right: 10px; border-radius: var(--border-radius-small); }
+        
+        /* Form Elements */
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-main);
+            margin-bottom: 6px;
+        }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-small);
+            font-size: 0.9375rem;
+            transition: var(--transition-base);
+            box-sizing: border-box;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--color-brand-primary);
+            outline: none;
+        }
+        .form-textarea { min-height: 120px; resize: vertical; }
+
+        /* Review Specific */
+        .review-summary { display: flex; align-items: center; gap: 30px; }
+        .review-summary .avg-rating { text-align: center; }
+        .review-summary .avg-score { font-size: 3rem; font-weight: 700; color: var(--color-brand-primary); }
+        .rating-bars { flex-grow: 1; }
+        .rating-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+        .rating-bar-row .star-label { width: 50px; font-size: 0.875rem; }
+        .rating-bar-container { flex-grow: 1; background-color: var(--color-background-gray); border-radius: 100px; height: 10px; overflow: hidden; }
+        .rating-bar-fill { background-color: var(--color-brand-primary); height: 100%; }
+        .rating-bar-row .count { font-size: 0.875rem; color: var(--color-text-secondary); width:40px; text-align:right;}
+
+        .review-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;}
+        
+        .review-card {
+            border-bottom: 1px solid var(--color-border-light);
+            padding: 1.5rem 0;
+        }
+        .review-card:last-child { border-bottom: none; }
+        .review-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+        .review-author { font-weight: 600; }
+        .review-meta { font-size: 0.875rem; color: var(--color-text-secondary); }
+        .review-body p { margin-bottom: 0.5rem; }
+        .review-images { display: flex; gap: 10px; margin-top: 1rem; }
+        .merchant-reply {
+            background-color: var(--color-background-gray);
+            border-left: 4px solid var(--color-brand-primary);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: var(--border-radius-small);
+        }
+        .merchant-reply strong { color: var(--color-brand-primary); }
+
+        /* Star Rating */
+        .star-rating { display: inline-block; }
+        .star-rating .star { font-size: 1.5em; color: #ccc; cursor: pointer; }
+        .star-rating .star.selected, .star-rating .star.hovered { color: #f5b301; }
+        .star-rating-display .star { font-size: 1em; color: #f5b301; }
+        .star-rating-display .star-empty { color: #ccc; }
+
+        /* Write Review Page */
+        #char-count { font-size: 0.8rem; color: var(--color-text-secondary); text-align: right; }
+        .image-upload-preview { display: flex; gap: 10px; margin-top: 10px; }
+        .thumbnail-container { position: relative; }
+        .thumbnail { width: 100px; height: 100px; object-fit: cover; background-color: #ccc; border-radius: var(--border-radius-small); }
+        .remove-img-btn {
+            position: absolute; top: -5px; right: -5px;
+            background: black; color: white;
+            border: none; border-radius: 50%;
+            width: 20px; height: 20px;
+            font-size: 12px; line-height: 20px; text-align: center;
+            cursor: pointer;
+        }
+
+        /* Backend Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--color-background-white);
+        }
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+        .data-table th {
+            background-color: var(--color-background-gray);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .action-buttons { display: flex; gap: 8px; }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-small);
+            background-color: var(--color-background-white);
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        .page-btn.active, .page-btn:hover {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+            border-color: var(--color-brand-primary);
+        }
+
+        /* Modal / Pop-up */
+        .modal-overlay {
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-content {
+            background: white; padding: 30px;
+            border-radius: var(--border-radius-base);
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <div class="logo">Sale Here</div>
+        <div class="user-switcher">
+            <a href="#" class="nav-link active" data-target="user-view">User View</a>
+            <a href="#" class="nav-link" data-target="merchant-view">Merchant View</a>
+            <a href="#" class="nav-link" data-target="admin-view">Admin View</a>
+        </div>
+    </div>
+    
+    <!-- USER VIEW -->
+    <div id="user-view" class="view active">
+        <div class="container">
+            <!-- PAGE: Product Detail -->
+            <div id="product-detail-page" class="page active">
+                <h1>ชื่อสินค้าตัวอย่างที่น่าสนใจ</h1>
+                <div class="card">
+                     <div class="placeholder-img product-image" onclick="alert('View product image')"></div>
+                     <p style="margin-top: 1rem;">รายละเอียดสินค้าแบบย่อ: นี่คือคำอธิบายสั้นๆ เกี่ยวกับคุณสมบัติและจุดเด่นของสินค้าชิ้นนี้ เพื่อให้ผู้ใช้งานเข้าใจภาพรวมของผลิตภัณฑ์</p>
+                </div>
+                
+                <div id="review-section" class="card">
+                    <h2>รีวิวสินค้า</h2>
+                    <!-- Review Summary -->
+                    <div class="review-summary">
+                        <div class="avg-rating">
+                            <div class="avg-score">4.3</div>
+                            <div class="star-rating-display">
+                                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star-empty">★</span>
+                            </div>
+                            <div>จาก 152 รีวิว</div>
+                        </div>
+                        <div class="rating-bars">
+                            <div class="rating-bar-row"><div class="star-label">5 ดาว</div><div class="rating-bar-container"><div class="rating-bar-fill" style="width: 60%;"></div></div><div class="count">91</div></div>
+                            <div class="rating-bar-row"><div class="star-label">4 ดาว</div><div class="rating-bar-container"><div class="rating-bar-fill" style="width: 25%;"></div></div><div class="count">38</div></div>
+                            <div class="rating-bar-row"><div class="star-label">3 ดาว</div><div class="rating-bar-container"><div class="rating-bar-fill" style="width: 10%;"></div></div><div class="count">15</div></div>
+                            <div class="rating-bar-row"><div class="star-label">2 ดาว</div><div class="rating-bar-container"><div class="rating-bar-fill" style="width: 3%;"></div></div><div class="count">5</div></div>
+                            <div class="rating-bar-row"><div class="star-label">1 ดาว</div><div class="rating-bar-container"><div class="rating-bar-fill" style="width: 2%;"></div></div><div class="count">3</div></div>
+                        </div>
+                    </div>
+                    
+                    <hr style="border: none; border-top: 1px solid var(--color-border-light); margin: 2rem 0;">
+                    
+                    <!-- Review Actions -->
+                    <div class="review-actions">
+                        <button id="write-review-btn" class="btn btn-primary">เขียนรีวิว</button>
+                        <div class="sort-reviews">
+                            <label for="sort-options" class="form-label">เรียงตาม:</label>
+                            <select id="sort-options" class="form-select" style="width: auto;">
+                                <option value="date_desc">ล่าสุด</option>
+                                <option value="score_desc">คะแนนสูงสุด</option>
+                                <option value="score_asc">คะแนนต่ำสุด</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Review List -->
+                    <div id="review-list">
+                        <div class="review-card" data-date="2024-07-22" data-score="5">
+                           <div class="review-header">
+                               <div>
+                                   <div class="review-author">สมชาย ใจดี</div>
+                                   <div class="star-rating-display"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+                               </div>
+                               <div class="review-meta">22 ก.ค. 2567</div>
+                           </div>
+                           <div class="review-body">
+                               <p>สินค้าดีมากครับ จัดส่งรวดเร็ว คุณภาพเกินราคาไปมาก ประทับใจสุดๆ จะกลับมาอุดหนุนอีกแน่นอนครับ!</p>
+                               <div class="review-images">
+                                   <div class="placeholder-img review-image"></div>
+                                   <div class="placeholder-img review-image"></div>
+                               </div>
+                           </div>
+                           <div class="merchant-reply">
+                               <strong>คำตอบกลับจากร้านค้า:</strong>
+                               <p>ขอบคุณสำหรับรีวิวครับ! ทางร้านดีใจที่คุณลูกค้าชอบสินค้าของเรา โอกาสหน้าเชิญใหม่นะครับ</p>
+                           </div>
+                        </div>
+                        <div class="review-card" data-date="2024-07-20" data-score="2">
+                           <div class="review-header">
+                               <div>
+                                   <div class="review-author">มานี มีตา</div>
+                                   <div class="star-rating-display"><span class="star">★</span><span class="star">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span></div>
+                               </div>
+                               <div class="review-meta">20 ก.ค. 2567</div>
+                           </div>
+                           <div class="review-body">
+                               <p>สินค้ามีตำหนิเล็กน้อยตรงขอบ แต่โดยรวมก็ยังพอใช้งานได้อยู่ครับ อยากให้ตรวจสอบสินค้าก่อนส่งดีกว่านี้</p>
+                           </div>
+                           <div style="text-align: right; margin-top: 10px;">
+                                <button class="btn btn-secondary btn-sm" onclick="showPage('write-review-page', true)">แก้ไข</button>
+                                <button class="btn btn-cancel btn-sm" onclick="alert('ลบรีวิว')">ลบ</button>
+                           </div>
+                        </div>
+                        <div class="review-card" data-date="2024-06-15" data-score="4">
+                           <div class="review-header">
+                               <div>
+                                   <div class="review-author">ปิติ ชูใจ</div>
+                                   <div class="star-rating-display"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star-empty">★</span></div>
+                               </div>
+                               <div class="review-meta">15 มิ.ย. 2567</div>
+                           </div>
+                           <div class="review-body">
+                               <p>ใช้ดีครับ สมราคา</p>
+                           </div>
+                        </div>
+                    </div>
+                     <!-- Pagination -->
+                    <div class="pagination">
+                        <button class="page-btn">«</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">»</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: Write/Edit Review -->
+            <div id="write-review-page" class="page">
+                <h1 id="review-form-title">เขียนรีวิวสำหรับ "ชื่อสินค้าตัวอย่าง"</h1>
+                <div class="card">
+                    <form id="review-form">
+                        <div class="form-group">
+                            <label class="form-label">ให้คะแนนสินค้า</label>
+                            <div class="star-rating" id="form-star-rating">
+                                <span class="star" data-value="1">★</span>
+                                <span class="star" data-value="2">★</span>
+                                <span class="star" data-value="3">★</span>
+                                <span class="star" data-value="4">★</span>
+                                <span class="star" data-value="5">★</span>
+                            </div>
+                            <input type="hidden" id="rating-value" name="rating" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="review-text" class="form-label">เขียนรีวิวของคุณ</label>
+                            <textarea id="review-text" class="form-textarea" placeholder="บอกเล่าประสบการณ์ของคุณเกี่ยวกับสินค้านี้..." maxlength="500"></textarea>
+                            <div id="char-count">0 / 500</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">อัปโหลดรูปภาพ (สูงสุด 3 รูป)</label>
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('image-upload-input').click()">เลือกรูปภาพ</button>
+                            <input type="file" id="image-upload-input" multiple accept="image/*" style="display: none;">
+                            <div id="image-upload-preview" class="image-upload-preview">
+                                <!-- Thumbnails will be added here by JS -->
+                            </div>
+                        </div>
+                        <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end;">
+                            <button type="button" class="btn btn-cancel" onclick="showPage('product-detail-page')">ยกเลิก</button>
+                            <button type="button" id="submit-review-btn" class="btn btn-primary">ส่งรีวิว</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MERCHANT VIEW -->
+    <div id="merchant-view" class="view">
+        <div class="main-layout">
+            <nav class="sidebar-main">
+                <h2>Merchant Menu</h2>
+                <ul>
+                    <li><a href="#" class="sidebar-link active" data-target="merchant-dashboard-page">Dashboard</a></li>
+                    <li><a href="#" class="sidebar-link" data-target="review-management-page">Review Management</a></li>
+                </ul>
+            </nav>
+            <main class="main-content">
+                <!-- PAGE: Merchant Dashboard -->
+                <div id="merchant-dashboard-page" class="page active">
+                    <h1>Dashboard ภาพรวมรีวิว</h1>
+                    <div class="card">
+                        <h3>สถิติคะแนนเฉลี่ยของสินค้า</h3>
+                        <p>สินค้า A: 4.5 ดาว (จาก 150 รีวิว)</p>
+                        <p>สินค้า B: 4.8 ดาว (จาก 88 รีวิว) - <a href="#" onclick="showPage('review-management-page'); return false;">จัดการรีวิว</a></p>
+                        <p>สินค้า C: 3.2 ดาว (จาก 45 รีวิว)</p>
+                    </div>
+                </div>
+
+                <!-- PAGE: Review Management -->
+                <div id="review-management-page" class="page">
+                    <h1>จัดการรีวิว: สินค้า B</h1>
+                    <div class="card">
+                        <div class="form-group" style="max-width: 200px;">
+                             <label for="filter-rating" class="form-label">กรองตามคะแนน:</label>
+                             <select id="filter-rating" class="form-select">
+                                <option>ทั้งหมด</option>
+                                <option>5 ดาว</option>
+                                <option>4 ดาว</option>
+                                <option>3 ดาว</option>
+                                <option>2 ดาว</option>
+                                <option>1 ดาว</option>
+                             </select>
+                        </div>
+                        <div class="review-list-merchant">
+                            <div class="review-card">
+                               <div class="review-header">
+                                   <div>
+                                       <div class="review-author">ลูกค้า VIP</div>
+                                       <div class="star-rating-display"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+                                   </div>
+                                   <div class="review-meta">25 ก.ค. 2567</div>
+                               </div>
+                               <div class="review-body">
+                                   <p>ยอดเยี่ยมเหมือนเคยครับ</p>
+                               </div>
+                               <div class="merchant-reply-section">
+                                   <div class="merchant-reply">
+                                       <strong>คำตอบกลับจากร้านค้า:</strong>
+                                       <p>ขอบคุณมากครับ!</p>
+                                   </div>
+                               </div>
+                            </div>
+                             <div class="review-card">
+                               <div class="review-header">
+                                   <div>
+                                       <div class="review-author">ลูกค้าใหม่</div>
+                                       <div class="star-rating-display"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star-empty">★</span></div>
+                                   </div>
+                                   <div class="review-meta">19 ก.ค. 2567</div>
+                               </div>
+                               <div class="review-body">
+                                   <p>ได้รับของแล้วครับ แต่ยังไม่ได้ลองใช้</p>
+                               </div>
+                               <div class="merchant-reply-section">
+                                    <button class="btn btn-secondary reply-btn">ตอบกลับ</button>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- ADMIN VIEW -->
+    <div id="admin-view" class="view">
+         <div class="main-layout">
+            <nav class="sidebar-main">
+                <h2>Admin Menu</h2>
+                <ul>
+                    <li><a href="#" class="sidebar-link active" data-target="review-moderation-page">Review Moderation</a></li>
+                    <li><a href="#" class="sidebar-link" data-target="admin-reports-page">Report & Export</a></li>
+                    <li><a href="#" class="sidebar-link" data-target="admin-ai-filter-page">AI Filter Settings</a></li>
+                    <li><a href="#" class="sidebar-link" data-target="marketing-tool-page">Marketing Tool</a></li>
+                </ul>
+            </nav>
+            <main class="main-content">
+                <!-- PAGE: Review Moderation -->
+                <div id="review-moderation-page" class="page active">
+                    <h1>ตรวจสอบรีวิว (AI Flagged)</h1>
+                    <div class="card">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ผู้ใช้งาน</th>
+                                    <th>สินค้า</th>
+                                    <th>เนื้อหารีวิว</th>
+                                    <th>เหตุผลที่ถูกแจ้ง</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="moderation-item">
+                                    <td>user_123</td>
+                                    <td>สินค้า D</td>
+                                    <td>คำหยาบ... ไม่ดีเลย</td>
+                                    <td>Profanity Detected</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-success btn-sm approve-btn">อนุมัติ</button>
+                                        <button class="btn btn-danger btn-sm delete-btn">ลบ</button>
+                                    </td>
+                                </tr>
+                                <tr class="moderation-item">
+                                    <td>user_456</td>
+                                    <td>สินค้า E</td>
+                                    <td>ส่งของช้ามาก แย่ๆๆ</td>
+                                    <td>Spam / Repetitive</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-success btn-sm approve-btn">อนุมัติ</button>
+                                        <button class="btn btn-danger btn-sm delete-btn">ลบ</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PAGE: Report & Export -->
+                <div id="admin-reports-page" class="page">
+                    <h1>สร้างและดาวน์โหลดรายงาน</h1>
+                    <div class="card">
+                        <form>
+                            <div class="form-group">
+                                <label for="report-type" class="form-label">ประเภทรายงาน</label>
+                                <select id="report-type" class="form-select">
+                                    <option>รายงานรีวิวทั้งหมด</option>
+                                    <option>รายงานรีวิวตามช่วงคะแนน</option>
+                                    <option>รายงานรีวิวตามสินค้า</option>
+                                </select>
+                            </div>
+                             <div class="form-group">
+                                <label for="date-range" class="form-label">ช่วงวันที่</label>
+                                <input type="date" class="form-input" style="width: auto;"> ถึง <input type="date" class="form-input" style="width: auto;">
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="alert('กำลังสร้างรายงาน...')">สร้างและดาวน์โหลด</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- PAGE: AI Filter Settings -->
+                <div id="admin-ai-filter-page" class="page">
+                    <h1>ตั้งค่า AI Filter</h1>
+                    <div class="card">
+                        <h3>จัดการคำต้องห้าม</h3>
+                        <div class="form-group">
+                            <label for="banned-words" class="form-label">รายการคำต้องห้าม (คั่นด้วยจุลภาค ,)</label>
+                            <textarea id="banned-words" class="form-textarea">คำหยาบ,ไม่ดี,แย่</textarea>
+                        </div>
+                        <button class="btn btn-primary" onclick="alert('บันทึกการเปลี่ยนแปลงแล้ว')">บันทึก</button>
+                    </div>
+                </div>
+
+                <!-- PAGE: Marketing Tool -->
+                <div id="marketing-tool-page" class="page">
+                    <h1>เครื่องมือดึงรีวิวไปใช้</h1>
+                    <div class="card">
+                        <h3>ค้นหาและกรองรีวิว</h3>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <input type="text" class="form-input" placeholder="ค้นหาตามสินค้า...">
+                            <select class="form-select">
+                                <option>คะแนน 4-5 ดาว</option>
+                                <option>ทุกคะแนน</option>
+                            </select>
+                            <button class="btn btn-secondary">ค้นหา</button>
+                        </div>
+                        <table class="data-table">
+                             <thead>
+                                <tr>
+                                    <th><input type="checkbox"></th>
+                                    <th>ผู้ใช้งาน</th>
+                                    <th>คะแนน</th>
+                                    <th>เนื้อหารีวิว</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>สมชาย ใจดี</td>
+                                    <td>5 ★</td>
+                                    <td>สินค้าดีมากครับ จัดส่งรวดเร็ว...</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>ปิติ ชูใจ</td>
+                                    <td>4 ★</td>
+                                    <td>ใช้ดีครับ สมราคา</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 1rem; text-align: right;">
+                             <button class="btn btn-primary" onclick="alert('ดึง 2 รีวิวที่เลือกไปใช้งาน')">ดึงรีวิวที่เลือก</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div id="success-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>ส่งรีวิวสำเร็จ!</h3>
+            <p>ขอบคุณสำหรับความคิดเห็นของคุณ</p>
+            <button id="close-modal-btn" class="btn btn-primary">ตกลง</button>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Global Navigation ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const views = document.querySelectorAll('.view');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetViewId = link.getAttribute('data-target');
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    views.forEach(view => {
+                        view.classList.remove('active');
+                        if (view.id === targetViewId) {
+                            view.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // --- Sidebar Navigation ---
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetPageId = link.getAttribute('data-target');
+                    const parentView = link.closest('.view');
+                    
+                    parentView.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+
+                    parentView.querySelectorAll('.page').forEach(page => {
+                        page.classList.remove('active');
+                        if (page.id === targetPageId) {
+                            page.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // --- Page Navigation Function ---
+            window.showPage = (pageId, isEdit = false) => {
+                const parentView = document.querySelector('.view.active');
+                parentView.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+
+                if (pageId === 'write-review-page') {
+                    const formTitle = document.getElementById('review-form-title');
+                    const reviewText = document.getElementById('review-text');
+                    const starRating = document.getElementById('form-star-rating');
+
+                    if(isEdit) {
+                        formTitle.textContent = 'แก้ไขรีวิว';
+                        reviewText.value = 'สินค้ามีตำหนิเล็กน้อยตรงขอบ แต่โดยรวมก็ยังพอใช้งานได้อยู่ครับ อยากให้ตรวจสอบสินค้าก่อนส่งดีกว่านี้';
+                        // Simulate setting star rating to 2
+                         Array.from(starRating.children).forEach((star, index) => {
+                            star.classList.toggle('selected', index < 2);
+                        });
+                        document.getElementById('rating-value').value = 2;
+                        
+                    } else {
+                        formTitle.textContent = 'เขียนรีวิวสำหรับ "ชื่อสินค้าตัวอย่าง"';
+                        document.getElementById('review-form').reset();
+                         Array.from(starRating.children).forEach(star => star.classList.remove('selected'));
+                         document.getElementById('rating-value').value = 0;
+                    }
+                    updateCharCount(); // Update count on load
+                }
+            };
+            
+            // --- Flow 1: Write Review ---
+            document.getElementById('write-review-btn').addEventListener('click', () => showPage('write-review-page'));
+            
+            const successModal = document.getElementById('success-modal');
+            document.getElementById('submit-review-btn').addEventListener('click', () => {
+                successModal.style.display = 'flex';
+            });
+            document.getElementById('close-modal-btn').addEventListener('click', () => {
+                successModal.style.display = 'none';
+                showPage('product-detail-page');
+            });
+            
+            // Star Rating Interaction
+            const stars = document.querySelectorAll('#form-star-rating .star');
+            const ratingInput = document.getElementById('rating-value');
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function() {
+                    const ratingValue = this.dataset.value;
+                    stars.forEach((s, i) => s.classList.toggle('hovered', i < ratingValue));
+                });
+                star.addEventListener('mouseout', function() {
+                     stars.forEach(s => s.classList.remove('hovered'));
+                });
+                star.addEventListener('click', function() {
+                    const ratingValue = this.dataset.value;
+                    ratingInput.value = ratingValue;
+                    stars.forEach((s, i) => s.classList.toggle('selected', i < ratingValue));
+                });
+            });
+
+            // Textarea character count
+            const reviewText = document.getElementById('review-text');
+            const charCount = document.getElementById('char-count');
+            const updateCharCount = () => {
+                charCount.textContent = `${reviewText.value.length} / 500`;
+            }
+            reviewText.addEventListener('input', updateCharCount);
+
+            // Image upload preview
+            const imageInput = document.getElementById('image-upload-input');
+            const previewContainer = document.getElementById('image-upload-preview');
+            imageInput.addEventListener('change', function() {
+                previewContainer.innerHTML = ''; // Clear existing previews
+                if (this.files) {
+                    Array.from(this.files).slice(0, 3).forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const thumbWrapper = document.createElement('div');
+                            thumbWrapper.className = 'thumbnail-container';
+                            const thumb = document.createElement('div');
+                            thumb.className = 'thumbnail';
+                            // In a real app: thumb.style.backgroundImage = `url(${e.target.result})`;
+                            const removeBtn = document.createElement('button');
+                            removeBtn.className = 'remove-img-btn';
+                            removeBtn.textContent = '×';
+                            removeBtn.onclick = () => thumbWrapper.remove();
+                            
+                            thumbWrapper.appendChild(thumb);
+                            thumbWrapper.appendChild(removeBtn);
+                            previewContainer.appendChild(thumbWrapper);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                }
+            });
+
+            // --- Flow 2: Sort Reviews ---
+            document.getElementById('sort-options').addEventListener('change', function() {
+                const sortBy = this.value;
+                const reviewList = document.getElementById('review-list');
+                const reviews = Array.from(reviewList.querySelectorAll('.review-card'));
+                
+                reviews.sort((a, b) => {
+                    const scoreA = parseInt(a.dataset.score);
+                    const scoreB = parseInt(b.dataset.score);
+                    const dateA = new Date(a.dataset.date);
+                    const dateB = new Date(b.dataset.date);
+
+                    switch(sortBy) {
+                        case 'score_desc': return scoreB - scoreA;
+                        case 'score_asc': return scoreA - scoreB;
+                        case 'date_desc':
+                        default:
+                            return dateB - dateA;
+                    }
+                });
+
+                reviewList.innerHTML = '';
+                reviews.forEach(review => reviewList.appendChild(review));
+                alert(`เรียงรีวิวตาม: ${this.options[this.selectedIndex].text}`);
+            });
+
+            // --- Flow 3: Merchant Reply ---
+            document.querySelectorAll('.reply-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const replySection = this.closest('.merchant-reply-section');
+                    replySection.innerHTML = `
+                        <div class="form-group">
+                            <textarea class="form-textarea" placeholder="พิมพ์คำตอบกลับ..."></textarea>
+                        </div>
+                        <button class="btn btn-primary btn-sm send-reply-btn">ส่งคำตอบ</button>
+                    `;
+                    
+                    replySection.querySelector('.send-reply-btn').addEventListener('click', function() {
+                        const text = replySection.querySelector('textarea').value;
+                        if(text.trim()){
+                            replySection.innerHTML = `
+                                <div class="merchant-reply">
+                                    <strong>คำตอบกลับจากร้านค้า:</strong>
+                                    <p>${text}</p>
+                                </div>`;
+                        }
+                    });
+                });
+            });
+
+            // --- Flow 4: Admin Moderation ---
+            document.querySelectorAll('.moderation-item .approve-btn, .moderation-item .delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const item = this.closest('.moderation-item');
+                    item.style.transition = 'opacity 0.5s';
+                    item.style.opacity = '0';
+                    setTimeout(() => item.remove(), 500);
+                    
+                    const action = this.classList.contains('approve-btn') ? 'อนุมัติ' : 'ลบ';
+                    alert(`รีวิวถูก ${action} เรียบร้อยแล้ว`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
