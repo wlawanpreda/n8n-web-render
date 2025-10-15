@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF--8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe: Product Review System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            /* CSS Variables Global */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --border-radius-small: 4px;
+            --spacing-unit: 4px;
+            --transition-base: all 0.3s ease;
+
+            /* Color Palette */
+            --color-brand-primary: #ED1C24;
+            --color-brand-primary-hover: #D41920;
+            --color-background-gray: #F2F3F5;
+            --color-background-white: #FFFFFF;
+            --color-background-light-pink: #FBEAEA;
+            --color-text-main: #343A40;
+            --color-text-secondary: #6C757D;
+            --color-text-light: #999999;
+            --color-border-light: #E0E0E0;
+        }
+
+        /* General Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background-gray);
+            color: var(--color-text-main);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        h1 { font-size: 2rem; font-weight: 700; line-height: 1.3; }
+        h2 { font-size: 1.5rem; font-weight: 600; line-height: 1.4; }
+        h3 { font-size: 1.125rem; font-weight: 500; line-height: 1.5; }
+        p { margin-bottom: 1rem; }
+        a { color: var(--color-brand-primary); text-decoration: none; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        .text-small { font-size: 0.875rem; color: var(--color-text-secondary); }
+        .text-light { color: var(--color-text-light); }
+        .d-none { display: none !important; }
+
+        /* Prototype Navigation */
+        .prototype-nav {
+            background-color: #2c3e50;
+            padding: 10px 24px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .prototype-nav button {
+            background-color: #34495e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        .prototype-nav button:hover, .prototype-nav button.active {
+            background-color: var(--color-brand-primary);
+        }
+
+        /* === FRONTEND COMPONENTS === */
+        .navbar-main {
+            background-color: var(--color-brand-primary);
+            height: 60px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #FFFFFF;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-main .logo { font-size: 1.5rem; font-weight: 700; }
+        .navbar-main .user-profile { display: flex; align-items: center; gap: 8px; }
+        .navbar-main .user-profile .avatar-placeholder {
+            width: 36px; height: 36px; background-color: #cccccc;
+            border-radius: 50%; border: 2px solid white;
+        }
+
+        .footer-main {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+            padding: 40px 20px 20px;
+            text-align: center;
+            margin-top: 48px;
+        }
+        .content-card {
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+        .image-placeholder {
+            background-color: #cccccc;
+            border-radius: var(--border-radius-base);
+            width: 100%;
+            display: block;
+        }
+        .btn {
+            border: none;
+            border-radius: var(--border-radius-small);
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-base);
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+        }
+        .btn-primary:hover { background-color: var(--color-brand-primary-hover); }
+        .btn-secondary {
+            background-color: var(--color-background-white);
+            color: var(--color-text-main);
+            border: 1px solid var(--color-border-light);
+        }
+        .btn-secondary:hover { background-color: var(--color-background-gray); }
+        
+        .btn-edit {
+            background-color: var(--color-background-light-pink);
+            color: var(--color-brand-primary);
+            padding: 8px 16px;
+            font-size: 0.875rem;
+        }
+        .btn-edit:hover { background-color: #F5D5D5; }
+
+        .btn-delete {
+            background-color: transparent;
+            color: var(--color-text-secondary);
+            padding: 8px 16px;
+            font-size: 0.875rem;
+        }
+        .btn-delete:hover { color: var(--color-brand-primary); background-color: var(--color-background-light-pink); }
+
+        .star-rating { display: flex; align-items: center; gap: 4px; color: #f5c518; }
+        .star-rating.input-stars .fa-star { cursor: pointer; color: var(--color-border-light); }
+        .star-rating.input-stars .fa-star:hover,
+        .star-rating.input-stars .fa-star.selected { color: #f5c518; }
+
+        .form-control {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-main);
+            margin-bottom: 6px;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-small);
+            font-size: 0.9375rem;
+            transition: var(--transition-base);
+            font-family: var(--font-family-base);
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--color-brand-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px var(--color-background-light-pink);
+        }
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .review-filter-controls {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .review-filter-controls .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-tabs button {
+            background: var(--color-background-white);
+            border: 1px solid var(--color-border-light);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        .filter-tabs button.active, .filter-tabs button:hover {
+            background: var(--color-background-light-pink);
+            color: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+        }
+        .review-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+        .review-item:last-child { border-bottom: none; }
+        .review-item .avatar-placeholder {
+            width: 48px; height: 48px; background-color: #cccccc;
+            border-radius: 50%; flex-shrink: 0;
+        }
+        .review-item .review-content .review-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+        .review-item .review-images { display: flex; gap: 8px; margin-top: 12px; }
+        .review-item .review-images .img-thumb {
+            width: 80px; height: 80px; background-color: #cccccc;
+            border-radius: var(--border-radius-small);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--color-border-light);
+            border-radius: var(--border-radius-base);
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-base);
+            background-color: var(--color-background-gray);
+        }
+        .upload-area:hover {
+            border-color: var(--color-brand-primary);
+            background-color: var(--color-background-light-pink);
+        }
+        #preview-container {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .preview-image {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+        .preview-image .img-thumb {
+            width: 100%;
+            height: 100%;
+            background-color: #cccccc;
+            border-radius: var(--border-radius-small);
+        }
+        .preview-image .remove-img-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--color-brand-primary);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* === BACKEND COMPONENTS === */
+        .backend-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar-main {
+            width: 240px;
+            height: 100vh;
+            background-color: var(--color-background-white);
+            border-right: 1px solid var(--color-border-light);
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-main .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-brand-primary);
+            margin-bottom: 24px;
+            padding: 0 12px;
+        }
+        .sidebar-main .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: var(--border-radius-base);
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .sidebar-main .nav-link.active, .sidebar-main .nav-link:hover {
+            background-color: var(--color-background-light-pink);
+            color: var(--color-brand-primary);
+        }
+        .main-content {
+            margin-left: 240px;
+            padding: 24px;
+            background-color: var(--color-background-gray);
+            flex-grow: 1;
+        }
+        .page-header {
+            background-color: var(--color-background-white);
+            padding: 20px 24px;
+            border-radius: var(--border-radius-base);
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-filter-bar .form-input, .search-filter-bar .form-select {
+            min-width: 200px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .data-table th, .data-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+        .data-table th {
+            background-color: var(--color-background-gray);
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            font-weight: 600;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover { background-color: var(--color-background-light-pink); }
+        .data-table td .product-info { display: flex; align-items: center; gap: 12px; }
+        .data-table td .img-thumb { width: 40px; height: 40px; }
+        
+        .status-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-approved { background-color: #d4edda; color: #155724; }
+        .status-pending { background-color: #fff3cd; color: #856404; }
+        .status-rejected { background-color: #f8d7da; color: #721c24; }
+        .action-buttons { display: flex; gap: 8px; }
+        .action-buttons .btn { padding: 8px 12px; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+
+    <div class="prototype-nav">
+        <button id="nav-customer" class="active" onclick="showView('customer-view', this)">Customer View</button>
+        <button id="nav-merchant" onclick="showView('merchant-view', this)">Merchant View</button>
+        <button id="nav-admin" onclick="showView('admin-view', this)">Admin View</button>
+    </div>
+
+    <!-- ======================= CUSTOMER VIEW ======================= -->
+    <div id="customer-view">
+        <nav class="navbar-main">
+            <div class="logo">Sale Here</div>
+            <div class="user-profile">
+                <span>สวัสดี, คุณลูกค้า</span>
+                <div class="avatar-placeholder"></div>
+            </div>
+        </nav>
+
+        <!-- Customer Page: Product Detail -->
+        <div id="page-customer-product-detail" class="customer-page">
+            <div class="container">
+                <div class="content-card">
+                    <div style="display: flex; gap: 24px;">
+                        <div style="flex: 1;">
+                            <div class="image-placeholder" style="height: 400px;"></div>
+                        </div>
+                        <div style="flex: 1;">
+                            <h1>เสื้อยืดคอตตอน 100%</h1>
+                            <p class="text-secondary">แบรนด์: Stylish Apparel</p>
+                            <div class="star-rating" style="font-size: 1.5rem; margin-bottom: 1rem;">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span style="color: var(--color-text-main); font-size: 1.25rem; margin-left: 12px;">4.5</span>
+                            </div>
+                            <p>เสื้อยืดคุณภาพพรีเมียม ทำจากผ้าคอตตอน 100% เนื้อนุ่ม ใส่สบาย ระบายอากาศได้ดี เหมาะกับทุกโอกาส</p>
+                            <h2>ราคา: ฿390.00</h2>
+                            <button class="btn btn-primary" style="width: 100%; margin-top: 24px;"><i class="fas fa-shopping-cart"></i> เพิ่มลงตะกร้า</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <h2>รีวิวสินค้า (125)</h2>
+                        <button class="btn btn-primary" onclick="showPage('page-customer-write-review')"><i class="fas fa-pencil-alt"></i> เขียนรีวิว</button>
+                    </div>
+
+                    <div class="review-summary" style="display: flex; align-items: center; gap: 24px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--color-border-light);">
+                        <div>
+                            <div style="font-size: 2.5rem; font-weight: 700;">4.5 <span style="font-size: 1.5rem; color: var(--color-text-light)">/ 5</span></div>
+                            <div class="star-rating" style="font-size: 1.25rem;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                            <div class="text-small">จาก 125 รีวิว</div>
+                        </div>
+                        <!-- Progress Bars can be added here -->
+                    </div>
+
+                    <div class="review-filter-controls">
+                        <div class="filter-group">
+                            <label for="sort-reviews" class="text-small">เรียงลำดับตาม:</label>
+                            <select id="sort-reviews" class="form-select" style="width: auto;">
+                                <option>ล่าสุด</option>
+                                <option>คะแนนสูงสุด</option>
+                                <option>มีรูปภาพ</option>
+                            </select>
+                        </div>
+                        <div class="filter-group filter-tabs">
+                            <button class="active">ทั้งหมด</button>
+                            <button>5 ดาว</button>
+                            <button>4 ดาว</button>
+                            <button>3 ดาว</button>
+                            <button>2 ดาว</button>
+                            <button>1 ดาว</button>
+                        </div>
+                    </div>
+
+                    <div class="review-list">
+                        <!-- Review Item 1 -->
+                        <div class="review-item">
+                            <div class="avatar-placeholder"></div>
+                            <div class="review-content">
+                                <div class="review-meta">
+                                    <strong>สมชาย ใจดี</strong>
+                                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                </div>
+                                <p>ผ้าดีมากครับ นุ่มใส่สบาย ส่งไวสุดๆ สั่งเมื่อวาน วันนี้ได้รับของแล้ว จะกลับมาซื้อสีอื่นเพิ่มแน่นอนครับ!</p>
+                                <div class="review-images">
+                                    <div class="img-thumb"></div>
+                                    <div class="img-thumb"></div>
+                                </div>
+                                <p class="text-small text-light">1 วันที่แล้ว</p>
+                            </div>
+                        </div>
+                        <!-- Review Item 2 -->
+                        <div class="review-item">
+                            <div class="avatar-placeholder"></div>
+                            <div class="review-content">
+                                <div class="review-meta">
+                                    <strong>มานี มีสุข</strong>
+                                    <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
+                                </div>
+                                <p>โดยรวมถือว่าโอเคค่ะ แต่สีอาจจะเพี้ยนจากในรูปไปนิดหน่อย แต่ก็ยังสวยอยู่ค่ะ</p>
+                                <p class="text-small text-light">3 วันที่แล้ว</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Page: Write Review -->
+        <div id="page-customer-write-review" class="customer-page d-none">
+             <div class="container">
+                <div class="content-card">
+                    <button class="btn btn-secondary" onclick="showPage('page-customer-product-detail')"><i class="fas fa-arrow-left"></i> กลับไปหน้ารายละเอียดสินค้า</button>
+                    <h2 style="margin-top: 24px;">เขียนรีวิวสำหรับ "เสื้อยืดคอตตอน 100%"</h2>
+                    <form onsubmit="event.preventDefault(); alert('ส่งรีวิวสำเร็จ!'); showPage('page-customer-my-reviews');">
+                        <div class="form-control">
+                            <label class="form-label">ให้คะแนนสินค้า</label>
+                            <div id="rating-stars" class="star-rating input-stars" style="font-size: 2rem;">
+                                <i class="far fa-star" data-value="1"></i>
+                                <i class="far fa-star" data-value="2"></i>
+                                <i class="far fa-star" data-value="3"></i>
+                                <i class="far fa-star" data-value="4"></i>
+                                <i class="far fa-star" data-value="5"></i>
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            <label for="review-text" class="form-label">ความคิดเห็นของคุณ</label>
+                            <textarea id="review-text" class="form-textarea" placeholder="สินค้าเป็นอย่างไรบ้าง? поділіться враженнями..."></textarea>
+                            <small class="text-light">0/500</small>
+                        </div>
+                        <div class="form-control">
+                            <label class="form-label">เพิ่มรูปภาพ (สูงสุด 3 รูป)</label>
+                            <div class="upload-area" onclick="document.getElementById('file-upload').click()">
+                                <i class="fas fa-cloud-upload-alt fa-2x text-light"></i>
+                                <p>ลากและวางไฟล์ที่นี่ หรือ คลิกเพื่ออัปโหลด</p>
+                            </div>
+                            <input type="file" id="file-upload" multiple style="display: none;" onchange="handleFileSelect(event)">
+                             <div id="preview-container"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">ส่งรีวิว</button>
+                    </form>
+                </div>
+             </div>
+        </div>
+
+        <!-- Customer Page: My Reviews -->
+        <div id="page-customer-my-reviews" class="customer-page d-none">
+            <div class="container">
+                <h2>รีวิวของฉัน</h2>
+                <!-- My Review Item 1 -->
+                <div class="content-card">
+                    <div style="display: flex; gap: 16px;">
+                        <div class="image-placeholder" style="width: 100px; height: 100px; flex-shrink: 0;"></div>
+                        <div style="flex-grow: 1;">
+                            <h3>เสื้อยืดคอตตอน 100%</h3>
+                            <div class="review-meta" style="margin-bottom: 8px;">
+                                <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                <span class="text-small text-light">เขียนเมื่อ: 1 วันที่แล้ว</span>
+                            </div>
+                            <p>ผ้าดีมากครับ นุ่มใส่สบาย ส่งไวสุดๆ สั่งเมื่อวาน วันนี้ได้รับของแล้ว จะกลับมาซื้อสีอื่นเพิ่มแน่นอนครับ!</p>
+                             <div class="review-images">
+                                <div class="img-thumb"></div>
+                                <div class="img-thumb"></div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <button class="btn btn-edit"><i class="fas fa-edit"></i> แก้ไข</button>
+                            <button class="btn btn-delete" onclick="confirm('คุณแน่ใจหรือไม่ที่จะลบรีวิวนี้?')"><i class="fas fa-trash"></i> ลบ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer-main">
+            © 2024 Sale Here Platform
+        </footer>
+    </div>
+
+
+    <!-- ======================= MERCHANT VIEW ======================= -->
+    <div id="merchant-view" class="d-none">
+        <div class="backend-layout">
+            <nav class="sidebar-main">
+                 <div class="logo">Merchant</div>
+                 <div>
+                    <a href="#" class="nav-link active" onclick="showPage('page-merchant-dashboard', 'merchant-view')"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="#" class="nav-link"><i class="fas fa-box-open"></i> สินค้า</a>
+                    <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> รายงาน</a>
+                 </div>
+            </nav>
+            <main class="main-content">
+                <!-- Merchant Page: Dashboard -->
+                <div id="page-merchant-dashboard" class="merchant-page">
+                    <div class="page-header">
+                        <h1>รีวิวทั้งหมด</h1>
+                    </div>
+                    <div class="content-card">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>สินค้า</th>
+                                    <th>ผู้รีวิว</th>
+                                    <th>คะแนน</th>
+                                    <th>เนื้อหา</th>
+                                    <th>วันที่</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="product-info">
+                                            <div class="image-placeholder img-thumb"></div>
+                                            <span>เสื้อยืดคอตตอน 100%</span>
+                                        </div>
+                                    </td>
+                                    <td>สมชาย ใจดี</td>
+                                    <td><div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></td>
+                                    <td>ผ้าดีมากครับ นุ่มใส่สบาย...</td>
+                                    <td>1 วันที่แล้ว</td>
+                                    <td><button class="btn btn-secondary" onclick="showPage('page-merchant-reply', 'merchant-view')">ตอบกลับ</button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="product-info">
+                                            <div class="image-placeholder img-thumb"></div>
+                                            <span>กางเกงยีนส์</span>
+                                        </div>
+                                    </td>
+                                    <td>มานี มีสุข</td>
+                                    <td><div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div></td>
+                                    <td>โดยรวมถือว่าโอเคค่ะ แต่สีอาจจะเพี้ยน...</td>
+                                    <td>3 วันที่แล้ว</td>
+                                    <td><button class="btn btn-secondary" onclick="showPage('page-merchant-reply', 'merchant-view')">ตอบกลับ</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Merchant Page: Reply to Review -->
+                <div id="page-merchant-reply" class="merchant-page d-none">
+                    <div class="page-header">
+                        <h1>ตอบกลับรีวิว</h1>
+                    </div>
+                    <div class="content-card">
+                        <button class="btn btn-secondary" onclick="showPage('page-merchant-dashboard', 'merchant-view')"><i class="fas fa-arrow-left"></i> กลับไปหน้ารีวิวทั้งหมด</button>
+                        <h3 style="margin-top: 24px;">รีวิวจาก: สมชาย ใจดี</h3>
+                        <div class="review-item" style="padding: 16px; background: var(--color-background-gray); border-radius: var(--border-radius-base);">
+                             <div class="avatar-placeholder"></div>
+                             <div class="review-content">
+                                 <div class="review-meta">
+                                     <strong>สมชาย ใจดี</strong>
+                                     <div class="star-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                 </div>
+                                 <p>ผ้าดีมากครับ นุ่มใส่สบาย ส่งไวสุดๆ สั่งเมื่อวาน วันนี้ได้รับของแล้ว จะกลับมาซื้อสีอื่นเพิ่มแน่นอนครับ!</p>
+                             </div>
+                        </div>
+                        <form style="margin-top: 24px;" onsubmit="event.preventDefault(); alert('ส่งคำตอบเรียบร้อย'); showPage('page-merchant-dashboard', 'merchant-view');">
+                            <div class="form-control">
+                                <label for="reply-text" class="form-label">ข้อความตอบกลับ</label>
+                                <textarea id="reply-text" class="form-textarea" placeholder="เขียนคำตอบกลับของคุณ..."></textarea>
+                            </div>
+                            <button class="btn btn-primary" type="submit">ส่งคำตอบ</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <!-- ======================= ADMIN VIEW ======================= -->
+    <div id="admin-view" class="d-none">
+        <div class="backend-layout">
+            <nav class="sidebar-main">
+                <div class="logo">Admin</div>
+                <div>
+                    <a href="#" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="#" class="nav-link active" onclick="showPage('page-admin-management', 'admin-view')"><i class="fas fa-star"></i> จัดการรีวิว</a>
+                    <a href="#" class="nav-link"><i class="fas fa-users"></i> จัดการผู้ใช้</a>
+                </div>
+            </nav>
+            <main class="main-content">
+                <!-- Admin Page: Management -->
+                <div id="page-admin-management" class="admin-page">
+                    <div class="page-header">
+                        <div>
+                            <h1>จัดการรีวิว</h1>
+                            <p class="text-small">ดูและจัดการรีวิวทั้งหมดในระบบ</p>
+                        </div>
+                        <button class="btn btn-secondary"><i class="fas fa-file-export"></i> Export ข้อมูล</button>
+                    </div>
+
+                    <div class="content-card">
+                         <div class="search-filter-bar">
+                            <input type="text" class="form-input" placeholder="ค้นหารีวิว...">
+                            <select class="form-select">
+                                <option>กรองตามสถานะ</option>
+                                <option>Approved</option>
+                                <option>Pending</option>
+                                <option>Rejected</option>
+                            </select>
+                            <input type="date" class="form-input">
+                         </div>
+
+                         <div class="action-buttons" style="margin-bottom: 20px;">
+                             <button id="admin-action-approve" class="btn btn-secondary" disabled>อนุมัติ</button>
+                             <button id="admin-action-hide" class="btn btn-secondary" disabled>ซ่อน</button>
+                             <button id="admin-action-delete" class="btn btn-secondary" disabled>ลบ</button>
+                         </div>
+
+                         <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="check-all"></th>
+                                    <th>ผู้รีวิว</th>
+                                    <th>สินค้า</th>
+                                    <th>เนื้อหา</th>
+                                    <th>สถานะ</th>
+                                    <th>วันที่</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox" class="row-check"></td>
+                                    <td>สมชาย ใจดี</td>
+                                    <td>เสื้อยืดคอตตอน 100%</td>
+                                    <td>ผ้าดีมากครับ นุ่มใส่สบาย...</td>
+                                    <td><span class="status-tag status-approved">Approved</span></td>
+                                    <td>1 วันที่แล้ว</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="row-check"></td>
+                                    <td>มานี มีสุข</td>
+                                    <td>กางเกงยีนส์</td>
+                                    <td>โดยรวมถือว่าโอเคค่ะ แต่สีอาจจะเพี้ยน...</td>
+                                    <td><span class="status-tag status-approved">Approved</span></td>
+                                    <td>3 วันที่แล้ว</td>
+                                </tr>
+                                 <tr>
+                                    <td><input type="checkbox" class="row-check"></td>
+                                    <td>สุดา มาแรง</td>
+                                    <td>หมวกแก๊ป</td>
+                                    <td>ได้รับของไม่ตรงปก รูปทรงไม่สวยเลย</td>
+                                    <td><span class="status-tag status-pending">Pending</span></td>
+                                    <td>5 วันที่แล้ว</td>
+                                </tr>
+                            </tbody>
+                         </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <script>
+        let currentView = 'customer-view';
+        let currentPage = {
+            'customer-view': 'page-customer-product-detail',
+            'merchant-view': 'page-merchant-dashboard',
+            'admin-view': 'page-admin-management',
+        };
+
+        function showView(viewId, navButton) {
+            document.getElementById(currentView).classList.add('d-none');
+            document.getElementById(viewId).classList.remove('d-none');
+            currentView = viewId;
+
+            document.querySelectorAll('.prototype-nav button').forEach(btn => btn.classList.remove('active'));
+            navButton.classList.add('active');
+        }
+
+        function showPage(pageId, viewId = null) {
+            const targetView = viewId || currentView;
+            
+            document.querySelectorAll(`#${targetView} .${targetView.replace('-view', '-page')}`).forEach(page => {
+                page.classList.add('d-none');
+            });
+            
+            const newPage = document.getElementById(pageId);
+            if (newPage) {
+                 newPage.classList.remove('d-none');
+                 currentPage[targetView] = pageId;
+                 window.scrollTo(0, 0);
+            }
+        }
+        
+        // Star Rating Interaction
+        const ratingStarsContainer = document.getElementById('rating-stars');
+        if(ratingStarsContainer) {
+            const stars = ratingStarsContainer.querySelectorAll('.fa-star');
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function() {
+                    resetStars();
+                    const value = this.dataset.value;
+                    for (let i = 0; i < value; i++) {
+                        stars[i].classList.replace('far', 'fas');
+                    }
+                });
+                star.addEventListener('mouseout', resetStars);
+                star.addEventListener('click', function() {
+                    const value = this.dataset.value;
+                    ratingStarsContainer.dataset.rating = value;
+                    resetStars(); // First clear
+                    for (let i = 0; i < value; i++) {
+                        stars[i].classList.replace('far', 'fas');
+                        stars[i].classList.add('selected');
+                    }
+                });
+            });
+
+            function resetStars() {
+                const selectedValue = ratingStarsContainer.dataset.rating || 0;
+                stars.forEach((star, index) => {
+                    if (index < selectedValue) {
+                        star.classList.replace('far', 'fas');
+                        star.classList.add('selected');
+                    } else {
+                        star.classList.replace('fas', 'far');
+                        star.classList.remove('selected');
+                    }
+                });
+            }
+        }
+
+        // Admin Table Checkbox Logic
+        const checkAll = document.getElementById('check-all');
+        const rowChecks = document.querySelectorAll('.row-check');
+        const actionButtons = document.querySelectorAll('#admin-action-approve, #admin-action-hide, #admin-action-delete');
+
+        function updateActionButtons() {
+            const anyChecked = Array.from(rowChecks).some(cb => cb.checked);
+            actionButtons.forEach(btn => {
+                btn.disabled = !anyChecked;
+            });
+        }
+
+        if(checkAll) {
+            checkAll.addEventListener('change', (e) => {
+                rowChecks.forEach(cb => cb.checked = e.target.checked);
+                updateActionButtons();
+            });
+        }
+
+        rowChecks.forEach(cb => {
+            cb.addEventListener('change', () => {
+                if (!cb.checked) {
+                    checkAll.checked = false;
+                } else {
+                    const allChecked = Array.from(rowChecks).every(c => c.checked);
+                    checkAll.checked = allChecked;
+                }
+                updateActionButtons();
+            });
+        });
+        
+        // File Upload Preview
+        function handleFileSelect(event) {
+            const previewContainer = document.getElementById('preview-container');
+            const files = event.target.files;
+
+            for (let i = 0; i < files.length; i++) {
+                if (previewContainer.children.length >= 3) break;
+                const file = files[i];
+                if (!file.type.startsWith('image/')){ continue }
+
+                const previewWrapper = document.createElement('div');
+                previewWrapper.classList.add('preview-image');
+                
+                const thumb = document.createElement('div');
+                thumb.classList.add('img-thumb');
+
+                const removeBtn = document.createElement('button');
+                removeBtn.classList.add('remove-img-btn');
+                removeBtn.innerHTML = '&times;';
+                removeBtn.onclick = function() {
+                    previewContainer.removeChild(previewWrapper);
+                };
+
+                previewWrapper.appendChild(thumb);
+                previewWrapper.appendChild(removeBtn);
+                previewContainer.appendChild(previewWrapper);
+            }
+        }
+        
+    </script>
+</body>
+</html>
