@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe - Product Review System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Style Guide Implementation */
+        :root {
+            /* Global Variables */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --border-radius-small: 4px;
+            --spacing-unit: 4px;
+            --transition-base: all 0.3s ease;
+
+            /* Color Palette */
+            --color-brand-primary: #ED1C24;
+            --color-brand-primary-hover: #D41920;
+            --color-background-gray: #F2F3F5;
+            --color-background-white: #FFFFFF;
+            --color-background-light-pink: #FBEAEA;
+            --color-text-main: #343A40;
+            --color-text-secondary: #6C757D;
+            --color-text-light: #999999;
+            --color-border-light: #E0E0E0;
+            
+            /* Spacing Helpers */
+            --space-1: calc(1 * var(--spacing-unit));
+            --space-2: calc(2 * var(--spacing-unit));
+            --space-3: calc(3 * var(--spacing-unit));
+            --space-4: calc(4 * var(--spacing-unit));
+            --space-5: calc(5 * var(--spacing-unit));
+            --space-6: calc(6 * var(--spacing-unit));
+        }
+
+        /* Base Styles & Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background-gray);
+            color: var(--color-text-main);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--color-brand-primary);
+            text-decoration: none;
+            transition: var(--transition-base);
+        }
+        a:hover {
+            color: var(--color-brand-primary-hover);
+            text-decoration: underline;
+        }
+
+        h1, .h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        h2, .h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        h3, .h3 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        p, .p-base {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        .p-small {
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--color-text-secondary);
+        }
+        .caption {
+            font-size: 0.75rem;
+            font-weight: 400;
+            line-height: 1.4;
+            color: var(--color-text-light);
+        }
+        
+        /* Layout */
+        .page { display: none; }
+        .page.active { display: block; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-6);
+        }
+        
+        .main-content {
+            margin-left: 240px;
+            padding: var(--space-6);
+            background-color: var(--color-background-gray);
+            min-height: 100vh;
+        }
+        .card {
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            padding: var(--space-6);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: var(--space-5);
+            border: 1px solid var(--color-border-light);
+        }
+        
+        .image-placeholder {
+            background-color: #cccccc;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            border-radius: var(--border-radius-small);
+        }
+        
+        /* Mock Navigation for Prototype */
+        .prototype-nav {
+            background-color: var(--color-text-main);
+            color: white;
+            padding: var(--space-3) var(--space-6);
+            display: flex;
+            gap: var(--space-4);
+            align-items: center;
+        }
+        .prototype-nav a {
+            color: white;
+            font-weight: 500;
+            padding: var(--space-2);
+            border-radius: var(--border-radius-small);
+        }
+        .prototype-nav a.active {
+            background-color: var(--color-brand-primary);
+            text-decoration: none;
+        }
+
+        /* Components */
+        
+        /* Buttons */
+        .btn {
+            border: none;
+            border-radius: var(--border-radius-small);
+            padding: 10px 24px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-base);
+            text-align: center;
+            display: inline-block;
+        }
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-hover);
+            color: #FFFFFF;
+            text-decoration:none;
+        }
+        .btn-secondary {
+            background-color: var(--color-background-white);
+            color: var(--color-text-main);
+            border: 1px solid var(--color-border-light);
+        }
+        .btn-secondary:hover {
+            background-color: var(--color-background-gray);
+            text-decoration:none;
+        }
+        .btn-sm {
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.875rem;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-main);
+            margin-bottom: var(--space-2);
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-small);
+            font-size: 0.9375rem;
+            transition: var(--transition-base);
+            font-family: var(--font-family-base);
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--color-brand-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px var(--color-background-light-pink);
+        }
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Star Rating */
+        .star-rating {
+            font-size: 1.5rem;
+            color: #FFC107;
+        }
+        .star-rating .muted {
+            color: var(--color-border-light);
+        }
+
+        /* Review List */
+        .review-item {
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-2);
+        }
+        .review-header .username {
+            font-weight: 600;
+        }
+        .review-body p {
+            margin-bottom: var(--space-3);
+        }
+        .review-images {
+            display: flex;
+            gap: var(--space-2);
+        }
+        .review-images .image-placeholder {
+            width: 80px;
+            height: 80px;
+        }
+
+        /* Backend/Admin Specific */
+        .admin-layout {
+            display: flex;
+        }
+        .sidebar-main {
+            width: 240px;
+            height: 100vh;
+            background-color: var(--color-background-white);
+            border-right: 1px solid var(--color-border-light);
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: var(--space-6);
+        }
+        .sidebar-main .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-6);
+        }
+        .sidebar-main .logo span {
+            color: var(--color-brand-primary);
+        }
+        .sidebar-nav a {
+            display: block;
+            padding: var(--space-3);
+            border-radius: var(--border-radius-base);
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            margin-bottom: var(--space-2);
+        }
+        .sidebar-nav a:hover {
+            background-color: var(--color-background-gray);
+            color: var(--color-text-main);
+            text-decoration: none;
+        }
+        .sidebar-nav a.active {
+            background-color: var(--color-background-light-pink);
+            color: var(--color-brand-primary);
+        }
+        
+        .page-header {
+            background-color: var(--color-background-white);
+            padding: var(--space-5) var(--space-6);
+            border-radius: var(--border-radius-base);
+            margin-bottom: var(--space-6);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--color-background-white);
+        }
+        .data-table th, .data-table td {
+            padding: var(--space-4);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+        .data-table th {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+        .data-table tr:hover {
+            background-color: var(--color-background-gray);
+        }
+        .status-badge {
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--border-radius-small);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-approved { background-color: #E6F4EA; color: #34A853; }
+        .status-pending { background-color: #FEF3E2; color: #FBBC04; }
+        .status-rejected { background-color: #FBEAEA; color: #EA4335; }
+
+
+        /* Utility Classes */
+        .d-flex { display: flex; }
+        .justify-content-between { justify-content: space-between; }
+        .align-items-center { align-items: center; }
+        .gap-2 { gap: var(--space-2); }
+        .gap-3 { gap: var(--space-3); }
+        .gap-4 { gap: var(--space-4); }
+        .mb-1 { margin-bottom: var(--space-1); }
+        .mb-2 { margin-bottom: var(--space-2); }
+        .mb-3 { margin-bottom: var(--space-3); }
+        .mb-4 { margin-bottom: var(--space-4); }
+        .mb-5 { margin-bottom: var(--space-5); }
+        .mb-6 { margin-bottom: var(--space-6); }
+        .mt-4 { margin-top: var(--space-4); }
+        .w-100 { width: 100%; }
+        .text-right { text-align: right; }
+    </style>
+</head>
+<body>
+
+    <nav class="prototype-nav">
+        <strong>Switch Role:</strong>
+        <a href="#product-detail-page" data-role="customer" class="role-switcher">Customer</a>
+        <a href="#merchant-dashboard" data-role="merchant" class="role-switcher">Merchant</a>
+        <a href="#admin-management" data-role="admin" class="role-switcher">Admin</a>
+    </nav>
+    
+    <!-- Customer Flow Pages -->
+    <div id="product-detail-page" class="page">
+        <div class="container">
+            <div class="card mb-4">
+                <h2 class="h2">Product Detail Section</h2>
+                <p class="p-small">This is a placeholder for product information, image gallery, price, etc.</p>
+                <div class="d-flex gap-4 mt-4">
+                    <div class="image-placeholder" style="width: 200px; height: 200px; flex-shrink: 0;"></div>
+                    <div>
+                        <h3 class="h3">Awesome Gadget Pro</h3>
+                        <p class="p-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="h2">รีวิวสินค้า</h2>
+                    <a href="#write-review-page" class="btn btn-primary">เขียนรีวิว</a>
+                </div>
+
+                <div class="d-flex align-items-center gap-4 mb-4">
+                    <div>
+                        <span style="font-size: 2.5rem; font-weight: 700;">4.5</span>
+                        <span class="p-small">/ 5</span>
+                    </div>
+                    <div class="star-rating">★★★★<span class="muted">★</span></div>
+                    <div class="p-small">(120 รีวิว)</div>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center mb-4 gap-4" style="flex-wrap: wrap;">
+                    <div class="d-flex gap-2" style="flex-wrap: wrap;">
+                         <button class="btn btn-secondary btn-sm">5 ดาว</button>
+                         <button class="btn btn-secondary btn-sm">4 ดาว</button>
+                         <button class="btn btn-secondary btn-sm">3 ดาว</button>
+                         <button class="btn btn-secondary btn-sm">2 ดาว</button>
+                         <button class="btn btn-secondary btn-sm">1 ดาว</button>
+                    </div>
+                    <div>
+                        <select class="form-select">
+                            <option>เรียงลำดับ: ล่าสุด</option>
+                            <option>เรียงลำดับ: คะแนนสูงสุด</option>
+                            <option>เรียงลำดับ: รีวิวที่มีรูปภาพ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="reviews-list">
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="username">สมชาย ใจดี</div>
+                            <div class="star-rating">★★★★★</div>
+                        </div>
+                        <div class="review-body">
+                            <p>สินค้าดีมากครับ ใช้งานง่าย คุณภาพสมราคา จัดส่งรวดเร็วทันใจ แพ็คมาอย่างดีไม่มีเสียหาย ประทับใจมากครับ</p>
+                            <div class="review-images">
+                                <div class="image-placeholder"></div>
+                                <div class="image-placeholder"></div>
+                            </div>
+                        </div>
+                        <div class="caption mt-4">รีวิวเมื่อ: 20/07/2024</div>
+                    </div>
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="username">มานี มีสุข</div>
+                            <div class="star-rating">★★★★<span class="muted">★</span></div>
+                        </div>
+                        <div class="review-body">
+                            <p>โดยรวมถือว่าโอเคครับ แต่คาดหวังว่าวัสดุจะดีกว่านี้เล็กน้อย แต่ก็ถือว่ารับได้ในราคานี้ครับ</p>
+                        </div>
+                         <div class="caption mt-4">รีวิวเมื่อ: 18/07/2024</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="write-review-page" class="page">
+        <div class="container" style="max-width: 800px;">
+            <div class="card">
+                <h1 class="h1 mb-2">เขียนรีวิวสำหรับ "Awesome Gadget Pro"</h1>
+                <p class="p-small mb-5">เรายินดีรับฟังความคิดเห็นของคุณ</p>
+                
+                <div class="form-group">
+                    <label class="form-label">ให้คะแนนสินค้า</label>
+                    <div class="star-rating" style="cursor: pointer;">★★★★★</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="review-text">ความคิดเห็นของคุณ</label>
+                    <textarea id="review-text" class="form-textarea" placeholder="บอกเล่าประสบการณ์ของคุณ..."></textarea>
+                    <p class="caption text-right">0/500</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">อัปโหลดรูปภาพ (สูงสุด 3 รูป)</label>
+                    <div class="d-flex gap-3">
+                         <div class="image-placeholder" style="width:100px; height:100px;"></div>
+                         <div class="image-placeholder" style="width:100px; height:100px;"></div>
+                         <div class="image-placeholder" style="width:100px; height:100px;"></div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-3 mt-4">
+                     <a href="#product-detail-page" class="btn btn-secondary">ยกเลิก</a>
+                     <a href="#product-detail-page" class="btn btn-primary">ส่งรีวิว</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="my-reviews-page" class="page">
+        <div class="container">
+            <h1 class="h1 mb-5">รีวิวของฉัน</h1>
+            <div class="card">
+                 <div class="review-item">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                             <h3 class="h3 mb-2">Awesome Gadget Pro</h3>
+                             <div class="review-header">
+                                <div class="star-rating">★★★★★</div>
+                             </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-secondary btn-sm">แก้ไข</button>
+                            <button class="btn btn-secondary btn-sm" style="color: var(--color-brand-primary)">ลบ</button>
+                        </div>
+                    </div>
+                    <div class="review-body mt-4">
+                        <p>สินค้าดีมากครับ ใช้งานง่าย คุณภาพสมราคา จัดส่งรวดเร็วทันใจ แพ็คมาอย่างดีไม่มีเสียหาย ประทับใจมากครับ</p>
+                    </div>
+                    <div class="caption mt-4">รีวิวเมื่อ: 20/07/2024</div>
+                </div>
+                <div class="review-item">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                             <h3 class="h3 mb-2">Simple Wireless Mouse</h3>
+                             <div class="review-header">
+                                <div class="star-rating">★★★<span class="muted">★★</span></div>
+                             </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-secondary btn-sm">แก้ไข</button>
+                            <button class="btn btn-secondary btn-sm" style="color: var(--color-brand-primary)">ลบ</button>
+                        </div>
+                    </div>
+                    <div class="review-body mt-4">
+                        <p>พอใช้ได้ครับ เชื่อมต่อหลุดบ้างบางครั้ง</p>
+                    </div>
+                    <div class="caption mt-4">รีวิวเมื่อ: 15/06/2024</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Merchant Flow Pages -->
+    <div id="merchant-dashboard" class="page">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                 <h1 class="h1">Merchant Dashboard</h1>
+                 <div style="font-size:1.5rem;">🔔 <sup>3</sup></div>
+            </div>
+            <div class="card">
+                <h2 class="h2 mb-4">รีวิวล่าสุด</h2>
+                <div class="review-item">
+                     <div class="d-flex justify-content-between">
+                        <div>
+                             <p class="p-small">สินค้า: Awesome Gadget Pro</p>
+                             <div class="review-header">
+                                <div class="username">สมชาย ใจดี</div>
+                                <div class="star-rating">★★★★★</div>
+                             </div>
+                        </div>
+                        <a href="#reply-review-page" class="btn btn-primary btn-sm">ตอบกลับ</a>
+                    </div>
+                    <div class="review-body mt-4">
+                        <p>สินค้าดีมากครับ ใช้งานง่าย คุณภาพสมราคา จัดส่งรวดเร็วทันใจ...</p>
+                    </div>
+                </div>
+                 <div class="review-item">
+                     <div class="d-flex justify-content-between">
+                        <div>
+                             <p class="p-small">สินค้า: Simple Wireless Mouse</p>
+                             <div class="review-header">
+                                <div class="username">มานี มีสุข</div>
+                                <div class="star-rating">★★★<span class="muted">★★</span></div>
+                             </div>
+                        </div>
+                        <a href="#reply-review-page" class="btn btn-primary btn-sm">ตอบกลับ</a>
+                    </div>
+                    <div class="review-body mt-4">
+                        <p>พอใช้ได้ครับ เชื่อมต่อหลุดบ้างบางครั้ง...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="reply-review-page" class="page">
+        <div class="container" style="max-width: 800px;">
+             <h1 class="h1 mb-5">ตอบกลับรีวิว</h1>
+             <div class="card mb-4">
+                 <h3 class="h3">รีวิวจากลูกค้า</h3>
+                 <div class="review-item" style="border:none; padding-bottom: 0;">
+                    <p class="p-small">สินค้า: Awesome Gadget Pro</p>
+                    <div class="review-header">
+                       <div class="username">สมชาย ใจดี</div>
+                       <div class="star-rating">★★★★★</div>
+                    </div>
+                    <div class="review-body mt-4">
+                       <p>สินค้าดีมากครับ ใช้งานง่าย คุณภาพสมราคา จัดส่งรวดเร็วทันใจ แพ็คมาอย่างดีไม่มีเสียหาย ประทับใจมากครับ</p>
+                    </div>
+                 </div>
+             </div>
+             <div class="card">
+                <div class="form-group">
+                    <label class="form-label" for="reply-text">คำตอบของคุณ</label>
+                    <textarea id="reply-text" class="form-textarea" placeholder="พิมพ์คำตอบของคุณที่นี่..."></textarea>
+                </div>
+                <div class="d-flex justify-content-end gap-3 mt-4">
+                     <a href="#merchant-dashboard" class="btn btn-secondary">ยกเลิก</a>
+                     <a href="#merchant-dashboard" class="btn btn-primary">ส่งคำตอบ</a>
+                </div>
+             </div>
+        </div>
+    </div>
+    
+    <!-- Admin Flow Pages -->
+    <div id="admin-management" class="page">
+        <div class="admin-layout">
+            <aside class="sidebar-main">
+                <div class="logo">Admin<span>Panel</span></div>
+                <nav class="sidebar-nav">
+                    <a href="#admin-management" class="admin-nav active" data-target="admin-tab-reviews">Review Management</a>
+                    <a href="#admin-management" class="admin-nav" data-target="admin-tab-ai-filter">AI Filter Settings</a>
+                    <a href="#admin-management" class="admin-nav" data-target="admin-tab-reports">Manage Reports</a>
+                </nav>
+            </aside>
+            <main class="main-content">
+                <div id="admin-tab-reviews" class="admin-tab active">
+                    <div class="page-header">
+                        <h1 class="h1">Review Management</h1>
+                        <p class="p-small">จัดการรีวิวทั้งหมดในระบบ</p>
+                    </div>
+                    <div class="card">
+                        <div class="d-flex justify-content-between mb-4 gap-4" style="flex-wrap: wrap;">
+                            <input type="search" class="form-input" placeholder="ค้นหาจาก Keyword, ชื่อลูกค้า, สินค้า..." style="max-width: 400px;">
+                            <div class="d-flex gap-3">
+                                <select class="form-select">
+                                    <option>กรองตามสถานะ: ทั้งหมด</option>
+                                    <option>Approved</option>
+                                    <option>Pending</option>
+                                    <option>Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>ลูกค้า</th>
+                                    <th>สินค้า</th>
+                                    <th>คะแนน</th>
+                                    <th>สถานะ</th>
+                                    <th>วันที่</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>101</td>
+                                    <td>สมชาย ใจดี</td>
+                                    <td>Awesome Gadget Pro</td>
+                                    <td>★★★★★</td>
+                                    <td><span class="status-badge status-approved">Approved</span></td>
+                                    <td>20/07/2024</td>
+                                    <td class="d-flex gap-2">
+                                        <button class="btn btn-secondary btn-sm">ซ่อน</button>
+                                        <button class="btn btn-secondary btn-sm" style="color:var(--color-brand-primary)">ลบ</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>102</td>
+                                    <td>มานี มีสุข</td>
+                                    <td>Simple Wireless Mouse</td>
+                                    <td>★★★☆☆</td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                    <td>18/07/2024</td>
+                                    <td class="d-flex gap-2">
+                                        <button class="btn btn-secondary btn-sm">อนุมัติ</button>
+                                        <button class="btn btn-secondary btn-sm" style="color:var(--color-brand-primary)">ลบ</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="admin-tab-ai-filter" class="admin-tab">
+                     <div class="page-header">
+                        <h1 class="h1">AI Filter Settings</h1>
+                        <p class="p-small">จัดการคำต้องห้ามสำหรับระบบกรองรีวิวอัตโนมัติ</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="h3 mb-3">เพิ่มคำต้องห้ามใหม่</h3>
+                        <div class="d-flex gap-3">
+                             <input type="text" class="form-input" placeholder="พิมพ์คำต้องห้าม...">
+                             <button class="btn btn-primary">เพิ่ม</button>
+                        </div>
+                        <hr class="my-4" style="border:none; border-top:1px solid var(--color-border-light);">
+                        <h3 class="h3 mb-3">รายการคำต้องห้าม</h3>
+                        <div class="d-flex gap-2" style="flex-wrap:wrap;">
+                            <span class="btn btn-secondary btn-sm">หยาบคาย<button style="background:none; border:none; color:var(--color-brand-primary); cursor:pointer; margin-left:4px;">X</button></span>
+                            <span class="btn btn-secondary btn-sm">ไม่สุภาพ<button style="background:none; border:none; color:var(--color-brand-primary); cursor:pointer; margin-left:4px;">X</button></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="admin-tab-reports" class="admin-tab">
+                     <div class="page-header">
+                        <h1 class="h1">Manage Reports</h1>
+                        <p class="p-small">ส่งออกข้อมูลและดูรายงานสรุป</p>
+                    </div>
+                     <div class="card">
+                        <h3 class="h3 mb-3">Export ข้อมูลรีวิว</h3>
+                        <p class="p-small mb-3">ส่งออกข้อมูลรีวิวทั้งหมดในรูปแบบไฟล์ CSV</p>
+                        <button class="btn btn-primary">Export ข้อมูล (CSV)</button>
+                     </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const pages = document.querySelectorAll('.page');
+            const roleSwitchers = document.querySelectorAll('.role-switcher');
+            const adminNavLinks = document.querySelectorAll('.admin-nav');
+            const adminTabs = document.querySelectorAll('.admin-tab');
+
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+
+                // Update role switcher active state
+                let activeRole = 'customer';
+                if (pageId.startsWith('merchant')) activeRole = 'merchant';
+                if (pageId.startsWith('admin')) activeRole = 'admin';
+
+                roleSwitchers.forEach(switcher => {
+                    if (switcher.dataset.role === activeRole) {
+                        switcher.classList.add('active');
+                    } else {
+                        switcher.classList.remove('active');
+                    }
+                });
+            }
+
+            function handleHashChange() {
+                const hash = window.location.hash.substring(1);
+                showPage(hash || 'product-detail-page');
+            }
+            
+            function showAdminTab(tabId) {
+                adminTabs.forEach(tab => tab.style.display = 'none');
+                const targetTab = document.getElementById(tabId);
+                if(targetTab) targetTab.style.display = 'block';
+
+                adminNavLinks.forEach(link => {
+                    if(link.dataset.target === tabId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+
+            // Initial load
+            handleHashChange();
+            showAdminTab('admin-tab-reviews');
+
+            // Listen for hash changes
+            window.addEventListener('hashchange', handleHashChange);
+            
+            // Admin tab navigation
+            adminNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showAdminTab(this.dataset.target);
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
