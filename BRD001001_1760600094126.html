@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe: Product Review System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Style Guide Implementation */
+
+        /* --- CSS Variables --- */
+        :root {
+            /* Global */
+            --font-family-base: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+            --border-radius-base: 8px;
+            --border-radius-small: 4px;
+            --spacing-unit: 4px;
+            --transition-base: all 0.3s ease;
+
+            /* Colors */
+            --color-brand-primary: #ED1C24;
+            --color-brand-primary-hover: #D41920;
+            --color-background-gray: #F2F3F5;
+            --color-background-white: #FFFFFF;
+            --color-background-light-pink: #FBEAEA;
+            --color-text-main: #343A40;
+            --color-text-secondary: #6C757D;
+            --color-text-light: #999999;
+            --color-border-light: #E0E0E0;
+            
+            /* Additional for functionality */
+            --color-star-active: #FFC107;
+            --color-star-inactive: #E0E0E0;
+            --color-success: #28a745;
+            --color-danger: #dc3545;
+            --color-warning: #ffc107;
+
+        }
+
+        /* --- Base & Typography --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--color-background-gray);
+            color: var(--color-text-main);
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        h1, .h1 {
+            font-size: 2rem; /* 32px */
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        h2, .h2 {
+            font-size: 1.5rem; /* 24px */
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        h3, .h3 {
+            font-size: 1.125rem; /* 18px */
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        
+        .small-text {
+            font-size: 0.875rem; /* 14px */
+            line-height: 1.5;
+            color: var(--color-text-secondary);
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .page { display: none; }
+        .page.active { display: block; }
+        
+        .main-nav {
+            background-color: var(--color-text-main);
+            padding: 12px 24px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+        }
+        .main-nav p {
+            margin: 0;
+            font-weight: 500;
+        }
+        .main-nav button {
+            background-color: var(--color-text-secondary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        .main-nav button:hover, .main-nav button.active {
+            background-color: var(--color-brand-primary);
+        }
+
+
+        /* --- Generic Components --- */
+        .card {
+            background-color: var(--color-background-white);
+            border-radius: var(--border-radius-base);
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+        
+        .btn {
+            border: none;
+            border-radius: var(--border-radius-small);
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-base);
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: #FFFFFF;
+        }
+        .btn-primary:hover {
+            background-color: var(--color-brand-primary-hover);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border-light);
+        }
+        .btn-secondary:hover {
+            background-color: var(--color-background-gray);
+            border-color: var(--color-text-secondary);
+        }
+        
+        .btn-sm {
+             padding: 8px 12px;
+             font-size: 0.875rem;
+        }
+
+        .placeholder-image {
+            background-color: #E0E0E0;
+            border-radius: var(--border-radius-small);
+        }
+        
+        .flex-container {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .dropdown {
+            padding: 8px 12px;
+            border-radius: var(--border-radius-small);
+            border: 1px solid var(--color-border-light);
+            background-color: white;
+            font-family: var(--font-family-base);
+        }
+        
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .star-rating .star {
+            font-size: 1.5rem;
+            color: var(--color-star-inactive);
+        }
+        .star-rating .star.filled {
+            color: var(--color-star-active);
+        }
+
+        /* --- Product Detail Page --- */
+        #product-detail-page .review-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        #product-detail-page .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        #product-detail-page .filter-buttons button {
+            background-color: var(--color-background-white);
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border-light);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        #product-detail-page .filter-buttons button:hover,
+        #product-detail-page .filter-buttons button.active {
+            background-color: var(--color-background-light-pink);
+            color: var(--color-brand-primary);
+            border-color: var(--color-brand-primary);
+        }
+        #product-detail-page .review-card {
+            border-bottom: 1px solid var(--color-border-light);
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+        #product-detail-page .review-card:last-child {
+            border-bottom: none;
+        }
+        #product-detail-page .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        #product-detail-page .review-header .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        #product-detail-page .review-images {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        #product-detail-page .review-images .image-thumb {
+            width: 70px;
+            height: 70px;
+            cursor: pointer;
+        }
+        #product-detail-page .store-reply {
+            background-color: var(--color-background-gray);
+            border-left: 3px solid var(--color-brand-primary);
+            padding: 12px;
+            margin-top: 16px;
+            border-radius: var(--border-radius-small);
+        }
+
+        /* --- Review Submission Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background-color: var(--color-background-white);
+            padding: 32px;
+            border-radius: var(--border-radius-base);
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--color-text-secondary);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .interactive-stars .star {
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        .interactive-stars .star:hover {
+            transform: scale(1.2);
+        }
+        textarea.form-control {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border-radius: var(--border-radius-small);
+            border: 1px solid var(--color-border-light);
+            font-family: var(--font-family-base);
+            resize: vertical;
+        }
+        textarea.form-control:focus {
+            border-color: var(--color-brand-primary);
+            outline: none;
+        }
+        #char-counter {
+            text-align: right;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+        #image-preview-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .img-preview {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+        .img-preview .placeholder-image {
+            width: 100%;
+            height: 100%;
+        }
+        .img-preview .delete-img-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--color-danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+
+        /* --- Backend Layout --- */
+        .backend-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar-main {
+            width: 240px;
+            flex-shrink: 0;
+            background-color: var(--color-background-white);
+            border-right: 1px solid var(--color-border-light);
+            padding: 24px;
+        }
+        .sidebar-main h2 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            color: var(--color-brand-primary);
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 24px;
+            background-color: var(--color-background-gray);
+        }
+        .page-header {
+            background-color: var(--color-background-white);
+            padding: 20px 24px;
+            border-radius: var(--border-radius-base);
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* --- Store Dashboard --- */
+        .store-review-item {
+            cursor: pointer;
+        }
+        .store-review-item.active {
+             box-shadow: 0 0 0 2px var(--color-brand-primary);
+        }
+        .store-reply-form {
+            display: none;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--color-border-light);
+        }
+        .store-reply-form.active {
+            display: block;
+        }
+        
+        /* --- Admin Dashboard --- */
+        .admin-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--color-border-light);
+            margin-bottom: 24px;
+        }
+        .admin-tabs .tab-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1px; /* Overlap border */
+        }
+        .admin-tabs .tab-item.active {
+            color: var(--color-brand-primary);
+            border-bottom-color: var(--color-brand-primary);
+        }
+        
+        .filters-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--border-radius-small);
+            font-size: 0.9375rem;
+            transition: var(--transition-base);
+        }
+        .form-input:focus {
+             border-color: var(--color-brand-primary); 
+             outline: none;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: var(--border-radius-base);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .admin-table th, .admin-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+        .admin-table th {
+            background-color: var(--color-background-gray);
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+        .admin-table tbody tr {
+            cursor: pointer;
+            transition: background-color var(--transition-base);
+        }
+        .admin-table tbody tr:hover {
+            background-color: var(--color-background-light-pink);
+        }
+        .admin-table tbody tr.selected {
+             background-color: #FBEAEA;
+             box-shadow: inset 3px 0 0 0 var(--color-brand-primary);
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: var(--border-radius-small);
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+        .status-approved { background-color: #e4f8e9; color: var(--color-success); }
+        .status-pending { background-color: #fff8e1; color: var(--color-warning); }
+        .status-rejected { background-color: #fde2e4; color: var(--color-danger); }
+        
+        .admin-actions {
+            display: none;
+            padding: 16px;
+            background-color: var(--color-background-light-pink);
+            border: 1px solid #F5D5D5;
+            border-radius: var(--border-radius-base);
+            margin-top: 16px;
+        }
+        .admin-actions.active {
+            display: block;
+        }
+        .admin-actions .btn {
+            margin-right: 8px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <p>Prototype Navigation:</p>
+        <button id="nav-customer" class="nav-btn active">Customer View</button>
+        <button id="nav-store" class="nav-btn">Store Dashboard</button>
+        <button id="nav-admin" class="nav-btn">Admin Dashboard</button>
+    </nav>
+
+    <!-- PAGE 1: PRODUCT DETAIL (CUSTOMER) -->
+    <div id="product-detail-page" class="page active">
+        <div class="container">
+            <h1>รีวิวสินค้า: Awesome Gadget Pro</h1>
+            <div class="card">
+                <div class="review-summary">
+                    <div>
+                        <div class="h1">4.8 <span class="h3" style="color: var(--color-text-secondary);">/ 5</span></div>
+                        <div class="star-rating">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                        </div>
+                        <p class="small-text">จาก 1,234 รีวิว</p>
+                    </div>
+                    <div style="flex-grow: 1;"></div>
+                    <button id="write-review-btn" class="btn btn-primary">เขียนรีวิว</button>
+                </div>
+                <hr style="border: none; border-top: 1px solid var(--color-border-light); margin: 24px 0;">
+                <div class="controls">
+                    <select class="dropdown">
+                        <option>เรียงตาม: ล่าสุด</option>
+                        <option>เรียงตาม: เก่าสุด</option>
+                        <option>เรียงตาม: คะแนนสูงสุดไปต่ำสุด</option>
+                        <option>เรียงตาม: คะแนนต่ำสุดไปสูงสุด</option>
+                        <option>เรียงตาม: รีวิวที่มีรูปภาพ</option>
+                    </select>
+                    <div class="filter-buttons">
+                        <button class="active">ทั้งหมด</button>
+                        <button>5 ★</button>
+                        <button>4 ★</button>
+                        <button>3 ★</button>
+                        <button>2 ★</button>
+                        <button>1 ★</button>
+                    </div>
+                </div>
+
+                <div class="review-list">
+                    <!-- Review Item 1 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="placeholder-image avatar"></div>
+                            <div>
+                                <h3 style="margin: 0;">สมชาย ใจดี</h3>
+                                <div class="small-text">2 วันที่แล้ว</div>
+                            </div>
+                        </div>
+                        <div class="star-rating">
+                            <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+                        </div>
+                        <p>สินค้าดีมากครับ จัดส่งไว แพ็คมาอย่างดี คุณภาพเกินราคา คุ้มค่ามากๆ แนะนำเลยครับ!</p>
+                        <div class="review-images">
+                            <div class="placeholder-image image-thumb"></div>
+                            <div class="placeholder-image image-thumb"></div>
+                        </div>
+                        <div class="store-reply">
+                            <p style="margin:0;"><strong style="color:var(--color-brand-primary)">คำตอบจากร้านค้า:</strong> ขอบคุณสำหรับรีวิวครับ! ทางร้านดีใจที่คุณลูกค้าชอบสินค้าของเราครับ</p>
+                        </div>
+                    </div>
+                    <!-- Review Item 2 -->
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="placeholder-image avatar"></div>
+                            <div>
+                                <h3 style="margin: 0;">มานี มีนา</h3>
+                                <div class="small-text">1 สัปดาห์ที่แล้ว</div>
+                            </div>
+                        </div>
+                        <div class="star-rating">
+                            <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+                        </div>
+                        <p>คุณภาพใช้ได้ แต่รอนานไปหน่อย โดยรวมถือว่าโอเคค่ะ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MODAL: REVIEW SUBMISSION -->
+    <div id="review-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span id="close-modal-btn" class="modal-close">&times;</span>
+            <h2>เขียนรีวิวของคุณ</h2>
+            <form id="review-form">
+                <div class="form-group">
+                    <label>ให้คะแนนสินค้า</label>
+                    <div id="form-star-rating" class="star-rating interactive-stars">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="review-text">ความคิดเห็นของคุณ</label>
+                    <textarea id="review-text" class="form-control" placeholder="บอกเล่าประสบการณ์ของคุณ..." maxlength="500"></textarea>
+                    <div id="char-counter">0 / 500</div>
+                </div>
+                <div class="form-group">
+                    <label>อัปโหลดรูปภาพ (สูงสุด 3 รูป)</label>
+                    <button type="button" id="upload-btn" class="btn btn-secondary">เลือกรูปภาพ</button>
+                    <div id="image-preview-container"></div>
+                </div>
+                <button type="submit" id="submit-review-btn" class="btn btn-primary" style="width: 100%;">ส่งรีวิว</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- PAGE 2: STORE DASHBOARD -->
+    <div id="store-dashboard-page" class="page">
+        <div class="backend-layout">
+            <aside class="sidebar-main">
+                <h2>Store Dashboard</h2>
+                <p>เมนู</p>
+                <ul>
+                    <li>ภาพรวม</li>
+                    <li style="font-weight:bold;">จัดการรีวิว</li>
+                    <li>สินค้าของฉัน</li>
+                </ul>
+            </aside>
+            <main class="main-content">
+                <div class="page-header">
+                    <h1>จัดการรีวิวสินค้า</h1>
+                    <p class="small-text">ดูและตอบกลับรีวิวจากลูกค้า</p>
+                </div>
+                <div class="card">
+                     <h3 class="h3">คะแนนเฉลี่ยสินค้า</h3>
+                     <p><strong>Awesome Gadget Pro:</strong> 4.8 ★</p>
+                     <p><strong>Simple Gadget Lite:</strong> 4.5 ★</p>
+                </div>
+                <div class="card">
+                    <h2 class="h2">รีวิวล่าสุด</h2>
+                    <div id="store-review-list">
+                         <!-- Store Review Item 1 -->
+                        <div class="review-card store-review-item">
+                            <p class="small-text"><strong>สินค้า:</strong> Awesome Gadget Pro</p>
+                            <div class="review-header">
+                                <div class="placeholder-image avatar"></div>
+                                <div>
+                                    <h3 style="margin: 0;">สมชาย ใจดี</h3>
+                                    <div class="small-text">2 วันที่แล้ว</div>
+                                </div>
+                            </div>
+                            <div class="star-rating">
+                                <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span>
+                            </div>
+                            <p>สินค้าดีมากครับ จัดส่งไว แพ็คมาอย่างดี คุณภาพเกินราคา คุ้มค่ามากๆ แนะนำเลยครับ!</p>
+                            <div class="store-reply-form">
+                                <label for="reply-text-1">ตอบกลับรีวิวนี้</label>
+                                <textarea id="reply-text-1" class="form-control" placeholder="เขียนคำตอบของคุณ..."></textarea>
+                                <button class="btn btn-primary btn-sm" style="margin-top: 8px;">ส่งคำตอบ</button>
+                            </div>
+                        </div>
+                        <!-- Store Review Item 2 -->
+                        <div class="review-card store-review-item">
+                            <p class="small-text"><strong>สินค้า:</strong> Simple Gadget Lite</p>
+                             <div class="review-header">
+                                <div class="placeholder-image avatar"></div>
+                                <div>
+                                    <h3 style="margin: 0;">มานี มีนา</h3>
+                                    <div class="small-text">1 สัปดาห์ที่แล้ว</div>
+                                </div>
+                            </div>
+                            <div class="star-rating">
+                                <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star">★</span>
+                            </div>
+                            <p>คุณภาพใช้ได้ แต่รอนานไปหน่อย โดยรวมถือว่าโอเคค่ะ</p>
+                             <div class="store-reply-form">
+                                <label for="reply-text-2">ตอบกลับรีวิวนี้</label>
+                                <textarea id="reply-text-2" class="form-control" placeholder="เขียนคำตอบของคุณ..."></textarea>
+                                <button class="btn btn-primary btn-sm" style="margin-top: 8px;">ส่งคำตอบ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <!-- PAGE 3: ADMIN DASHBOARD -->
+    <div id="admin-dashboard-page" class="page">
+         <div class="backend-layout">
+            <aside class="sidebar-main">
+                <h2>Admin Dashboard</h2>
+                <p>เมนูหลัก</p>
+                <ul>
+                    <li style="font-weight:bold;">จัดการรีวิว</li>
+                    <li>จัดการผู้ใช้</li>
+                    <li>จัดการร้านค้า</li>
+                    <li>รายงาน</li>
+                    <li>ตั้งค่าระบบ</li>
+                </ul>
+            </aside>
+            <main class="main-content">
+                <div class="page-header">
+                    <h1>แผงควบคุมผู้ดูแลระบบ</h1>
+                </div>
+
+                <div class="admin-tabs">
+                    <div class="tab-item active">จัดการรีวิว</div>
+                    <div class="tab-item">จัดการคำต้องห้าม (AI Filter)</div>
+                    <div class="tab-item">สร้างรายงานและ Export</div>
+                </div>
+
+                <div class="card">
+                    <div class="filters-bar">
+                        <input type="text" class="form-input" placeholder="ค้นหาตามชื่อสินค้า, ชื่อร้านค้า...">
+                        <select class="dropdown">
+                            <option>สถานะ: ทั้งหมด</option>
+                            <option>สถานะ: รอตรวจสอบ</option>
+                            <option>สถานะ: อนุมัติ</option>
+                            <option>สถานะ: ไม่ผ่าน</option>
+                        </select>
+                         <button class="btn btn-primary">ค้นหา</button>
+                    </div>
+
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>สินค้า</th>
+                                <th>ลูกค้า</th>
+                                <th>คะแนน</th>
+                                <th>ข้อความ</th>
+                                <th>สถานะ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-table-body">
+                            <tr class="admin-review-row">
+                                <td>Awesome Gadget Pro</td>
+                                <td>สมชาย ใจดี</td>
+                                <td>5 ★</td>
+                                <td>สินค้าดีมากครับ จัดส่งไว...</td>
+                                <td><span class="status-badge status-approved">อนุมัติ</span></td>
+                            </tr>
+                            <tr class="admin-review-row">
+                                <td>Simple Gadget Lite</td>
+                                <td>มานี มีนา</td>
+                                <td>4 ★</td>
+                                <td>คุณภาพใช้ได้ แต่รอนานไปหน่อย...</td>
+                                <td><span class="status-badge status-approved">อนุมัติ</span></td>
+                            </tr>
+                            <tr class="admin-review-row">
+                                <td>Ultra Laptop</td>
+                                <td>ปิติ ชูใจ</td>
+                                <td>2 ★</td>
+                                <td>ของมีตำหนิ ใช้งานไม่ได้เลย...</td>
+                                <td><span class="status-badge status-pending">รอตรวจสอบ</span></td>
+                            </tr>
+                             <tr class="admin-review-row">
+                                <td>Power Bank XL</td>
+                                <td>วีระ มานะ</td>
+                                <td>1 ★</td>
+                                <td>หลอกลวง</td>
+                                <td><span class="status-badge status-rejected">ไม่ผ่าน</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div id="admin-actions-bar" class="admin-actions">
+                        <h4>ดำเนินการกับรีวิวที่เลือก:</h4>
+                         <button class="btn btn-primary btn-sm" style="background-color: var(--color-success);">อนุมัติ</button>
+                         <button class="btn btn-primary btn-sm" style="background-color: var(--color-danger);">ลบ</button>
+                         <button class="btn btn-secondary btn-sm">ซ่อน</button>
+                         <button class="btn btn-secondary btn-sm">ดึงไปแคมเปญ</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const pages = document.querySelectorAll('.page');
+    const navButtons = document.querySelectorAll('.nav-btn');
+    const writeReviewBtn = document.getElementById('write-review-btn');
+    const modal = document.getElementById('review-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const reviewForm = document.getElementById('review-form');
+
+    // --- Main Navigation ---
+    function showPage(pageId) {
+        pages.forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+
+        navButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.id === `nav-${pageId.split('-')[0]}`) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            let pageId;
+            if (this.id === 'nav-customer') pageId = 'product-detail-page';
+            if (this.id === 'nav-store') pageId = 'store-dashboard-page';
+            if (this.id === 'nav-admin') pageId = 'admin-dashboard-page';
+            showPage(pageId);
+        });
+    });
+
+
+    // --- Customer Flow: Modal ---
+    writeReviewBtn.addEventListener('click', () => {
+        modal.classList.add('active');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+    
+    reviewForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('รีวิวถูกส่งเรียบร้อยแล้ว! (จำลอง)');
+        modal.classList.remove('active');
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
+
+    // --- Review Form Interactivity ---
+    // Star Rating
+    const stars = document.querySelectorAll('#form-star-rating .star');
+    stars.forEach(star => {
+        star.addEventListener('click', function () {
+            const value = this.dataset.value;
+            stars.forEach(s => {
+                s.classList.toggle('filled', s.dataset.value <= value);
+            });
+        });
+    });
+
+    // Character Counter
+    const reviewText = document.getElementById('review-text');
+    const charCounter = document.getElementById('char-counter');
+    reviewText.addEventListener('input', function() {
+        const count = this.value.length;
+        charCounter.textContent = `${count} / 500`;
+    });
+
+    // Image Upload Simulation
+    const uploadBtn = document.getElementById('upload-btn');
+    const previewContainer = document.getElementById('image-preview-container');
+    uploadBtn.addEventListener('click', function() {
+        if (previewContainer.children.length < 3) {
+            const preview = document.createElement('div');
+            preview.className = 'img-preview';
+            preview.innerHTML = `
+                <div class="placeholder-image"></div>
+                <button type="button" class="delete-img-btn">&times;</button>
+            `;
+            previewContainer.appendChild(preview);
+            
+            preview.querySelector('.delete-img-btn').addEventListener('click', function() {
+                this.parentElement.remove();
+            });
+        } else {
+            alert('อัปโหลดได้สูงสุด 3 รูปภาพ');
+        }
+    });
+    
+    // --- Store Dashboard Flow ---
+    const storeReviewItems = document.querySelectorAll('.store-review-item');
+    storeReviewItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Deactivate others
+            storeReviewItems.forEach(otherItem => {
+                if(otherItem !== this) {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.store-reply-form').classList.remove('active');
+                }
+            });
+            // Toggle current
+            this.classList.toggle('active');
+            this.querySelector('.store-reply-form').classList.toggle('active');
+        });
+    });
+    
+    // --- Admin Dashboard Flow ---
+    const adminTableRows = document.querySelectorAll('.admin-review-row');
+    const adminActionsBar = document.getElementById('admin-actions-bar');
+    adminTableRows.forEach(row => {
+        row.addEventListener('click', function() {
+             // De-select other rows
+            adminTableRows.forEach(otherRow => {
+                 if(otherRow !== this) otherRow.classList.remove('selected');
+            });
+            // Toggle selection on current row
+            this.classList.toggle('selected');
+            
+            // Show/hide action bar
+            const isAnyRowSelected = !!document.querySelector('.admin-review-row.selected');
+            adminActionsBar.classList.toggle('active', isAnyRowSelected);
+        });
+    });
+
+
+    // Initialize
+    showPage('product-detail-page');
+});
+</script>
+
+</body>
+</html>
